@@ -492,10 +492,14 @@ char *yytext;
 
 #include <iostream>
 using namespace std;
+#include <map>
 
-#line 496 "lex.yy.c"
 
-#line 498 "lex.yy.c"
+
+std::map<std::string, int> mapa;
+#line 500 "lex.yy.c"
+
+#line 502 "lex.yy.c"
 
 #define INITIAL 0
 #define COM1 1
@@ -717,9 +721,9 @@ YY_DECL
 		}
 
 	{
-#line 16 "actividad3.l"
+#line 19 "actividad3.l"
 
-#line 722 "lex.yy.c"
+#line 726 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -779,53 +783,53 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 17 "actividad3.l"
+#line 20 "actividad3.l"
 {cout<<"INT"; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "actividad3.l"
+#line 21 "actividad3.l"
 {cout<<"FLOAT";}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 19 "actividad3.l"
+#line 22 "actividad3.l"
 {cout<<"RETURN";}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 20 "actividad3.l"
+#line 23 "actividad3.l"
 {cout<<"FOR";}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "actividad3.l"
+#line 24 "actividad3.l"
 {cout<<"IF";}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "actividad3.l"
+#line 25 "actividad3.l"
 {cout<<"ELSE";}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 24 "actividad3.l"
-{cout<<"ID";}
+#line 26 "actividad3.l"
+{cout<<"ID"; mapa[yytext]=1;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 25 "actividad3.l"
+#line 27 "actividad3.l"
 {cout<<"ENTERO";}	
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 26 "actividad3.l"
+#line 28 "actividad3.l"
 {cout<<"REAL";}								
 	YY_BREAK
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 27 "actividad3.l"
+#line 29 "actividad3.l"
 {cout<<"TEXTO";}
 	YY_BREAK
 case 11:
@@ -837,51 +841,52 @@ YY_RULE_SETUP
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 32 "actividad3.l"
+#line 31 "actividad3.l"
 cout<<"\n";
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 34 "actividad3.l"
+#line 32 "actividad3.l"
 {BEGIN(COM1);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 35 "actividad3.l"
+#line 33 "actividad3.l"
 {BEGIN(0);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 36 "actividad3.l"
+#line 34 "actividad3.l"
 BEGIN(COM2);
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 37 "actividad3.l"
-{BEGIN(0); cout<<"\n";}
+#line 35 "actividad3.l"
+{BEGIN(0); 
+					cout<<"\n";}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 38 "actividad3.l"
+#line 37 "actividad3.l"
 
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 39 "actividad3.l"
+#line 38 "actividad3.l"
 printf (yytext);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 40 "actividad3.l"
+#line 39 "actividad3.l"
 {}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 42 "actividad3.l"
+#line 41 "actividad3.l"
 ECHO;
 	YY_BREAK
-#line 884 "lex.yy.c"
+#line 889 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COM1):
 case YY_STATE_EOF(COM2):
@@ -1891,7 +1896,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 42 "actividad3.l"
+#line 41 "actividad3.l"
 
 int main(int argc , char ** argv){
 	//  if(argc == 2){
@@ -1900,7 +1905,18 @@ int main(int argc , char ** argv){
 	// 	yylex();
     
 	// }
+	
 	yylex();
+	  
+ 
+  // Get an iterator pointing to the first element in the map
+   std::map<std::string, int>::iterator it = mapa.begin();
+  // Iterate through the map and print the elements
+  while (it != mapa.end())
+  {
+    cout << "Key: " << it->first << ", Value: " << it->second << std::endl;
+    ++it;
+  }
   	return 0;  
 }
 
