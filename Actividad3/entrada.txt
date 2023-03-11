@@ -1,7 +1,7 @@
 /* Esto es un bucle */
-
+int i;
 for (i=0; i < 10; i++) // segundo comentario
   
-  x = x * 2.5 + i;
-  cout<<"HOLA"<<endl;
+	x = x * 2.5 + i;
+	cout<<"HOLA"<<endl;
 return x;

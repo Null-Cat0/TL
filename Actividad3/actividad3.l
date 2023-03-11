@@ -22,32 +22,24 @@ cadenas_char ["][^"]*["]
 
 \n nlineas++; REJECT;
 
-"//"       BEGIN(COM1);
-<COM1>"\n" { printf("\n"); BEGIN(0); }
-"/*"       BEGIN(COM2);
-<COM2>"*/" BEGIN(0);
-"/*"       BEGIN(COM2);
-<COM2>"*/\n" { BEGIN(0); }
+"//"       {BEGIN(COM1);}
+<COM1>"\n" {printf("\n"); BEGIN(0); }
+"/*"       {BEGIN(COM2);}
+<COM2>"*/" {BEGIN(0);}
+"/*"       {BEGIN(COM2);}
+<COM2>"*/\n" {BEGIN(0);}
 <COM1,COM2>. ;
 
 ^[ \t]*[\n]* nlineas++;
 
-int    { printf("INT");}
-float  { printf("FLOAT");}
-return { printf("RETURN");}
-for    { printf("FOR");}
-if     { printf("IF");}
-else   { printf("ELSE");}
-cout {printf("COUT");}
-endl {printf("ENDL");}
-{identificador}  { mapa.insert({ yytext, (nlineas+1) }); printf("ID"); }
-{entero}			  { printf("ENTERO");}	
-{real}    			{ printf("REAL");}
-								
-{cadenas_char}		{printf("TEXTO");}
+int|float|return|for|if|else|cout|endl { for(int x=0; x<strlen(yytext);x++)putchar(toupper(yytext[x]));}
 
+{identificador} {mapa.insert({ yytext, (nlineas+1) }); printf("ID"); }
+{entero}			  {printf("ENTERO");}	
+{real}    			{printf("REAL");}
+{cadenas_char}	{printf("TEXTO");}
 
-.					ECHO;
+.					printf(yytext);
 
 
 %%
@@ -58,15 +50,15 @@ int main(int argc , char ** argv){
 	 if(argc > 1){
 	    yyin = fopen(argv[1],"rt");
       yyout = fopen(argv[2],"rt");
-	 	  yylex();
 	 }
-	//yylex();
+   else
+      yyin = stdin;
 	  
- 
+  yylex();
   // Get an iterator pointing to the first element in the map
    std::map<std::string, int>::iterator it = mapa.begin();
   // Iterate through the map and print the elements
-  cout << endl;
+  cout <<"Lista de identificadores"<< endl;
   while (it != mapa.end())
   {
     cout << "Key: " << it->first << ", Value: " << it->second << std::endl;
