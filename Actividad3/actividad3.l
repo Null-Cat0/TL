@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 #include <map>
-
+#include <ctype.h>
 
 
 std::map<std::string, int> mapa;
@@ -18,29 +18,37 @@ identificador [_a-zA-Z][_a-zA-Z0-9]*
 cadenas_char ["][^"]*["]
 %x COM1 COM2
 %%
-^\n				{nlineas++;}
-\n				{nlineas++; cout << "\n";};
-"/*"				{BEGIN(COM1);}
-<COM1>"*/"			{BEGIN(0);}
-"//"      			 BEGIN(COM2);
-<COM2>"\n" 			{BEGIN(0); 
-					cout<<"\n";}
-<COM1,COM2>.		
 
-int     {cout<<"INT"; }
-float   {cout<<"FLOAT";}
-return  {cout<<"RETURN";}
-for     {cout<<"FOR";}
-if      {cout<<"IF";}
-else    {cout<<"ELSE";}
 
-{identificador}		{cout<<"ID"; mapa[yytext]=nlineas;}
-{entero}			{cout<<"ENTERO";}	
-{real}    			{cout<<"REAL";}								
-{cadenas_char}		{cout<<"TEXTO";}
+\n nlineas++; REJECT;
 
-.					printf (yytext);
-[A-Za-z0-9ñÑ]+      {}
+"//"       BEGIN(COM1);
+<COM1>"\n" { printf("\n"); BEGIN(0); }
+"/*"       BEGIN(COM2);
+<COM2>"*/" BEGIN(0);
+"/*"       BEGIN(COM2);
+<COM2>"*/\n" { BEGIN(0); }
+<COM1,COM2>. ;
+
+^[ \t]*[\n]* nlineas++;
+
+int    { printf("INT");}
+float  { printf("FLOAT");}
+return { printf("RETURN");}
+for    { printf("FOR");}
+if     { printf("IF");}
+else   { printf("ELSE");}
+cout {printf("COUT");}
+endl {printf("ENDL");}
+{identificador}  { mapa.insert({ yytext, (nlineas+1) }); printf("ID"); }
+{entero}			  { printf("ENTERO");}	
+{real}    			{ printf("REAL");}
+								
+{cadenas_char}		{printf("TEXTO");}
+
+
+.					ECHO;
+
 
 %%
 int main(int argc , char ** argv){
@@ -48,9 +56,9 @@ int main(int argc , char ** argv){
 	nlineas = 0;
 	
 	 if(argc > 1){
-	     yyin = fopen(argv[1],"rt");
-         yyout = fopen(argv[2],"rt");
-	 	yylex();
+	    yyin = fopen(argv[1],"rt");
+      yyout = fopen(argv[2],"rt");
+	 	  yylex();
 	 }
 	//yylex();
 	  
@@ -64,6 +72,7 @@ int main(int argc , char ** argv){
     cout << "Key: " << it->first << ", Value: " << it->second << std::endl;
     ++it;
   }
+  cout<<"Numero total de lineas " <<nlineas<<endl;
   	return 0;  
 }
 
