@@ -1,5 +1,10 @@
 %{
+/*
+/////////////////////////////////////////////////////
+////// Jesús Castaño Tato,Asier Serrano Martín //////
+/////////////////////////////////////////////////////
 
+*/
 #include <iostream>
 using namespace std;
 #include <map>
@@ -16,11 +21,13 @@ entero {digito}+
 real   {entero}+[.]{entero}*|{entero}*[.]{entero}+[e]*[+]*[-]*{entero}*
 identificador [_a-zA-Z][_a-zA-Z0-9]*
 cadenas_char ["][^"]*["]
+
 %x COM1 COM2
 %%
 
 
 \n nlineas++; REJECT;
+^[ \t]*[\n]* nlineas++;
 
 "//"       {BEGIN(COM1);}
 <COM1>"\n" {printf("\n"); BEGIN(0); }
@@ -30,11 +37,9 @@ cadenas_char ["][^"]*["]
 <COM2>"*/\n" {BEGIN(0);}
 <COM1,COM2>. ;
 
-^[ \t]*[\n]* nlineas++;
-
 int|float|return|for|if|else|cout|endl { for(int x=0; x<strlen(yytext);x++)putchar(toupper(yytext[x]));}
 
-{identificador} {mapa.insert({ yytext, (nlineas+1) }); printf("ID"); }
+{identificador} { printf("ID"); mapa.insert({ yytext, (nlineas+1) }); }
 {entero}			  {printf("ENTERO");}	
 {real}    			{printf("REAL");}
 {cadenas_char}	{printf("TEXTO");}
@@ -55,13 +60,13 @@ int main(int argc , char ** argv){
       yyin = stdin;
 	  
   yylex();
-  // Get an iterator pointing to the first element in the map
+  // Obtenemos el iterador del mapa
    std::map<std::string, int>::iterator it = mapa.begin();
-  // Iterate through the map and print the elements
+  // Iteramos sobre los elemento del mapa
   cout <<"Lista de identificadores"<< endl;
   while (it != mapa.end())
   {
-    cout << "Key: " << it->first << ", Value: " << it->second << std::endl;
+    cout << "Identificador: " << it->first << ", Línea: " << it->second << std::endl;
     ++it;
   }
   cout<<"Numero total de lineas " <<nlineas<<endl;
