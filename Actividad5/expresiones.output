@@ -1,0 +1,551 @@
+Estado 15 conflictos: 1 desplazamiento/reducción
+Estado 27 conflictos: 1 desplazamiento/reducción, 1 reducción/reducción
+Estado 28 conflictos: 1 desplazamiento/reducción
+Estado 29 conflictos: 1 desplazamiento/reducción
+Estado 30 conflictos: 1 desplazamiento/reducción
+Estado 31 conflictos: 1 desplazamiento/reducción
+Estado 32 conflictos: 1 desplazamiento/reducción
+Estado 33 conflictos: 7 desplazamiento/reducción
+Estado 35 conflictos: 1 desplazamiento/reducción
+
+
+Gramática
+
+    0 $accept: entrada $end
+
+    1 entrada: ε
+    2        | entrada linea
+
+    3 linea: SALIR '\n'
+    4      | ID '=' expr '\n'
+    5      | error '\n'
+    6      | expr DIV expr
+
+    7 expr: NUMERO
+    8     | REAL
+    9     | expr '+' expr
+   10     | expr '-' expr
+   11     | expr '*' expr
+   12     | expr '/' expr
+   13     | expr DIV expr
+   14     | expr '%' expr
+   15     | expr '^' expr
+   16     | '-' expr
+   17     | '(' expr ')'
+
+
+Terminales con las reglas donde aparecen
+
+    $end (0) 0
+    '\n' (10) 3 4 5
+    '%' (37) 14
+    '(' (40) 17
+    ')' (41) 17
+    '*' (42) 11
+    '+' (43) 9
+    '-' (45) 10 16
+    '/' (47) 12
+    '=' (61) 4
+    '^' (94) 15
+    error (256) 5
+    SALIR (258) 3
+    NUMERO <c_entero> (259) 7
+    ID <var> (260) 4
+    DIV <var> (261) 6 13
+    REAL <c_real> (262) 8
+    menos (263)
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (19)
+        on left: 0
+    entrada (20)
+        on left: 1 2
+        on right: 0 2
+    linea (21)
+        on left: 3 4 5 6
+        on right: 2
+    expr <c_expresion> (22)
+        on left: 7 8 9 10 11 12 13 14 15 16 17
+        on right: 4 6 9 10 11 12 13 14 15 16 17
+
+
+Estado 0
+
+    0 $accept: • entrada $end
+
+    $default  reduce usando la regla 1 (entrada)
+
+    entrada  ir al estado 1
+
+
+Estado 1
+
+    0 $accept: entrada • $end
+    2 entrada: entrada • linea
+
+    $end    desplazar e ir al estado 2
+    error   desplazar e ir al estado 3
+    SALIR   desplazar e ir al estado 4
+    NUMERO  desplazar e ir al estado 5
+    ID      desplazar e ir al estado 6
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    linea  ir al estado 10
+    expr   ir al estado 11
+
+
+Estado 2
+
+    0 $accept: entrada $end •
+
+    $default  aceptar
+
+
+Estado 3
+
+    5 linea: error • '\n'
+
+    '\n'  desplazar e ir al estado 12
+
+
+Estado 4
+
+    3 linea: SALIR • '\n'
+
+    '\n'  desplazar e ir al estado 13
+
+
+Estado 5
+
+    7 expr: NUMERO •
+
+    $default  reduce usando la regla 7 (expr)
+
+
+Estado 6
+
+    4 linea: ID • '=' expr '\n'
+
+    '='  desplazar e ir al estado 14
+
+
+Estado 7
+
+    8 expr: REAL •
+
+    $default  reduce usando la regla 8 (expr)
+
+
+Estado 8
+
+   16 expr: '-' • expr
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 15
+
+
+Estado 9
+
+   17 expr: '(' • expr ')'
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 16
+
+
+Estado 10
+
+    2 entrada: entrada linea •
+
+    $default  reduce usando la regla 2 (entrada)
+
+
+Estado 11
+
+    6 linea: expr • DIV expr
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+
+    DIV  desplazar e ir al estado 17
+    '+'  desplazar e ir al estado 18
+    '-'  desplazar e ir al estado 19
+    '*'  desplazar e ir al estado 20
+    '/'  desplazar e ir al estado 21
+    '%'  desplazar e ir al estado 22
+    '^'  desplazar e ir al estado 23
+
+
+Estado 12
+
+    5 linea: error '\n' •
+
+    $default  reduce usando la regla 5 (linea)
+
+
+Estado 13
+
+    3 linea: SALIR '\n' •
+
+    $default  reduce usando la regla 3 (linea)
+
+
+Estado 14
+
+    4 linea: ID '=' • expr '\n'
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 24
+
+
+Estado 15
+
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+   16     | '-' expr •
+
+    '^'  desplazar e ir al estado 23
+
+    '^'       [reduce usando la regla 16 (expr)]
+    $default  reduce usando la regla 16 (expr)
+
+
+Estado 16
+
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+   17     | '(' expr • ')'
+
+    DIV  desplazar e ir al estado 25
+    '+'  desplazar e ir al estado 18
+    '-'  desplazar e ir al estado 19
+    '*'  desplazar e ir al estado 20
+    '/'  desplazar e ir al estado 21
+    '%'  desplazar e ir al estado 22
+    '^'  desplazar e ir al estado 23
+    ')'  desplazar e ir al estado 26
+
+
+Estado 17
+
+    6 linea: expr DIV • expr
+   13 expr: expr DIV • expr
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 27
+
+
+Estado 18
+
+    9 expr: expr '+' • expr
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 28
+
+
+Estado 19
+
+   10 expr: expr '-' • expr
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 29
+
+
+Estado 20
+
+   11 expr: expr '*' • expr
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 30
+
+
+Estado 21
+
+   12 expr: expr '/' • expr
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 31
+
+
+Estado 22
+
+   14 expr: expr '%' • expr
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 32
+
+
+Estado 23
+
+   15 expr: expr '^' • expr
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 33
+
+
+Estado 24
+
+    4 linea: ID '=' expr • '\n'
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+
+    DIV   desplazar e ir al estado 25
+    '+'   desplazar e ir al estado 18
+    '-'   desplazar e ir al estado 19
+    '*'   desplazar e ir al estado 20
+    '/'   desplazar e ir al estado 21
+    '%'   desplazar e ir al estado 22
+    '\n'  desplazar e ir al estado 34
+    '^'   desplazar e ir al estado 23
+
+
+Estado 25
+
+   13 expr: expr DIV • expr
+
+    NUMERO  desplazar e ir al estado 5
+    REAL    desplazar e ir al estado 7
+    '-'     desplazar e ir al estado 8
+    '('     desplazar e ir al estado 9
+
+    expr  ir al estado 35
+
+
+Estado 26
+
+   17 expr: '(' expr ')' •
+
+    $default  reduce usando la regla 17 (expr)
+
+
+Estado 27
+
+    6 linea: expr DIV expr •
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   13     | expr DIV expr •
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+
+    '^'  desplazar e ir al estado 23
+
+    DIV       reduce usando la regla 13 (expr)
+    '+'       reduce usando la regla 13 (expr)
+    '-'       reduce usando la regla 6 (linea)
+    '-'       [reduce usando la regla 13 (expr)]
+    '*'       reduce usando la regla 13 (expr)
+    '/'       reduce usando la regla 13 (expr)
+    '%'       reduce usando la regla 13 (expr)
+    '^'       [reduce usando la regla 13 (expr)]
+    $default  reduce usando la regla 6 (linea)
+
+
+Estado 28
+
+    9 expr: expr • '+' expr
+    9     | expr '+' expr •
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+
+    DIV  desplazar e ir al estado 25
+    '*'  desplazar e ir al estado 20
+    '/'  desplazar e ir al estado 21
+    '%'  desplazar e ir al estado 22
+    '^'  desplazar e ir al estado 23
+
+    '^'       [reduce usando la regla 9 (expr)]
+    $default  reduce usando la regla 9 (expr)
+
+
+Estado 29
+
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   10     | expr '-' expr •
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+
+    DIV  desplazar e ir al estado 25
+    '*'  desplazar e ir al estado 20
+    '/'  desplazar e ir al estado 21
+    '%'  desplazar e ir al estado 22
+    '^'  desplazar e ir al estado 23
+
+    '^'       [reduce usando la regla 10 (expr)]
+    $default  reduce usando la regla 10 (expr)
+
+
+Estado 30
+
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   11     | expr '*' expr •
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+
+    '^'  desplazar e ir al estado 23
+
+    '^'       [reduce usando la regla 11 (expr)]
+    $default  reduce usando la regla 11 (expr)
+
+
+Estado 31
+
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   12     | expr '/' expr •
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+
+    '^'  desplazar e ir al estado 23
+
+    '^'       [reduce usando la regla 12 (expr)]
+    $default  reduce usando la regla 12 (expr)
+
+
+Estado 32
+
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   14     | expr '%' expr •
+   15     | expr • '^' expr
+
+    '^'  desplazar e ir al estado 23
+
+    '^'       [reduce usando la regla 14 (expr)]
+    $default  reduce usando la regla 14 (expr)
+
+
+Estado 33
+
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+   15     | expr '^' expr •
+
+    DIV  desplazar e ir al estado 25
+    '+'  desplazar e ir al estado 18
+    '-'  desplazar e ir al estado 19
+    '*'  desplazar e ir al estado 20
+    '/'  desplazar e ir al estado 21
+    '%'  desplazar e ir al estado 22
+    '^'  desplazar e ir al estado 23
+
+    DIV       [reduce usando la regla 15 (expr)]
+    '+'       [reduce usando la regla 15 (expr)]
+    '-'       [reduce usando la regla 15 (expr)]
+    '*'       [reduce usando la regla 15 (expr)]
+    '/'       [reduce usando la regla 15 (expr)]
+    '%'       [reduce usando la regla 15 (expr)]
+    '^'       [reduce usando la regla 15 (expr)]
+    $default  reduce usando la regla 15 (expr)
+
+
+Estado 34
+
+    4 linea: ID '=' expr '\n' •
+
+    $default  reduce usando la regla 4 (linea)
+
+
+Estado 35
+
+    9 expr: expr • '+' expr
+   10     | expr • '-' expr
+   11     | expr • '*' expr
+   12     | expr • '/' expr
+   13     | expr • DIV expr
+   13     | expr DIV expr •
+   14     | expr • '%' expr
+   15     | expr • '^' expr
+
+    '^'  desplazar e ir al estado 23
+
+    '^'       [reduce usando la regla 13 (expr)]
+    $default  reduce usando la regla 13 (expr)
