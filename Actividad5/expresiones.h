@@ -55,11 +55,22 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     SALIR = 258,                   /* SALIR  */
-    NUMERO = 259,                  /* NUMERO  */
-    ID = 260,                      /* ID  */
-    DIV = 261,                     /* DIV  */
-    REAL = 262,                    /* REAL  */
-    menos = 263                    /* menos  */
+    DIV = 259,                     /* DIV  */
+    AND = 260,                     /* AND  */
+    OR = 261,                      /* OR  */
+    NOT = 262,                     /* NOT  */
+    MENOR = 263,                   /* MENOR  */
+    MAYORIGUAL = 264,              /* MAYORIGUAL  */
+    MAYOR = 265,                   /* MAYOR  */
+    MENORIGUAL = 266,              /* MENORIGUAL  */
+    IGUAL = 267,                   /* IGUAL  */
+    DISTINTO = 268,                /* DISTINTO  */
+    ASIGNACION = 269,              /* ASIGNACION  */
+    NUMERO = 270,                  /* NUMERO  */
+    ID = 271,                      /* ID  */
+    REAL = 272,                    /* REAL  */
+    BOOL = 273,                    /* BOOL  */
+    menos = 274                    /* menos  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -68,17 +79,18 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 23 "expresiones.y"
+#line 26 "expresiones.y"
 
   int c_entero;
   char var[20];
   float c_real;
+  bool c_bool;
   struct {
       float valor;
       bool esReal;
       } c_expresion;
 
-#line 82 "expresiones.h"
+#line 94 "expresiones.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

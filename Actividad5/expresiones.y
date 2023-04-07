@@ -17,13 +17,17 @@ void yyerror(const char* s){         /*    llamada por cada error sintactico de 
 void prompt(){
   	cout << "LISTO> ";
 }
-
+string impresionBool(bool a)
+{
+    return  (a==true) ? "True" : "False";
+}   
 %}
 
 %union{
   int c_entero;
   char var[20];
   float c_real;
+  bool c_bool;
   struct {
       float valor;
       bool esReal;
@@ -31,12 +35,15 @@ void prompt(){
 }
 
 %start entrada
-%token SALIR
+%token SALIR DIV AND OR NOT MENOR MAYORIGUAL MAYOR MENORIGUAL IGUAL DISTINTO ASIGNACION
+
 %token <c_entero> NUMERO
 %token <var> ID
-%token <var> DIV
 %token <c_real> REAL
+%token <c_bool> BOOL
+
 %type <c_expresion> expr
+%type <c_bool> logica
 
 %left '+' '-'   /* asociativo por la izquierda, misma prioridad */
 %left '*' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
@@ -48,15 +55,16 @@ entrada: 		{prompt();}
       |entrada linea
       ;
 linea: SALIR '\n'	{return(0);	}         
-      |ID '=' expr '\n' {cout << "A la variable " << $1 << " se le asigna el valor " << $3.valor << endl; prompt();}
+      |ID ASIGNACION expr '\n' {cout << "A la variable " << $1 << " se le asigna el valor " << $3.valor << endl; prompt();}
+      |ID ASIGNACION logica '\n' {cout << "A la variable " << $1 << " se le asigna el valor " << impresionBool($3) << endl; prompt();}
       |error '\n' {yyerrok; prompt();}
       ;
 
 expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
     | REAL 		         {$$.esReal = true ; $$.valor = $1;}                      
-    | expr '+' expr        {$$.valor = $1.valor + $3.valor; if($1.esReal || $3.esReal ) $$.esReal = true;}              
-    | expr '-' expr        {$$.valor = $1.valor - $3.valor; if($1.esReal || $3.esReal ) $$.esReal = true;}            
-    | expr '*' expr        {$$.valor = (float) $1.valor * (float) $3.valor; if($1.esReal || $3.esReal ) $$.esReal = true;} 
+    | expr '+' expr        {$$.valor = $1.valor + $3.valor;  $$.esReal = $1.esReal || $3.esReal ;}              
+    | expr '-' expr        {$$.valor = $1.valor - $3.valor; $$.esReal = $1.esReal || $3.esReal ;}            
+    | expr '*' expr        {$$.valor = (float) $1.valor * (float) $3.valor; $$.esReal = $1.esReal || $3.esReal ;} 
     | expr '/' expr        { 
                               $$.esReal = $1.esReal || $3.esReal;
                               if($3.valor != 0){
@@ -81,11 +89,21 @@ expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
                         else yyerror("Error semantico, necesario dos operandos enteros");
                         $$.esReal = false;
                         }
-    | expr '^' expr        {$$.valor = pow($1.valor, $3.valor); if($1.esReal || $3.esReal ) $$.esReal = true;} 
-    |'-' expr %prec menos  {$$.valor = - ($2.valor); if($2.esReal) $$.esReal = true;}
-    | '(' expr ')'         {$$.valor = $2.valor; if($2.esReal) $$.esReal = true;}
+    | expr '^' expr        {$$.valor = pow($1.valor, $3.valor); $$.esReal = $1.esReal || $3.esReal ;} 
+    |'-' expr %prec menos  {$$.valor = - ($2.valor);  $$.esReal = $2.esReal;}
+    | '(' expr ')'         {$$.valor = $2.valor; $$.esReal = $2.esReal;}
     ;
-
+logica: BOOL {$$ = $1;}
+      | logica AND logica {$$ = $1 && $3;}
+      | logica OR logica {$$ = $1 || $3;}
+      | NOT logica {$$ = ! ($2);}
+      | expr DISTINTO expr {$$ = ($1.valor != $3.valor);}
+      | expr IGUAL expr {$$ =  ($1.valor == $3.valor);}
+      | expr MENORIGUAL expr {$$ =  ($1.valor <= $3.valor);}
+      | expr MAYOR expr {$$ =  ($1.valor > $3.valor);}
+      | expr MAYORIGUAL expr {$$ =  ($1.valor >= $3.valor);}
+      | expr MENOR expr {$$ =  ($1.valor < $3.valor);}
+      | '(' logica ')'  {$$ =  $2;}
 %%
 
 int main(){
