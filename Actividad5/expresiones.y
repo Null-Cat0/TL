@@ -10,8 +10,14 @@ extern int yylex();
 bool error = false;
 //Procedimientos auxiliares
 void yyerror(const char* s){         /*    llamada por cada error sintactico de yacc */
-	cout << "Error en la línea "<< n_lineas<<endl;	
-      error = true;
+
+      if(s=="syntax error"){
+            cout << "Error sintáctico en la instrucción " << n_lineas <<endl;
+            error = true;
+      }else{
+            cout << "En la instrucción "<< n_lineas<< " se ha dado un " << s <<endl;
+            error = true;
+      }
 } 
 
 void prompt(){
@@ -21,6 +27,11 @@ string impresionBool(bool a)
 {
     return  (a==true) ? "True" : "False";
 }   
+
+string enteroOreal(bool enteroOreal)
+{
+      return (enteroOreal==true) ? "real" : "entero";
+}
 %}
 
 %union{
@@ -45,18 +56,24 @@ string impresionBool(bool a)
 %type <c_expresion> expr
 %type <c_bool> logica
 
+
+%left OR
+%left AND
+%left IGUAL DISTINTO
+%left MENOR MENORIGUAL MAYORIGUAL MAYOR
 %left '+' '-'   /* asociativo por la izquierda, misma prioridad */
 %left '*' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
-
 %left menos
+%left NOT
+
 
 %%
 entrada: 		{prompt();}
       |entrada linea
       ;
 linea: SALIR '\n'	{return(0);	}         
-      |ID ASIGNACION expr '\n' {cout << "A la variable " << $1 << " se le asigna el valor " << $3.valor << endl; prompt();}
-      |ID ASIGNACION logica '\n' {cout << "A la variable " << $1 << " se le asigna el valor " << impresionBool($3) << endl; prompt();}
+      |ID ASIGNACION expr '\n' {cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; prompt();}
+      |ID ASIGNACION logica '\n' {cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo logico," << " toma el valor " << impresionBool($3) << endl; prompt();}
       |error '\n' {yyerrok; prompt();}
       ;
 
@@ -76,7 +93,7 @@ expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
                               $$.esReal = $1.esReal || $3.esReal;
                               if($3.valor != 0){
                                     if($$.esReal) 
-                                          yyerror("Error semantico");
+                                          yyerror("Error semantico, necesario dos operandos enteros");
                                     else
                                           $$.valor =  (int) $1.valor / (int) $3.valor;
                               }else yyerror("Error semantico, división por 0");
