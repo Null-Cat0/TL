@@ -1,9 +1,9 @@
-#fichero Makefile
-
+#Jesús Castaño Tato, Asier Serrano Martín
 OBJ = expresiones.o lexico.o 
 
 expresiones : $(OBJ)     				#segunda fase de la traducción. Generación del código ejecutable 
 	g++ -oexpresiones $(OBJ)
+	./expresiones
 
 expresiones.o : expresiones.c        	#primera fase de la traducción del analizador sintáctico
 	g++ -c -oexpresiones.o  expresiones.c 
