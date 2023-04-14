@@ -10,13 +10,12 @@ extern int yylex();
 bool error = false;
 //Procedimientos auxiliares
 void yyerror(const char* s){         /*    llamada por cada error sintactico de yacc */
-
+      error = true;
       if(s=="syntax error"){
             cout << "Error sintáctico en la instrucción " << n_lineas <<endl;
-            error = true;
+            
       }else{
             cout << "En la instrucción "<< n_lineas<< " se ha dado un " << s <<endl;
-            error = true;
       }
 } 
 
@@ -72,7 +71,13 @@ entrada: 		{prompt();}
       |entrada linea
       ;
 linea: SALIR '\n'	{return(0);	}         
-      |ID ASIGNACION expr '\n' {cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; prompt();}
+      |ID ASIGNACION expr '\n' { if (!error){ 
+                                          cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
+                                         
+                                    }    
+                                    error = false;           
+                                    prompt();
+                                    }
       |ID ASIGNACION logica '\n' {cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo logico," << " toma el valor " << impresionBool($3) << endl; prompt();}
       |error '\n' {yyerrok; prompt();}
       ;
@@ -115,7 +120,9 @@ logica: BOOL {$$ = $1;}
       | logica OR logica {$$ = $1 || $3;}
       | NOT logica {$$ = ! ($2);}
       | expr DISTINTO expr {$$ = ($1.valor != $3.valor);}
+      | logica DISTINTO logica {$$ = ($1 != $3);}
       | expr IGUAL expr {$$ =  ($1.valor == $3.valor);}
+      | logica IGUAL logica {$$ =  ($1 == $3);}
       | expr MENORIGUAL expr {$$ =  ($1.valor <= $3.valor);}
       | expr MAYOR expr {$$ =  ($1.valor > $3.valor);}
       | expr MAYORIGUAL expr {$$ =  ($1.valor >= $3.valor);}

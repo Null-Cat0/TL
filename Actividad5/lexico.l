@@ -22,9 +22,10 @@ false return BOOL;
 {real}               yylval.c_real = atof(yytext); return REAL;
 \n				           n_lineas++; return (yytext[0]);
 [\t ]			           ;	
-'<'                 return MENOR;
->=                return MAYORIGUAL;
+
+\<                return MENOR;
 >                 return MAYOR;
+\>=                return MAYORIGUAL;
 \<=                return MENORIGUAL;
 ==                return IGUAL;
 !=                return DISTINTO;
