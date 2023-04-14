@@ -2,7 +2,7 @@
 #include "expresiones.h"
 #include <math.h>
 int n_lineas;
-//Definir un token para la asignación debido a que da problemas mas de un token
+//Jesus Castaño Tato , Asier Serrano Martín
 %}
 
 identificador [_a-zA-Z][_a-zA-Z0-9]*

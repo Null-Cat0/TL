@@ -4,12 +4,11 @@
 
 using namespace std;
 
-//Elementos externos al analizador sintácticos por haber sido declarados en el analizador léxico      			
+// Jesus Castaño Tato, Asier Serrano Martín			
 extern int n_lineas;
 extern int yylex();
 bool error = false;
-//Procedimientos auxiliares
-void yyerror(const char* s){         /*    llamada por cada error sintactico de yacc */
+void yyerror(const char* s){      
       error = true;
       if(s=="syntax error"){
             cout << "Error sintáctico en la instrucción " << n_lineas <<endl;
