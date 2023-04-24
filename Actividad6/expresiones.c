@@ -72,12 +72,18 @@
 #include <iostream>
 #include <math.h>
 #include <cstring>
+#include "tablaSimbolos.h"
+
 
 using namespace std;
 
 // Jesus Castaño Tato, Asier Serrano Martín			
 extern int n_lineas;
 extern int yylex();
+extern map<string, InformacionSimbolo> TablaSimbolos;
+extern FILE* yyin;
+extern FILE* yyout;
+
 bool error = false;
 void yyerror(const char* s){      
       error = true;
@@ -102,7 +108,7 @@ string enteroOreal(bool enteroOreal)
       return (enteroOreal==true) ? "real" : "entero";
 }
 
-#line 106 "expresiones.c"
+#line 112 "expresiones.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -550,10 +556,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    70,    70,    71,    73,    74,    81,    82,    85,    86,
-      87,    88,    89,    90,    97,   108,   117,   118,   120,   121,
-     122,   123,   124,   125,   126,   127,   128,   129,   130,   131,
-     132
+       0,    76,    76,    77,    79,    80,    93,    94,    97,    98,
+      99,   100,   101,   102,   109,   120,   129,   130,   132,   133,
+     134,   135,   136,   137,   138,   139,   140,   141,   142,   143,
+     144
 };
 #endif
 
@@ -1165,73 +1171,79 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* entrada: %empty  */
-#line 70 "expresiones.y"
+#line 76 "expresiones.y"
                         {prompt();}
-#line 1171 "expresiones.c"
-    break;
-
-  case 4: /* linea: SALIR '\n'  */
-#line 73 "expresiones.y"
-                        {return(0);	}
 #line 1177 "expresiones.c"
     break;
 
+  case 4: /* linea: SALIR '\n'  */
+#line 79 "expresiones.y"
+                        {return(0);	}
+#line 1183 "expresiones.c"
+    break;
+
   case 5: /* linea: ID ASIGNACION expr '\n'  */
-#line 74 "expresiones.y"
+#line 80 "expresiones.y"
                                { if (!error){ 
                                           cout << "Instrucción " << n_lineas << ": "  << "La variable " << (yyvsp[-3].var) << ", de tipo " << enteroOreal((yyvsp[-1].c_expresion).esReal) << ", toma el valor de " << (yyvsp[-1].c_expresion).valor << endl; 
-                                         
+                                         InformacionSimbolo info;
+                                         if(buscarSimbolo(TablaSimbolos, (yyvsp[-3].var), info)){
+                                                actualizarSimbolo(TablaSimbolos, (yyvsp[-3].var), info);
+                                         }else{
+                                                insertarSimbolo(TablaSimbolos, (yyvsp[-3].var), info);
+                                         }
+                                         mostrarTabla(TablaSimbolos);
                                     }    
                                     error = false;           
                                     prompt();
                                     }
-#line 1189 "expresiones.c"
-    break;
-
-  case 6: /* linea: ID ASIGNACION logica '\n'  */
-#line 81 "expresiones.y"
-                                 {cout << "Instrucción " << n_lineas << ": "  << "La variable " << (yyvsp[-3].var) << ", de tipo logico," << " toma el valor " << impresionBool((yyvsp[-1].c_bool)) << endl; prompt();}
-#line 1195 "expresiones.c"
-    break;
-
-  case 7: /* linea: error '\n'  */
-#line 82 "expresiones.y"
-                  {yyerrok; prompt();}
 #line 1201 "expresiones.c"
     break;
 
-  case 8: /* expr: NUMERO  */
-#line 85 "expresiones.y"
-                           {(yyval.c_expresion).valor= (yyvsp[0].c_entero); (yyval.c_expresion).esReal = false;}
+  case 6: /* linea: ID ASIGNACION logica '\n'  */
+#line 93 "expresiones.y"
+                                 {cout << "Instrucción " << n_lineas << ": "  << "La variable " << (yyvsp[-3].var) << ", de tipo logico," << " toma el valor " << impresionBool((yyvsp[-1].c_bool)) << endl; prompt();}
 #line 1207 "expresiones.c"
     break;
 
-  case 9: /* expr: REAL  */
-#line 86 "expresiones.y"
-                                 {(yyval.c_expresion).esReal = true ; (yyval.c_expresion).valor = (yyvsp[0].c_real);}
+  case 7: /* linea: error '\n'  */
+#line 94 "expresiones.y"
+                  {yyerrok; prompt();}
 #line 1213 "expresiones.c"
     break;
 
-  case 10: /* expr: expr '+' expr  */
-#line 87 "expresiones.y"
-                           {(yyval.c_expresion).valor = (yyvsp[-2].c_expresion).valor + (yyvsp[0].c_expresion).valor;  (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal ;}
+  case 8: /* expr: NUMERO  */
+#line 97 "expresiones.y"
+                           {(yyval.c_expresion).valor= (yyvsp[0].c_entero); (yyval.c_expresion).esReal = false;}
 #line 1219 "expresiones.c"
     break;
 
-  case 11: /* expr: expr '-' expr  */
-#line 88 "expresiones.y"
-                           {(yyval.c_expresion).valor = (yyvsp[-2].c_expresion).valor - (yyvsp[0].c_expresion).valor; (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal ;}
+  case 9: /* expr: REAL  */
+#line 98 "expresiones.y"
+                                 {(yyval.c_expresion).esReal = true ; (yyval.c_expresion).valor = (yyvsp[0].c_real);}
 #line 1225 "expresiones.c"
     break;
 
-  case 12: /* expr: expr '*' expr  */
-#line 89 "expresiones.y"
-                           {(yyval.c_expresion).valor = (float) (yyvsp[-2].c_expresion).valor * (float) (yyvsp[0].c_expresion).valor; (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal ;}
+  case 10: /* expr: expr '+' expr  */
+#line 99 "expresiones.y"
+                           {(yyval.c_expresion).valor = (yyvsp[-2].c_expresion).valor + (yyvsp[0].c_expresion).valor;  (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal ;}
 #line 1231 "expresiones.c"
     break;
 
+  case 11: /* expr: expr '-' expr  */
+#line 100 "expresiones.y"
+                           {(yyval.c_expresion).valor = (yyvsp[-2].c_expresion).valor - (yyvsp[0].c_expresion).valor; (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal ;}
+#line 1237 "expresiones.c"
+    break;
+
+  case 12: /* expr: expr '*' expr  */
+#line 101 "expresiones.y"
+                           {(yyval.c_expresion).valor = (float) (yyvsp[-2].c_expresion).valor * (float) (yyvsp[0].c_expresion).valor; (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal ;}
+#line 1243 "expresiones.c"
+    break;
+
   case 13: /* expr: expr '/' expr  */
-#line 90 "expresiones.y"
+#line 102 "expresiones.y"
                            { 
                               (yyval.c_expresion).esReal = true;
                               if((yyvsp[0].c_expresion).valor != 0){
@@ -1239,11 +1251,11 @@ yyreduce:
                               }else yyerror("Error semantico, división por 0");
                               
                         }
-#line 1243 "expresiones.c"
+#line 1255 "expresiones.c"
     break;
 
   case 14: /* expr: expr DIV expr  */
-#line 97 "expresiones.y"
+#line 109 "expresiones.y"
                             { 
                               (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal;
                               if((yyvsp[0].c_expresion).valor != 0){
@@ -1254,11 +1266,11 @@ yyreduce:
                               }else yyerror("Error semantico, división por 0");
                               
                         }
-#line 1258 "expresiones.c"
+#line 1270 "expresiones.c"
     break;
 
   case 15: /* expr: expr '%' expr  */
-#line 108 "expresiones.y"
+#line 120 "expresiones.y"
                         {
                         (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal;
                               if((yyvsp[0].c_expresion).valor != 0){
@@ -1268,101 +1280,101 @@ yyreduce:
                                           (yyval.c_expresion).valor =  (int) (yyvsp[-2].c_expresion).valor % (int) (yyvsp[0].c_expresion).valor;
                               }else yyerror("Error semantico, división por 0");
     }
-#line 1272 "expresiones.c"
-    break;
-
-  case 16: /* expr: '-' expr  */
-#line 117 "expresiones.y"
-                           {(yyval.c_expresion).valor = - ((yyvsp[0].c_expresion).valor);  (yyval.c_expresion).esReal = (yyvsp[0].c_expresion).esReal;}
-#line 1278 "expresiones.c"
-    break;
-
-  case 17: /* expr: '(' expr ')'  */
-#line 118 "expresiones.y"
-                           {(yyval.c_expresion).valor = (yyvsp[-1].c_expresion).valor; (yyval.c_expresion).esReal = (yyvsp[-1].c_expresion).esReal;}
 #line 1284 "expresiones.c"
     break;
 
-  case 18: /* logica: BOOL  */
-#line 120 "expresiones.y"
-             {(yyval.c_bool) = (yyvsp[0].c_bool);}
+  case 16: /* expr: '-' expr  */
+#line 129 "expresiones.y"
+                           {(yyval.c_expresion).valor = - ((yyvsp[0].c_expresion).valor);  (yyval.c_expresion).esReal = (yyvsp[0].c_expresion).esReal;}
 #line 1290 "expresiones.c"
     break;
 
-  case 19: /* logica: logica AND logica  */
-#line 121 "expresiones.y"
-                          {(yyval.c_bool) = (yyvsp[-2].c_bool) && (yyvsp[0].c_bool);}
+  case 17: /* expr: '(' expr ')'  */
+#line 130 "expresiones.y"
+                           {(yyval.c_expresion).valor = (yyvsp[-1].c_expresion).valor; (yyval.c_expresion).esReal = (yyvsp[-1].c_expresion).esReal;}
 #line 1296 "expresiones.c"
     break;
 
-  case 20: /* logica: logica OR logica  */
-#line 122 "expresiones.y"
-                         {(yyval.c_bool) = (yyvsp[-2].c_bool) || (yyvsp[0].c_bool);}
+  case 18: /* logica: BOOL  */
+#line 132 "expresiones.y"
+             {(yyval.c_bool) = (yyvsp[0].c_bool);}
 #line 1302 "expresiones.c"
     break;
 
-  case 21: /* logica: NOT logica  */
-#line 123 "expresiones.y"
-                   {(yyval.c_bool) = ! ((yyvsp[0].c_bool));}
+  case 19: /* logica: logica AND logica  */
+#line 133 "expresiones.y"
+                          {(yyval.c_bool) = (yyvsp[-2].c_bool) && (yyvsp[0].c_bool);}
 #line 1308 "expresiones.c"
     break;
 
-  case 22: /* logica: expr DISTINTO expr  */
-#line 124 "expresiones.y"
-                           {(yyval.c_bool) = ((yyvsp[-2].c_expresion).valor != (yyvsp[0].c_expresion).valor);}
+  case 20: /* logica: logica OR logica  */
+#line 134 "expresiones.y"
+                         {(yyval.c_bool) = (yyvsp[-2].c_bool) || (yyvsp[0].c_bool);}
 #line 1314 "expresiones.c"
     break;
 
-  case 23: /* logica: logica DISTINTO logica  */
-#line 125 "expresiones.y"
-                               {(yyval.c_bool) = ((yyvsp[-2].c_bool) != (yyvsp[0].c_bool));}
+  case 21: /* logica: NOT logica  */
+#line 135 "expresiones.y"
+                   {(yyval.c_bool) = ! ((yyvsp[0].c_bool));}
 #line 1320 "expresiones.c"
     break;
 
-  case 24: /* logica: expr IGUAL expr  */
-#line 126 "expresiones.y"
-                        {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor == (yyvsp[0].c_expresion).valor);}
+  case 22: /* logica: expr DISTINTO expr  */
+#line 136 "expresiones.y"
+                           {(yyval.c_bool) = ((yyvsp[-2].c_expresion).valor != (yyvsp[0].c_expresion).valor);}
 #line 1326 "expresiones.c"
     break;
 
-  case 25: /* logica: logica IGUAL logica  */
-#line 127 "expresiones.y"
-                            {(yyval.c_bool) =  ((yyvsp[-2].c_bool) == (yyvsp[0].c_bool));}
+  case 23: /* logica: logica DISTINTO logica  */
+#line 137 "expresiones.y"
+                               {(yyval.c_bool) = ((yyvsp[-2].c_bool) != (yyvsp[0].c_bool));}
 #line 1332 "expresiones.c"
     break;
 
-  case 26: /* logica: expr MENORIGUAL expr  */
-#line 128 "expresiones.y"
-                             {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor <= (yyvsp[0].c_expresion).valor);}
+  case 24: /* logica: expr IGUAL expr  */
+#line 138 "expresiones.y"
+                        {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor == (yyvsp[0].c_expresion).valor);}
 #line 1338 "expresiones.c"
     break;
 
-  case 27: /* logica: expr MAYOR expr  */
-#line 129 "expresiones.y"
-                        {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor > (yyvsp[0].c_expresion).valor);}
+  case 25: /* logica: logica IGUAL logica  */
+#line 139 "expresiones.y"
+                            {(yyval.c_bool) =  ((yyvsp[-2].c_bool) == (yyvsp[0].c_bool));}
 #line 1344 "expresiones.c"
     break;
 
-  case 28: /* logica: expr MAYORIGUAL expr  */
-#line 130 "expresiones.y"
-                             {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor >= (yyvsp[0].c_expresion).valor);}
+  case 26: /* logica: expr MENORIGUAL expr  */
+#line 140 "expresiones.y"
+                             {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor <= (yyvsp[0].c_expresion).valor);}
 #line 1350 "expresiones.c"
     break;
 
-  case 29: /* logica: expr MENOR expr  */
-#line 131 "expresiones.y"
-                        {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor < (yyvsp[0].c_expresion).valor);}
+  case 27: /* logica: expr MAYOR expr  */
+#line 141 "expresiones.y"
+                        {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor > (yyvsp[0].c_expresion).valor);}
 #line 1356 "expresiones.c"
     break;
 
-  case 30: /* logica: '(' logica ')'  */
-#line 132 "expresiones.y"
-                        {(yyval.c_bool) =  (yyvsp[-1].c_bool);}
+  case 28: /* logica: expr MAYORIGUAL expr  */
+#line 142 "expresiones.y"
+                             {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor >= (yyvsp[0].c_expresion).valor);}
 #line 1362 "expresiones.c"
     break;
 
+  case 29: /* logica: expr MENOR expr  */
+#line 143 "expresiones.y"
+                        {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor < (yyvsp[0].c_expresion).valor);}
+#line 1368 "expresiones.c"
+    break;
 
-#line 1366 "expresiones.c"
+  case 30: /* logica: '(' logica ')'  */
+#line 144 "expresiones.y"
+                        {(yyval.c_bool) =  (yyvsp[-1].c_bool);}
+#line 1374 "expresiones.c"
+    break;
+
+
+#line 1378 "expresiones.c"
 
       default: break;
     }
@@ -1555,7 +1567,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 133 "expresiones.y"
+#line 145 "expresiones.y"
 
 
 int main(){

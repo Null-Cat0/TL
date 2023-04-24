@@ -2,12 +2,18 @@
 #include <iostream>
 #include <math.h>
 #include <cstring>
+#include "tablaSimbolos.h"
+
 
 using namespace std;
 
 // Jesus Castaño Tato, Asier Serrano Martín			
 extern int n_lineas;
 extern int yylex();
+extern map<string, InformacionSimbolo> TablaSimbolos;
+extern FILE* yyin;
+extern FILE* yyout;
+
 bool error = false;
 void yyerror(const char* s){      
       error = true;
@@ -73,7 +79,13 @@ entrada: 		{prompt();}
 linea: SALIR '\n'	{return(0);	}         
       |ID ASIGNACION expr '\n' { if (!error){ 
                                           cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
-                                         
+                                         InformacionSimbolo info;
+                                         if(buscarSimbolo(TablaSimbolos, $1, info)){
+                                                actualizarSimbolo(TablaSimbolos, $1, info);
+                                         }else{
+                                                insertarSimbolo(TablaSimbolos, $1, info);
+                                         }
+                                         mostrarTabla(TablaSimbolos);
                                     }    
                                     error = false;           
                                     prompt();
