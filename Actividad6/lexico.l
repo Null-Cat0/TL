@@ -15,8 +15,8 @@ real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
 %%
 [sS][aA][lL][iI][rR] return SALIR;
 div  return DIV;
-true return BOOL;
-false return BOOL;
+true  yylval.c_bool=true; return BOOL;   
+false yylval.c_bool=false; return BOOL;
 ^{identificador}     strcpy(yylval.var, yytext); return ID;
 {entero}		         yylval.c_entero = atoi(yytext); return NUMERO;
 {real}               yylval.c_real = atof(yytext); return REAL;

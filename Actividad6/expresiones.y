@@ -1,6 +1,7 @@
 %{
 #include <iostream>
 #include <math.h>
+#include <cstring>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ extern int yylex();
 bool error = false;
 void yyerror(const char* s){      
       error = true;
-      if(s=="syntax error"){
+      if(strncmp(s,"syntax error",strlen(s))==0){
             cout << "Error sintáctico en la instrucción " << n_lineas <<endl;
             
       }else{
@@ -87,9 +88,9 @@ expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
     | expr '-' expr        {$$.valor = $1.valor - $3.valor; $$.esReal = $1.esReal || $3.esReal ;}            
     | expr '*' expr        {$$.valor = (float) $1.valor * (float) $3.valor; $$.esReal = $1.esReal || $3.esReal ;} 
     | expr '/' expr        { 
-                              $$.esReal = $1.esReal || $3.esReal;
+                              $$.esReal = true;
                               if($3.valor != 0){
-                                    $$.valor =  $1.valor / $3.valor;
+                                    $$.valor =  (float)$1.valor / (float)$3.valor;
                               }else yyerror("Error semantico, división por 0");
                               
                         }
@@ -105,12 +106,14 @@ expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
                         } 
 
     | expr '%' expr     {
-                        if(!$1.esReal && !$3.esReal && $3.valor != 0)
-                              $$.valor=(int)$1.valor % (int) $3.valor; 
-                        else yyerror("Error semantico, necesario dos operandos enteros");
-                        $$.esReal = false;
-                        }
-    | expr '^' expr        {$$.valor = pow($1.valor, $3.valor); $$.esReal = $1.esReal || $3.esReal ;} 
+                        $$.esReal = $1.esReal || $3.esReal;
+                              if($3.valor != 0){
+                                    if($$.esReal) 
+                                          yyerror("Error semantico, necesario dos operandos enteros");
+                                    else
+                                          $$.valor =  (int) $1.valor % (int) $3.valor;
+                              }else yyerror("Error semantico, división por 0");
+    }
     |'-' expr %prec menos  {$$.valor = - ($2.valor);  $$.esReal = $2.esReal;}
     | '(' expr ')'         {$$.valor = $2.valor; $$.esReal = $2.esReal;}
     ;

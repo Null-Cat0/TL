@@ -1,5 +1,5 @@
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -502,9 +502,9 @@ char *yytext;
 #include "expresiones.h"
 #include <math.h>
 int n_lineas;
-//Definir un token para la asignación debido a que da problemas mas de un token
-#line 506 "lex.yy.c"
+//Jesus Castaño Tato , Asier Serrano Martín
 #line 507 "lex.yy.c"
+#line 508 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -726,7 +726,7 @@ YY_DECL
 	{
 #line 15 "lexico.l"
 
-#line 729 "lex.yy.c"
+#line 730 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -797,12 +797,12 @@ return DIV;
 case 3:
 YY_RULE_SETUP
 #line 18 "lexico.l"
-return BOOL;
+yylval.c_bool=true; return BOOL;   
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 19 "lexico.l"
-return BOOL;
+yylval.c_bool=false; return BOOL;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
@@ -890,7 +890,7 @@ YY_RULE_SETUP
 #line 38 "lexico.l"
 ECHO;
 	YY_BREAK
-#line 893 "lex.yy.c"
+#line 894 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
