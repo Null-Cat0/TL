@@ -19,8 +19,6 @@ struct InformacionSimbolo{
     int valor_int;
 };
 
-extern map<string, InformacionSimbolo> TablaSimbolos;
-
 // Inserta un nuevo símbolo en la tabla de símbolos
     void insertarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre, InformacionSimbolo info);
 

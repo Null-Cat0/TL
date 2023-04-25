@@ -1,7 +1,9 @@
 %{
 #include "expresiones.h"
+#include "tablaSimbolos.h"
 #include <math.h>
 int n_lineas;
+std::map<std::string, InformacionSimbolo> tablaSimbolos;
 //Jesus Castaño Tato , Asier Serrano Martín
 %}
 
