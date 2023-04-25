@@ -3,7 +3,8 @@
 
 // Inserta un nuevo símbolo en la tabla de símbolos
     void insertarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre, InformacionSimbolo info) {
-        TablaSimbolos.insert(make_pair(nombre, info));
+        //TablaSimbolos.insert(make_pair(nombre, info));
+        TablaSimbolos[nombre] = info;
     }
 
     // Busca un símbolo en la tabla de símbolos y devuelve su información
@@ -36,6 +37,7 @@
 
   // Recorre la tabla de símbolos y muestra su contenido por pantalla
     void mostrarTabla(map<string, InformacionSimbolo> TablaSimbolos) {
+
         for (auto const& [nombre, info] : TablaSimbolos) {
             cout << "Nombre: " << nombre << ", Tipo: " << info.d << ", Valor: " ;
 

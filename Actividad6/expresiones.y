@@ -3,12 +3,13 @@ using namespace std;
 #include <iostream>
 #include "tablaSimbolos.h"
 #include <cstring>
+#include <typeinfo>
 
 
 
 // Jesus Castaño Tato, Asier Serrano Martín			
 extern int n_lineas;
-extern   map<std::string, InformacionSimbolo> tablaSimbolos;
+extern   map<string, InformacionSimbolo> tablaSimbolos;
 extern int yylex();
 
 // extern FILE* yyin;
@@ -80,12 +81,24 @@ linea: SALIR '\n'	{return(0);	}
       |ID ASIGNACION expr '\n' { if (!error){ 
                                           cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
                                          InformacionSimbolo info;
+                                         
+                                         if($3.esReal){
+                                          info.d = Real;
+                                          info.valor_float = $3.valor;
+                                         }else{
+                                          info.d = Entero;
+                                          info.valor_int = $3.valor;
+                                         }
+                                          cout << $1<< endl;
+                                         cout << info.d<<endl;
+                                          cout << info.valor_int<<endl;
                                          if(buscarSimbolo(tablaSimbolos, $1, info)){
                                                 actualizarSimbolo(tablaSimbolos, $1, info);
                                          }else{
-                                                insertarSimbolo(tablaSimbolos, $1, info);
+                                                tablaSimbolos[$1] = info;
                                          }
                                          mostrarTabla(tablaSimbolos);
+
                                     }    
                                     error = false;           
                                     prompt();
@@ -95,7 +108,24 @@ linea: SALIR '\n'	{return(0);	}
       ;
 
 expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
-    | REAL 		         {$$.esReal = true ; $$.valor = $1;}                      
+    | REAL 		         {$$.esReal = true ; $$.valor = $1;}  
+    | ID                   {
+      
+                              InformacionSimbolo info;
+                              cout << buscarSimbolo(tablaSimbolos, $1, info);
+                              if(buscarSimbolo(tablaSimbolos, $1, info)){
+                                    if(info.d == 0){// si es real
+                                          $$.valor = info.valor_float;
+                                          $$.esReal = true;
+                                    } else { // es entero
+                                          $$.valor = info.valor_int;
+                                          $$.esReal = false;
+                                    }     
+                              }else{
+                                    yyerror("variable no definida");
+                              }
+
+                         }
     | expr '+' expr        {$$.valor = $1.valor + $3.valor;  $$.esReal = $1.esReal || $3.esReal ;}              
     | expr '-' expr        {$$.valor = $1.valor - $3.valor; $$.esReal = $1.esReal || $3.esReal ;}            
     | expr '*' expr        {$$.valor = (float) $1.valor * (float) $3.valor; $$.esReal = $1.esReal || $3.esReal ;} 

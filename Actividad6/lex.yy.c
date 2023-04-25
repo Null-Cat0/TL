@@ -1,5 +1,5 @@
 
-#line 2 "lex.yy.c"
+#line 3 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -505,8 +505,8 @@ char *yytext;
 int n_lineas;
 std::map<std::string, InformacionSimbolo> tablaSimbolos;
 //Jesus Castaño Tato , Asier Serrano Martín
-#line 508 "lex.yy.c"
 #line 509 "lex.yy.c"
+#line 510 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -728,7 +728,7 @@ YY_DECL
 	{
 #line 17 "lexico.l"
 
-#line 731 "lex.yy.c"
+#line 732 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -892,7 +892,7 @@ YY_RULE_SETUP
 #line 40 "lexico.l"
 ECHO;
 	YY_BREAK
-#line 895 "lex.yy.c"
+#line 896 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
