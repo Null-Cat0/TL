@@ -12,8 +12,8 @@ extern int n_lineas;
 extern   map<string, InformacionSimbolo> tablaSimbolos;
 extern int yylex();
 
-// extern FILE* yyin;
-// extern FILE* yyout;
+extern FILE* yyin;
+extern FILE* yyout;
 
 bool error = false;
 void yyerror(const char* s){      
@@ -28,6 +28,7 @@ void yyerror(const char* s){
 
 void prompt(){
   	cout << "LISTO> ";
+      error=false;
 }
 string impresionBool(bool a)
 {
@@ -69,18 +70,10 @@ string enteroOreal(bool enteroOreal)
 %left MENOR MENORIGUAL MAYORIGUAL MAYOR
 %left '+' '-'   /* asociativo por la izquierda, misma prioridad */
 %left '*' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
-%left menos
-%left NOT
-
-
-%%
-entrada: 		{prompt();}
-      |entrada linea
-      ;
-linea: SALIR '\n'	{return(0);	}         
+%left menos      yyin();
       |ID ASIGNACION expr '\n' { if (!error){ 
                                           cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
-                                         InformacionSimbolo info;
+                                         InformacionSimbolo info, aux;
                                          
                                          if($3.esReal){
                                           info.d = Real;
@@ -89,11 +82,8 @@ linea: SALIR '\n'	{return(0);	}
                                           info.d = Entero;
                                           info.valor_int = $3.valor;
                                          }
-                                          cout << $1<< endl;
-                                         cout << info.d<<endl;
-                                          cout << info.valor_int<<endl;
-                                         if(buscarSimbolo(tablaSimbolos, $1, info)){
-                                                actualizarSimbolo(tablaSimbolos, $1, info);
+                                         if(buscarSimbolo(tablaSimbolos, $1, aux)){
+                                                tablaSimbolos[$1] = info;
                                          }else{
                                                 tablaSimbolos[$1] = info;
                                          }
@@ -112,7 +102,6 @@ expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
     | ID                   {
       
                               InformacionSimbolo info;
-                              cout << buscarSimbolo(tablaSimbolos, $1, info);
                               if(buscarSimbolo(tablaSimbolos, $1, info)){
                                     if(info.d == 0){// si es real
                                           $$.valor = info.valor_float;

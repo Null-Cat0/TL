@@ -4,6 +4,10 @@
 #include <math.h>
 int n_lineas;
 std::map<std::string, InformacionSimbolo> tablaSimbolos;
+
+yyin = fopen(argv[1],"rt");
+yyout = fopen(argv[2],"rt");
+
 //Jesus Castaño Tato , Asier Serrano Martín
 %}
 
@@ -19,7 +23,7 @@ real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
 div  return DIV;
 true  yylval.c_bool=true; return BOOL;   
 false yylval.c_bool=false; return BOOL;
-^{identificador}     strcpy(yylval.var, yytext); return ID;
+{identificador}     strcpy(yylval.var, yytext); return ID;
 {entero}		         yylval.c_entero = atoi(yytext); return NUMERO;
 {real}               yylval.c_real = atof(yytext); return REAL;
 \n				           n_lineas++; return (yytext[0]);

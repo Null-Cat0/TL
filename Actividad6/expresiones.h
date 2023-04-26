@@ -79,7 +79,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 43 "expresiones.y"
+#line 44 "expresiones.y"
 
   int c_entero;
   char var[20];
