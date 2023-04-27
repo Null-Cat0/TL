@@ -1,0 +1,9 @@
+Tabla de símbolos:
+Bb	real  	14.400000
+A_0	entero	1
+A_1	real  	1.500000
+A_2	real  	4.800000
+Resultado	entero	-17
+logico_	lógico	true
+res	lógico	false
+

@@ -5,8 +5,7 @@
 int n_lineas;
 std::map<std::string, InformacionSimbolo> tablaSimbolos;
 
-yyin = fopen(argv[1],"rt");
-yyout = fopen(argv[2],"rt");
+
 
 //Jesus Castaño Tato , Asier Serrano Martín
 %}
@@ -33,8 +32,8 @@ false yylval.c_bool=false; return BOOL;
 >                 return MAYOR;
 \>=                return MAYORIGUAL;
 \<=                return MENORIGUAL;
-==                return IGUAL;
-!=                return DISTINTO;
+\==                return IGUAL;
+\!=                return DISTINTO;
 [a][n][d]           return AND;
 or              return OR;
 not           return NOT;

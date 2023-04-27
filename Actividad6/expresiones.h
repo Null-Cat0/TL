@@ -88,9 +88,10 @@ union YYSTYPE
   struct {
       float valor;
       bool esReal;
+      bool esLogica;
       } c_expresion;
 
-#line 94 "expresiones.h"
+#line 95 "expresiones.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

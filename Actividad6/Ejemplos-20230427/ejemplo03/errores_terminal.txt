@@ -1,0 +1,1 @@
+Error semántico en la instrucción 7: la variable A es de tipo real y no se le puede asignar un valor entero

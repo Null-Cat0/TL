@@ -12,17 +12,17 @@ extern int n_lineas;
 extern   map<string, InformacionSimbolo> tablaSimbolos;
 extern int yylex();
 
-extern FILE* yyin;
-extern FILE* yyout;
+extern FILE* yyin ;
+extern FILE* yyout ;
 
 bool error = false;
 void yyerror(const char* s){      
       error = true;
-      if(strncmp(s,"syntax error",strlen(s))==0){
-            cout << "Error sintáctico en la instrucción " << n_lineas <<endl;
+      if(strcmp(s,"syntax error") == 0){
+            cout << "Error sintáctico en la instrucción " << n_lineas +1 <<endl;
             
       }else{
-            cout << "En la instrucción "<< n_lineas<< " se ha dado un " << s <<endl;
+            cout << "En la instrucción "<< n_lineas + 1<< " se ha dado un " << s <<endl;
       }
 } 
 
@@ -49,6 +49,7 @@ string enteroOreal(bool enteroOreal)
   struct {
       float valor;
       bool esReal;
+      bool esLogica;
       } c_expresion;
 }
 
@@ -70,9 +71,30 @@ string enteroOreal(bool enteroOreal)
 %left MENOR MENORIGUAL MAYORIGUAL MAYOR
 %left '+' '-'   /* asociativo por la izquierda, misma prioridad */
 %left '*' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
-%left menos      yyin();
-      |ID ASIGNACION expr '\n' { if (!error){ 
-                                          cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
+%left menos  
+%left NOT
+
+%%
+
+entrada:{ prompt();error = false;  }
+      |entrada linea 
+      ;
+linea: ID ASIGNACION expr '\n' { 
+                                    InformacionSimbolo info, auxComprobación;
+                                    if(buscarSimbolo(tablaSimbolos, $1, auxComprobación))
+                                    {
+                                         if($3.esReal && (auxComprobación.d != Real )){
+                                                error = true;
+                                                //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
+                                         }else if(!$3.esReal&& (auxComprobación.d == Real ))
+                                          {
+                                                error = true;
+                                                //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
+                                          }
+                                    }
+                                    if (!error  ){ 
+                                        
+                                         cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
                                          InformacionSimbolo info, aux;
                                          
                                          if($3.esReal){
@@ -87,13 +109,28 @@ string enteroOreal(bool enteroOreal)
                                          }else{
                                                 tablaSimbolos[$1] = info;
                                          }
-                                         mostrarTabla(tablaSimbolos);
+                                        
 
                                     }    
-                                    error = false;           
+                                             
                                     prompt();
                                     }
-      |ID ASIGNACION logica '\n' {cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo logico," << " toma el valor " << impresionBool($3) << endl; prompt();}
+      |ID ASIGNACION logica '\n' {
+                                     if (!error){ 
+                                        
+                                         cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo logico," << " toma el valor " << impresionBool($3) << endl; prompt();
+                                         InformacionSimbolo info, aux;
+                                         info.d = Bool;
+                                         info.valor_bool =$3;
+                                         if(buscarSimbolo(tablaSimbolos, $1, aux)){
+                                                tablaSimbolos[$1] = info;
+                                         }else{
+                                                tablaSimbolos[$1] = info;
+                                         }
+                                          
+                                          }
+                                          prompt();
+                                    }    
       |error '\n' {yyerrok; prompt();}
       ;
 
@@ -137,7 +174,7 @@ expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
                         } 
 
     | expr '%' expr     {
-                        $$.esReal = $1.esReal || $3.esReal;
+                        $$.esReal = $1.esReal && $3.esReal;
                               if($3.valor != 0){
                                     if($$.esReal) 
                                           yyerror("Error semantico, necesario dos operandos enteros");
@@ -161,28 +198,26 @@ logica: BOOL {$$ = $1;}
       | expr MAYORIGUAL expr {$$ =  ($1.valor >= $3.valor);}
       | expr MENOR expr {$$ =  ($1.valor < $3.valor);}
       | '(' logica ')'  {$$ =  $2;}
+      ;
 %%
 
-int main(){
+int main(int argc, char **argv){
      
      n_lineas = 0;
+     yyin = fopen(argv[1],"rt");
+     yyout = fopen("salida.txt","wt");
+
      cout <<endl<<"******************************************************"<<endl;
      cout <<"*      Calculadora de expresiones aritméticas        *"<<endl;
      cout <<"*                                                    *"<<endl;
-     cout <<"*      1)con el prompt LISTO>                        *"<<endl;
-     cout <<"*        teclea una expresión, por ej. 1+2<ENTER>    *"<<endl;
-     cout <<"*        Este programa indicará                      *"<<endl;
-     cout <<"*        si es gramaticalmente correcto              *"<<endl;
-     cout <<"*      2)para terminar el programa                   *"<<endl;
-     cout <<"*        teclear SALIR<ENTER>                        *"<<endl;
-     cout <<"*      3)si se comete algun error en la expresión    *"<<endl;
-     cout <<"*        se mostrará un mensaje y la ejecución       *"<<endl;
-     cout <<"*        del programa finaliza                       *"<<endl;
      cout <<"******************************************************"<<endl<<endl<<endl;
      yyparse();
      cout <<"****************************************************"<<endl;
      cout <<"*                                                  *"<<endl;
      cout <<"*                 ADIOS!!!!                        *"<<endl;
      cout <<"****************************************************"<<endl;
+     mostrarTabla(tablaSimbolos, yyout);
+     fclose(yyout);
+     fclose(yyin);
      return 0;
 }

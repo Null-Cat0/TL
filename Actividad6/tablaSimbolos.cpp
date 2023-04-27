@@ -36,22 +36,22 @@
     }
 
   // Recorre la tabla de símbolos y muestra su contenido por pantalla
-    void mostrarTabla(map<string, InformacionSimbolo> TablaSimbolos) {
+    void mostrarTabla(map<string, InformacionSimbolo> TablaSimbolos, FILE *fp) {
 
         for (auto const& [nombre, info] : TablaSimbolos) {
-            cout << "Nombre: " << nombre << ", Tipo: " << info.d << ", Valor: " ;
+           
 
             switch(info.d){
                 case Real:
-                cout<<info.valor_float<<endl;
+                fprintf(fp,"Nombre: %s , Tipo: %d, Valor: %f \n",nombre.c_str(),info.d,info.valor_float) ;
                 break;
 
                 case Entero:
-                cout<<info.valor_int<<endl;
+               fprintf(fp,"Nombre: %s , Tipo: %d, Valor: %f \n",nombre.c_str(),info.d,info.valor_int) ;
                 break;
-
                 case Bool:
-                cout<<info.valor_bool<<endl;
+                cout<<info.valor_bool;
+               fprintf(fp,"Nombre: %s , Tipo: %d, Valor: %s \n",nombre.c_str(),info.d,(info.valor_bool==true)?"True":"False") ;
                 break;
             }
         }

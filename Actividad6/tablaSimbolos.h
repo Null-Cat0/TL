@@ -32,6 +32,6 @@ struct InformacionSimbolo{
     void eliminarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre);
 
   // Recorre la tabla de símbolos y muestra su contenido por pantalla
-    void mostrarTabla(map<string, InformacionSimbolo> TablaSimbolos);
+    void mostrarTabla(map<string, InformacionSimbolo> TablaSimbolos,FILE *fp);
 
 #endif

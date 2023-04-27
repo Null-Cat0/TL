@@ -1,5 +1,5 @@
 
-#line 3 "lex.yy.c"
+#line 2 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -486,9 +486,12 @@ char *yytext;
 #include <math.h>
 int n_lineas;
 std::map<std::string, InformacionSimbolo> tablaSimbolos;
+
+
+
 //Jesus Castaño Tato , Asier Serrano Martín
-#line 491 "lex.yy.c"
-#line 492 "lex.yy.c"
+#line 493 "lex.yy.c"
+#line 494 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -705,9 +708,9 @@ YY_DECL
 		}
 
 	{
-#line 17 "lexico.l"
+#line 20 "lexico.l"
 
-#line 711 "lex.yy.c"
+#line 713 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -766,111 +769,111 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 18 "lexico.l"
+#line 21 "lexico.l"
 return SALIR;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 19 "lexico.l"
+#line 22 "lexico.l"
 return DIV;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 20 "lexico.l"
+#line 23 "lexico.l"
 yylval.c_bool=true; return BOOL;   
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 21 "lexico.l"
+#line 24 "lexico.l"
 yylval.c_bool=false; return BOOL;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 22 "lexico.l"
+#line 25 "lexico.l"
 strcpy(yylval.var, yytext); return ID;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 23 "lexico.l"
+#line 26 "lexico.l"
 yylval.c_entero = atoi(yytext); return NUMERO;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 24 "lexico.l"
+#line 27 "lexico.l"
 yylval.c_real = atof(yytext); return REAL;
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 25 "lexico.l"
+#line 28 "lexico.l"
 n_lineas++; return (yytext[0]);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 26 "lexico.l"
+#line 29 "lexico.l"
 ;	
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 28 "lexico.l"
+#line 31 "lexico.l"
 return MENOR;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 29 "lexico.l"
+#line 32 "lexico.l"
 return MAYOR;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 30 "lexico.l"
+#line 33 "lexico.l"
 return MAYORIGUAL;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 31 "lexico.l"
+#line 34 "lexico.l"
 return MENORIGUAL;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 32 "lexico.l"
+#line 35 "lexico.l"
 return IGUAL;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 33 "lexico.l"
+#line 36 "lexico.l"
 return DISTINTO;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 34 "lexico.l"
+#line 37 "lexico.l"
 return AND;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 35 "lexico.l"
+#line 38 "lexico.l"
 return OR;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 36 "lexico.l"
+#line 39 "lexico.l"
 return NOT;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 37 "lexico.l"
+#line 40 "lexico.l"
 return ASIGNACION;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 38 "lexico.l"
+#line 41 "lexico.l"
 return (yytext[0]);
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 40 "lexico.l"
+#line 43 "lexico.l"
 ECHO;
 	YY_BREAK
-#line 874 "lex.yy.c"
+#line 876 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1875,5 +1878,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 40 "lexico.l"
+#line 43 "lexico.l"
 

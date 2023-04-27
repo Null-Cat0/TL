@@ -1,0 +1,10 @@
+A := 2*3+1
+Bb := (3+A)*2.54
+Cc := A < Bb  
+logico_ := (B == 3) and (Bb==10)     //error, B no existe
+A := 1 div 2 
+A := A+1   
+aa := A + A
+bandera := false
+aux := bandera // error sintáctico o semántico, no admitimos variables lógicas en la parte derecha
+aux := not bandera // error sintáctico o semántico, no admitimos variables lógicas en la parte derecha
