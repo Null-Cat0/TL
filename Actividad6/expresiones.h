@@ -66,11 +66,12 @@ extern int yydebug;
     IGUAL = 267,                   /* IGUAL  */
     DISTINTO = 268,                /* DISTINTO  */
     ASIGNACION = 269,              /* ASIGNACION  */
-    NUMERO = 270,                  /* NUMERO  */
-    ID = 271,                      /* ID  */
-    REAL = 272,                    /* REAL  */
-    BOOL = 273,                    /* BOOL  */
-    menos = 274                    /* menos  */
+    COMENTARIO = 270,              /* COMENTARIO  */
+    NUMERO = 271,                  /* NUMERO  */
+    ID = 272,                      /* ID  */
+    REAL = 273,                    /* REAL  */
+    BOOL = 274,                    /* BOOL  */
+    menos = 275                    /* menos  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -79,7 +80,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 44 "expresiones.y"
+#line 45 "expresiones.y"
 
   int c_entero;
   char var[20];
@@ -91,7 +92,7 @@ union YYSTYPE
       bool esLogica;
       } c_expresion;
 
-#line 95 "expresiones.h"
+#line 96 "expresiones.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

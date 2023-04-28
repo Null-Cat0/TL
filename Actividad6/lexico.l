@@ -17,8 +17,16 @@ entero {digito}+
 real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
 
 %option noyywrap
+%x COM1
 %%
-[sS][aA][lL][iI][rR] return SALIR;
+
+[/][/] { BEGIN(COM1); }
+<COM1>"\n" { BEGIN(0); n_lineas++; return COMENTARIO; }
+<COM1>. ;
+
+and           return AND;
+or              return OR;
+not           return NOT;
 div  return DIV;
 true  yylval.c_bool=true; return BOOL;   
 false yylval.c_bool=false; return BOOL;
@@ -34,9 +42,7 @@ false yylval.c_bool=false; return BOOL;
 \<=                return MENORIGUAL;
 \==                return IGUAL;
 \!=                return DISTINTO;
-[a][n][d]           return AND;
-or              return OR;
-not           return NOT;
+
 :=            return ASIGNACION;
 . 				           return (yytext[0]);
 

@@ -20,7 +20,7 @@ struct InformacionSimbolo{
 };
 
 // Inserta un nuevo símbolo en la tabla de símbolos
-    void insertarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre, InformacionSimbolo info);
+    void insertarSimbolo(map<string, InformacionSimbolo> &TablaSimbolos, string nombre, InformacionSimbolo info);
 
     // Busca un símbolo en la tabla de símbolos y devuelve su información
     bool buscarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre, InformacionSimbolo &info);

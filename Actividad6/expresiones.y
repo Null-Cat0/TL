@@ -17,18 +17,19 @@ extern FILE* yyout ;
 
 bool error = false;
 void yyerror(const char* s){      
-      error = true;
-      if(strcmp(s,"syntax error") == 0){
-            cout << "Error sintáctico en la instrucción " << n_lineas +1 <<endl;
+      // error = true;
+      // if(strcmp(s,"syntax error") == 0){
+      //       cout << "Error sintáctico en la instrucción " << n_lineas +1 <<endl;
             
-      }else{
-            cout << "En la instrucción "<< n_lineas + 1<< " se ha dado un " << s <<endl;
-      }
+      // }else{
+      //       cout << "En la instrucción "<< n_lineas + 1<< " se ha dado un " << s <<endl;
+      // }
+      cout << "Error sintactico en la instruccion " << n_lineas+1 << endl;
+
 } 
 
 void prompt(){
   	cout << "LISTO> ";
-      error=false;
 }
 string impresionBool(bool a)
 {
@@ -54,7 +55,7 @@ string enteroOreal(bool enteroOreal)
 }
 
 %start entrada
-%token SALIR DIV AND OR NOT MENOR MAYORIGUAL MAYOR MENORIGUAL IGUAL DISTINTO ASIGNACION
+%token SALIR DIV AND OR NOT MENOR MAYORIGUAL MAYOR MENORIGUAL IGUAL DISTINTO ASIGNACION COMENTARIO
 
 %token <c_entero> NUMERO
 %token <var> ID
@@ -76,7 +77,7 @@ string enteroOreal(bool enteroOreal)
 
 %%
 
-entrada:{ prompt();error = false;  }
+entrada:{ error = false;  }
       |entrada linea 
       ;
 linea: ID ASIGNACION expr '\n' { 
@@ -94,7 +95,7 @@ linea: ID ASIGNACION expr '\n' {
                                     }
                                     if (!error  ){ 
                                         
-                                         cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
+                                     //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
                                          InformacionSimbolo info, aux;
                                          
                                          if($3.esReal){
@@ -104,21 +105,49 @@ linea: ID ASIGNACION expr '\n' {
                                           info.d = Entero;
                                           info.valor_int = $3.valor;
                                          }
-                                         if(buscarSimbolo(tablaSimbolos, $1, aux)){
-                                                tablaSimbolos[$1] = info;
-                                         }else{
-                                                tablaSimbolos[$1] = info;
-                                         }
-                                        
+                                         insertarSimbolo(tablaSimbolos, $1, info);
 
                                     }    
-                                             
-                                    prompt();
+                                      error = false;       
+                                    //prompt();
                                     }
-      |ID ASIGNACION logica '\n' {
+      |ID ASIGNACION expr COMENTARIO { 
+                                    InformacionSimbolo info, auxComprobación;
+                                    if(buscarSimbolo(tablaSimbolos, $1, auxComprobación))
+                                    {
+                                         if($3.esReal && (auxComprobación.d == Entero )){
+                                                error = true;
+                                                cout << "Error semantico en la instruccion "<< n_lineas<< ", la variable '" << $1 << "' es de tipo entero y no se le puede asignar un valor real"<< endl;
+                                         }else if(!$3.esReal && (auxComprobación.d == Real ))
+                                          {
+                                                error = true;
+                                                cout << "Error semantico en la instruccion "<< n_lineas<< ", la variable '" << $1 << "' es de tipo real y no se le puede asignar un valor entero"<< endl;
+                  
+                                          }
+                                    }
+                                    if (!error  ){ 
+                                        
+                                        // cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
+                                         InformacionSimbolo info, aux;
+                                         
+                                         if($3.esReal){
+                                          info.d = Real;
+                                          info.valor_float = $3.valor;
+                                         }else{
+                                          info.d = Entero;
+                                          info.valor_int = $3.valor;
+                                         }
+                                         insertarSimbolo(tablaSimbolos, $1, info);
+
+                                    }    
+                                             error = false;
+                                    //prompt();
+                                    }
+
+      |ID ASIGNACION logica COMENTARIO{
                                      if (!error){ 
                                         
-                                         cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo logico," << " toma el valor " << impresionBool($3) << endl; prompt();
+                                        // cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo logico," << " toma el valor " << impresionBool($3) << endl;
                                          InformacionSimbolo info, aux;
                                          info.d = Bool;
                                          info.valor_bool =$3;
@@ -129,9 +158,29 @@ linea: ID ASIGNACION expr '\n' {
                                          }
                                           
                                           }
-                                          prompt();
+                                          error = false;
+                                          //prompt();
                                     }    
-      |error '\n' {yyerrok; prompt();}
+
+      |ID ASIGNACION logica '\n' {
+                                     if (!error){ 
+                                        
+                                       //  cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo logico," << " toma el valor " << impresionBool($3) << endl;
+                                         InformacionSimbolo info, aux;
+                                         info.d = Bool;
+                                         info.valor_bool =$3;
+                                         if(buscarSimbolo(tablaSimbolos, $1, aux)){
+                                                tablaSimbolos[$1] = info;
+                                         }else{
+                                                tablaSimbolos[$1] = info;
+                                         }
+                                          
+                                          }
+                                          error = false;
+                                          //prompt();
+                                    }    
+      |error '\n' {yyerrok; }
+      |error COMENTARIO {yyerrok; }
       ;
 
 expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
@@ -143,12 +192,16 @@ expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
                                     if(info.d == 0){// si es real
                                           $$.valor = info.valor_float;
                                           $$.esReal = true;
-                                    } else { // es entero
+                                    } else if(info.d == 1){ // es entero
                                           $$.valor = info.valor_int;
                                           $$.esReal = false;
-                                    }     
+                                    } else{
+                                          error = true;
+                                      cout << "Error semantico en la instruccion "<< n_lineas+1 << ", no se pueden usar variables de tipo logico a la derecha de una asignacion"<<endl;
+                                    }      
                               }else{
-                                    yyerror("variable no definida");
+                                    error = true;
+                                    cout << "Error en la instruccion "<< n_lineas+1 << ", la variable utilizada '"<< $1 << "' no existe"<<endl;
                               }
 
                          }
@@ -159,28 +212,39 @@ expr: NUMERO               {$$.valor= $1; $$.esReal = false;}
                               $$.esReal = true;
                               if($3.valor != 0){
                                     $$.valor =  (float)$1.valor / (float)$3.valor;
-                              }else yyerror("Error semantico, división por 0");
+                              }else{
+                                    error = true;
+                                    cout << "Error semantico en la instruccion " << n_lineas+1 << ", division por cero"<< endl;
+                              }
                               
                         }
      | expr DIV expr        { 
                               $$.esReal = $1.esReal || $3.esReal;
                               if($3.valor != 0){
-                                    if($$.esReal) 
-                                          yyerror("Error semantico, necesario dos operandos enteros");
-                                    else
+                                    if($$.esReal) {
+                                          error = true;
+                                          cout << "Error semantico en la instruccion " << n_lineas+1 << ", ambos operandos deben ser enteros"<< endl;
+                                     } else
                                           $$.valor =  (int) $1.valor / (int) $3.valor;
-                              }else yyerror("Error semantico, división por 0");
+                              }else{
+                                    error = true;
+                                    cout << "Error semantico en la instruccion " << n_lineas+1 << ", division por cero"<< endl;
+                              }
                               
                         } 
 
     | expr '%' expr     {
-                        $$.esReal = $1.esReal && $3.esReal;
+                        $$.esReal = $1.esReal || $3.esReal;
                               if($3.valor != 0){
-                                    if($$.esReal) 
-                                          yyerror("Error semantico, necesario dos operandos enteros");
-                                    else
+                                    if($$.esReal){
+                                          error = true;
+                                          cout << "Error semantico en la instruccion " << n_lineas+1 << ", ambos operandos deben ser enteros"<< endl;
+                                    }else
                                           $$.valor =  (int) $1.valor % (int) $3.valor;
-                              }else yyerror("Error semantico, división por 0");
+                              }else{ 
+                                    error = true;
+                                    cout << "Error semantico en la instruccion " << n_lineas+1 << ", division por cero"<< endl;
+                              }
     }
     |'-' expr %prec menos  {$$.valor = - ($2.valor);  $$.esReal = $2.esReal;}
     | '(' expr ')'         {$$.valor = $2.valor; $$.esReal = $2.esReal;}

@@ -2,7 +2,7 @@
 
 
 // Inserta un nuevo símbolo en la tabla de símbolos
-    void insertarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre, InformacionSimbolo info) {
+    void insertarSimbolo(map<string, InformacionSimbolo> &TablaSimbolos, string nombre, InformacionSimbolo info) {
         //TablaSimbolos.insert(make_pair(nombre, info));
         TablaSimbolos[nombre] = info;
     }
@@ -43,15 +43,15 @@
 
             switch(info.d){
                 case Real:
-                fprintf(fp,"Nombre: %s , Tipo: %d, Valor: %f \n",nombre.c_str(),info.d,info.valor_float) ;
+                fprintf(fp,"Nombre: %s , Tipo: Real, Valor: %f \n",nombre.c_str(),info.valor_float) ;
                 break;
 
                 case Entero:
-               fprintf(fp,"Nombre: %s , Tipo: %d, Valor: %f \n",nombre.c_str(),info.d,info.valor_int) ;
+               fprintf(fp,"Nombre: %s , Tipo: Entero, Valor: %d \n",nombre.c_str(),info.valor_int) ;
                 break;
                 case Bool:
                 cout<<info.valor_bool;
-               fprintf(fp,"Nombre: %s , Tipo: %d, Valor: %s \n",nombre.c_str(),info.d,(info.valor_bool==true)?"True":"False") ;
+               fprintf(fp,"Nombre: %s , Tipo: Logico, Valor: %s \n",nombre.c_str(),(info.valor_bool==true)?"True":"False") ;
                 break;
             }
         }

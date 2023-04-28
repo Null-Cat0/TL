@@ -1,5 +1,5 @@
-Nombre: A , Tipo: 1, Valor: 0.000000 
-Nombre: Bb , Tipo: 0, Valor: 25.400000 
-Nombre: Cc , Tipo: 2, Valor: True 
-Nombre: aa , Tipo: 1, Valor: 25.400000 
-Nombre: bandera , Tipo: 2, Valor: False 
+Nombre: A , Tipo: Entero, Valor: 1 
+Nombre: Bb , Tipo: Real, Valor: 25.400000 
+Nombre: Cc , Tipo: Logico, Valor: True 
+Nombre: aa , Tipo: Entero, Valor: 2 
+Nombre: bandera , Tipo: Logico, Valor: False 
