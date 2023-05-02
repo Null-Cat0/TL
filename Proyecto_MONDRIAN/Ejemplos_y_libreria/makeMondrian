@@ -1,0 +1,26 @@
+# Fichero makeMondrian
+# Para compilar y ejecutar un fichero .cpp resultante de la traducción de un 
+# fichero .mon
+
+# En la misma carpeta deben estar los ficheros de la librería mondrian.h y mondrian.cpp
+
+# Cambiar FUENTE con el nombre del fichero correspondiente
+
+# ejecutar con > make -f makeMondrian
+
+FUENTE = basica.cpp
+
+fin: prueba
+	./prueba 
+	
+prueba : prueba.o mondrian.o 
+	g++ -oprueba mondrian.o prueba.o -lallegro -lallegro_primitives -lallegro_main    
+
+mondrian.o : mondrian.cpp
+	g++ -c mondrian.cpp
+
+prueba.o : $(FUENTE)
+	g++ -c -oprueba.o $(FUENTE) 
+
+clean :
+	rm -f *.o	

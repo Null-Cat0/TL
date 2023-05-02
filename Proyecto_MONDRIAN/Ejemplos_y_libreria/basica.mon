@@ -1,0 +1,72 @@
+# Fichero de ejemplo de la versión básica sin errores
+# No incluye la estructura de control Si ni expresiones
+
+VARIABLES
+
+Real tiempoPausa := 1.5;
+
+Entero f1, f2, f3, c1;
+
+Entero grosor := 4;
+
+f1 := 0;
+f2 := 50;
+f3 := 81;
+
+RECUADROS
+
+CuadroAzul = < 46, 46, azul>
+
+RectanguloRojo = <46, 16, rojo>
+
+RectanguloGris = <27, 50, gris>
+
+ZonaAmarilla = <15, 30, amarillo>
+
+FranjaNegra = <32, 100, negro>
+FranjaVerde = <32, 100, verde>
+
+LINEAS
+
+LineaH = <grosor, horizontal, negro>
+
+LineaV = <grosor, vertical, negro>
+
+LineaFina = <1, horizontal, gris>
+
+# Comienza la definición de los cuadros
+
+CUADRO "Homenaje a Mondrian" :
+
+	Pausa (tiempoPausa) # Para poder ver el lienzo vacío
+
+	c1 :=46
+
+	Mensaje ("Se pintan las líneas horizontales y verticales")
+	Pintar (LineaH, f1)
+	Pintar (LineaH, f2)
+	Pintar (LineaH, f3)
+	Pintar (LineaV, c1)
+	Pintar (LineaV, 80)
+	Pausa(1)
+	Mensaje ("Se pintan los recuadros de color")
+  Pintar (CuadroAzul, 4, 0)
+	Pintar (CuadroAzul, 54, 0)
+	Pintar (RectanguloRojo, 4, 84)
+	Pintar (RectanguloGris, 54, 50)
+	Pintar (ZonaAmarilla, 85, 50)
+	Pausa (tiempoPausa) # Pausa adicional a la pausa de 2.5 que hay al final de un cuadro
+
+FINCUADRO
+
+
+CUADRO "Bandera" :
+  Pintar (FranjaVerde, 0, 0)
+	Pintar (LineaFina, 32)
+	Pintar (LineaFina, 67)
+	Pintar (FranjaNegra, 68, 0)
+
+FINCUADRO
+
+
+# Y con esto acaba el programa
