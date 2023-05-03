@@ -1,16 +1,11 @@
 %{
-#include <iostream>
-#include "tablaSimbolos.h"
 #include "mondrian.h"
+#include "tablaSimbolos.h"
 #include <math.h>
-using namespace std;
-
-
 
 //Jesus Castaño Tato , Asier Serrano Martín
 int n_lineas;
-map<string, InformacionSimbolo> tablaSimbolos
-
+std::map<std::string, InformacionSimbolo> tablaSimbolos;
 %}
 
 identificadorMinuscula [a-z][_a-zA-Z0-9]*
@@ -33,6 +28,7 @@ real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
 {identificadorMayuscula}     strcpy(yylval.var, yytext); return IDENTIFICADORMAYUSCULA;
 {entero}		         yylval.c_entero = atoi(yytext); return ENTERO;
 {real}               yylval.c_real = atof(yytext); return REAL;
+
 true  yylval.c_bool=true; return BOOL;   
 false yylval.c_bool=false; return BOOL;
 
@@ -46,7 +42,7 @@ LINEAS return LINEAS;
 horizontal|vertical return ORIENTACION;
 
 
-\n				           n_lineas++; return (yytext[0]);
+\n				           n_lineas++; return SALTOLINEA;
 :=            return ASIGNACION;
 =             return IGUAL;
 . 				           return (yytext[0]);

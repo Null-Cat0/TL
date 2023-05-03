@@ -139,7 +139,6 @@ int main(int argc, char **argv){
      yyin = fopen(argv[1],"rt");
      yyout = fopen("salida.txt","wt");
      yyparse();
-     mostrarTabla(tablaSimbolos, yyout);
      fclose(yyout);
      fclose(yyin);
      return 0;

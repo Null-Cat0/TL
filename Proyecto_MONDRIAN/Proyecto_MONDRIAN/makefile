@@ -3,14 +3,14 @@ OBJ = mondrian.o lexico.o tablaSimbolos.o
 
 all : run
 run : mondrian
-	./mondrian basica.mon salida.txt
+	./mondrian entrada.txt salida.txt
 mondrian : $(OBJ)      				#segunda fase de la traducción. Generación del código ejecutable 
-	g++ -omondrian $(OBJ) 
+	g++ -o mondrian $(OBJ) 
 
 mondrian.o : mondrian.c        	#primera fase de la traducción del analizador sintáctico
 	g++ -c -omondrian.o  mondrian.c
 	
-lexico.o : lex.yy.c						#primera fase de la traducción del analizador léxico
+lexico.o : lex.yy.c					#primera fase de la traducción del analizador léxico
 	g++ -c -olexico.o  lex.yy.c 	
 
 mondrian.c : mondrian.y   	#obtenemos el analizador sintáctico en C
