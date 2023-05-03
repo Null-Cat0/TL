@@ -28,6 +28,8 @@ and           return AND;
 or              return OR;
 not           return NOT;
 div  return DIV;
+
+
 true  yylval.c_bool=true; return BOOL;   
 false yylval.c_bool=false; return BOOL;
 {identificador}     strcpy(yylval.var, yytext); return ID;
