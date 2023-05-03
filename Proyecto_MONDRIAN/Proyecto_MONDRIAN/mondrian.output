@@ -1,0 +1,770 @@
+No terminales inútiles en la gramática
+
+    zona_recuadros
+    definicion_cuadro
+    zona_lineas
+    definicion_linea
+
+
+Terminales no usados en la gramática
+
+    COMENTARIO
+    IGUAL
+    RECUADROS
+    COLOR
+    LINEAS
+    ORIENTACION
+    MENOS
+    IDENTIFICADORMAYUSCULA
+    BOOL
+    "<"
+    ","
+    ">"
+
+
+Reglas inútiles en la gramática
+
+   27 zona_recuadros: RECUADROS salto
+   28               | definicion_cuadro
+
+   29 definicion_cuadro: IDENTIFICADORMAYUSCULA IGUAL "<" expr "," expr "," COLOR ">" salto
+
+   30 zona_lineas: LINEAS salto
+   31            | definicion_linea
+
+   32 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL "<" expr "," ORIENTACION "," COLOR ">" salto
+
+
+Estado 13 conflictos: 1 desplazamiento/reducción
+Estado 26 conflictos: 4 desplazamiento/reducción
+Estado 41 conflictos: 6 desplazamiento/reducción
+Estado 42 conflictos: 4 desplazamiento/reducción
+Estado 43 conflictos: 4 desplazamiento/reducción
+Estado 45 conflictos: 6 desplazamiento/reducción
+Estado 46 conflictos: 6 desplazamiento/reducción
+Estado 47 conflictos: 6 desplazamiento/reducción
+
+
+Gramática
+
+    0 $accept: zona_variables $end
+
+    1 zona_variables: VARIABLES salto
+    2               | definicion
+
+    3 definicion: tipo IDENTIFICADORMINUSCULA ";" saltoOpcional
+    4           | tipo secuencia_de_Identificadores ";" saltoOpcional
+    5           | tipo IDENTIFICADORMINUSCULA ASIGNACION expr ";" saltoOpcional
+    6           | IDENTIFICADORMINUSCULA ASIGNACION expr ";" saltoOpcional
+
+    7 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA
+    8                             | secuencia_de_Identificadores ", " IDENTIFICADORMINUSCULA
+
+    9 salto: "\n"
+   10      | salto "\n"
+
+   11 saltoOpcional: ε
+   12              | salto "\n"
+
+   13 tipo: TIPOENTERO
+   14     | TIPOREAL
+   15     | TIPOLOGICO
+
+   16 expr: ENTERO
+   17     | REAL
+   18     | IDENTIFICADORMINUSCULA
+   19     | expr '+' expr
+   20     | expr '-' expr
+   21     | expr '*' expr
+   22     | expr '/' expr
+   23     | expr DIV expr
+   24     | expr '%' expr
+   25     | '-' expr
+   26     | '(' expr ')'
+
+
+Terminales con las reglas donde aparecen
+
+    $end (0) 0
+    '%' (37) 24
+    '(' (40) 26
+    ')' (41) 26
+    '*' (42) 21
+    '+' (43) 19
+    '-' (45) 20 25
+    '/' (47) 22
+    error (256)
+    COMENTARIO (258)
+    ASIGNACION (259) 5 6
+    IGUAL (260)
+    VARIABLES (261) 1
+    RECUADROS (262)
+    COLOR (263)
+    LINEAS (264)
+    ORIENTACION (265)
+    TIPOREAL (266) 14
+    TIPOENTERO (267) 13
+    TIPOLOGICO (268) 15
+    DIV (269) 23
+    MENOS (270)
+    ENTERO <c_entero> (271) 16
+    IDENTIFICADORMINUSCULA <var> (272) 3 5 6 7 8 18
+    IDENTIFICADORMAYUSCULA <var> (273)
+    REAL <c_real> (274) 17
+    BOOL <c_bool> (275)
+    menos (276)
+    ";" (277) 3 4 5 6
+    ", " (278) 8
+    "<" (279)
+    "," (280)
+    ">" (281)
+    "\n" (282) 9 10 12
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (35)
+        on left: 0
+    zona_variables (36)
+        on left: 1 2
+        on right: 0
+    definicion (37)
+        on left: 3 4 5 6
+        on right: 2
+    secuencia_de_Identificadores (38)
+        on left: 7 8
+        on right: 4 8
+    salto (39)
+        on left: 9 10
+        on right: 1 10 12
+    saltoOpcional (40)
+        on left: 11 12
+        on right: 3 4 5 6
+    tipo (41)
+        on left: 13 14 15
+        on right: 3 4 5
+    expr <c_expresion> (42)
+        on left: 16 17 18 19 20 21 22 23 24 25 26
+        on right: 5 6 19 20 21 22 23 24 25 26
+
+
+Estado 0
+
+    0 $accept: • zona_variables $end
+
+    VARIABLES               desplazar e ir al estado 1
+    TIPOREAL                desplazar e ir al estado 2
+    TIPOENTERO              desplazar e ir al estado 3
+    TIPOLOGICO              desplazar e ir al estado 4
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 5
+
+    zona_variables  ir al estado 6
+    definicion      ir al estado 7
+    tipo            ir al estado 8
+
+
+Estado 1
+
+    1 zona_variables: VARIABLES • salto
+
+    "\n"  desplazar e ir al estado 9
+
+    salto  ir al estado 10
+
+
+Estado 2
+
+   14 tipo: TIPOREAL •
+
+    $default  reduce usando la regla 14 (tipo)
+
+
+Estado 3
+
+   13 tipo: TIPOENTERO •
+
+    $default  reduce usando la regla 13 (tipo)
+
+
+Estado 4
+
+   15 tipo: TIPOLOGICO •
+
+    $default  reduce usando la regla 15 (tipo)
+
+
+Estado 5
+
+    6 definicion: IDENTIFICADORMINUSCULA • ASIGNACION expr ";" saltoOpcional
+
+    ASIGNACION  desplazar e ir al estado 11
+
+
+Estado 6
+
+    0 $accept: zona_variables • $end
+
+    $end  desplazar e ir al estado 12
+
+
+Estado 7
+
+    2 zona_variables: definicion •
+
+    $default  reduce usando la regla 2 (zona_variables)
+
+
+Estado 8
+
+    3 definicion: tipo • IDENTIFICADORMINUSCULA ";" saltoOpcional
+    4           | tipo • secuencia_de_Identificadores ";" saltoOpcional
+    5           | tipo • IDENTIFICADORMINUSCULA ASIGNACION expr ";" saltoOpcional
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 13
+
+    secuencia_de_Identificadores  ir al estado 14
+
+
+Estado 9
+
+    9 salto: "\n" •
+
+    $default  reduce usando la regla 9 (salto)
+
+
+Estado 10
+
+    1 zona_variables: VARIABLES salto •
+   10 salto: salto • "\n"
+
+    "\n"  desplazar e ir al estado 15
+
+    $default  reduce usando la regla 1 (zona_variables)
+
+
+Estado 11
+
+    6 definicion: IDENTIFICADORMINUSCULA ASIGNACION • expr ";" saltoOpcional
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 21
+
+
+Estado 12
+
+    0 $accept: zona_variables $end •
+
+    $default  aceptar
+
+
+Estado 13
+
+    3 definicion: tipo IDENTIFICADORMINUSCULA • ";" saltoOpcional
+    5           | tipo IDENTIFICADORMINUSCULA • ASIGNACION expr ";" saltoOpcional
+    7 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA •
+
+    ASIGNACION  desplazar e ir al estado 22
+    ";"         desplazar e ir al estado 23
+
+    ";"       [reduce usando la regla 7 (secuencia_de_Identificadores)]
+    $default  reduce usando la regla 7 (secuencia_de_Identificadores)
+
+
+Estado 14
+
+    4 definicion: tipo secuencia_de_Identificadores • ";" saltoOpcional
+    8 secuencia_de_Identificadores: secuencia_de_Identificadores • ", " IDENTIFICADORMINUSCULA
+
+    ";"   desplazar e ir al estado 24
+    ", "  desplazar e ir al estado 25
+
+
+Estado 15
+
+   10 salto: salto "\n" •
+
+    $default  reduce usando la regla 10 (salto)
+
+
+Estado 16
+
+   16 expr: ENTERO •
+
+    $default  reduce usando la regla 16 (expr)
+
+
+Estado 17
+
+   18 expr: IDENTIFICADORMINUSCULA •
+
+    $default  reduce usando la regla 18 (expr)
+
+
+Estado 18
+
+   17 expr: REAL •
+
+    $default  reduce usando la regla 17 (expr)
+
+
+Estado 19
+
+   25 expr: '-' • expr
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 26
+
+
+Estado 20
+
+   26 expr: '(' • expr ')'
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 27
+
+
+Estado 21
+
+    6 definicion: IDENTIFICADORMINUSCULA ASIGNACION expr • ";" saltoOpcional
+   19 expr: expr • '+' expr
+   20     | expr • '-' expr
+   21     | expr • '*' expr
+   22     | expr • '/' expr
+   23     | expr • DIV expr
+   24     | expr • '%' expr
+
+    DIV  desplazar e ir al estado 28
+    '+'  desplazar e ir al estado 29
+    '-'  desplazar e ir al estado 30
+    ";"  desplazar e ir al estado 31
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+
+
+Estado 22
+
+    5 definicion: tipo IDENTIFICADORMINUSCULA ASIGNACION • expr ";" saltoOpcional
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 35
+
+
+Estado 23
+
+    3 definicion: tipo IDENTIFICADORMINUSCULA ";" • saltoOpcional
+
+    "\n"  desplazar e ir al estado 9
+
+    $default  reduce usando la regla 11 (saltoOpcional)
+
+    salto          ir al estado 36
+    saltoOpcional  ir al estado 37
+
+
+Estado 24
+
+    4 definicion: tipo secuencia_de_Identificadores ";" • saltoOpcional
+
+    "\n"  desplazar e ir al estado 9
+
+    $default  reduce usando la regla 11 (saltoOpcional)
+
+    salto          ir al estado 36
+    saltoOpcional  ir al estado 38
+
+
+Estado 25
+
+    8 secuencia_de_Identificadores: secuencia_de_Identificadores ", " • IDENTIFICADORMINUSCULA
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 39
+
+
+Estado 26
+
+   19 expr: expr • '+' expr
+   20     | expr • '-' expr
+   21     | expr • '*' expr
+   22     | expr • '/' expr
+   23     | expr • DIV expr
+   24     | expr • '%' expr
+   25     | '-' expr •
+
+    DIV  desplazar e ir al estado 28
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+
+    DIV       [reduce usando la regla 25 (expr)]
+    '*'       [reduce usando la regla 25 (expr)]
+    '/'       [reduce usando la regla 25 (expr)]
+    '%'       [reduce usando la regla 25 (expr)]
+    $default  reduce usando la regla 25 (expr)
+
+
+Estado 27
+
+   19 expr: expr • '+' expr
+   20     | expr • '-' expr
+   21     | expr • '*' expr
+   22     | expr • '/' expr
+   23     | expr • DIV expr
+   24     | expr • '%' expr
+   26     | '(' expr • ')'
+
+    DIV  desplazar e ir al estado 28
+    '+'  desplazar e ir al estado 29
+    '-'  desplazar e ir al estado 30
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+    ')'  desplazar e ir al estado 40
+
+
+Estado 28
+
+   23 expr: expr DIV • expr
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 41
+
+
+Estado 29
+
+   19 expr: expr '+' • expr
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 42
+
+
+Estado 30
+
+   20 expr: expr '-' • expr
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 43
+
+
+Estado 31
+
+    6 definicion: IDENTIFICADORMINUSCULA ASIGNACION expr ";" • saltoOpcional
+
+    "\n"  desplazar e ir al estado 9
+
+    $default  reduce usando la regla 11 (saltoOpcional)
+
+    salto          ir al estado 36
+    saltoOpcional  ir al estado 44
+
+
+Estado 32
+
+   21 expr: expr '*' • expr
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 45
+
+
+Estado 33
+
+   22 expr: expr '/' • expr
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 46
+
+
+Estado 34
+
+   24 expr: expr '%' • expr
+
+    ENTERO                  desplazar e ir al estado 16
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 17
+    REAL                    desplazar e ir al estado 18
+    '-'                     desplazar e ir al estado 19
+    '('                     desplazar e ir al estado 20
+
+    expr  ir al estado 47
+
+
+Estado 35
+
+    5 definicion: tipo IDENTIFICADORMINUSCULA ASIGNACION expr • ";" saltoOpcional
+   19 expr: expr • '+' expr
+   20     | expr • '-' expr
+   21     | expr • '*' expr
+   22     | expr • '/' expr
+   23     | expr • DIV expr
+   24     | expr • '%' expr
+
+    DIV  desplazar e ir al estado 28
+    '+'  desplazar e ir al estado 29
+    '-'  desplazar e ir al estado 30
+    ";"  desplazar e ir al estado 48
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+
+
+Estado 36
+
+   10 salto: salto • "\n"
+   12 saltoOpcional: salto • "\n"
+
+    "\n"  desplazar e ir al estado 49
+
+
+Estado 37
+
+    3 definicion: tipo IDENTIFICADORMINUSCULA ";" saltoOpcional •
+
+    $default  reduce usando la regla 3 (definicion)
+
+
+Estado 38
+
+    4 definicion: tipo secuencia_de_Identificadores ";" saltoOpcional •
+
+    $default  reduce usando la regla 4 (definicion)
+
+
+Estado 39
+
+    8 secuencia_de_Identificadores: secuencia_de_Identificadores ", " IDENTIFICADORMINUSCULA •
+
+    $default  reduce usando la regla 8 (secuencia_de_Identificadores)
+
+
+Estado 40
+
+   26 expr: '(' expr ')' •
+
+    $default  reduce usando la regla 26 (expr)
+
+
+Estado 41
+
+   19 expr: expr • '+' expr
+   20     | expr • '-' expr
+   21     | expr • '*' expr
+   22     | expr • '/' expr
+   23     | expr • DIV expr
+   23     | expr DIV expr •
+   24     | expr • '%' expr
+
+    DIV  desplazar e ir al estado 28
+    '+'  desplazar e ir al estado 29
+    '-'  desplazar e ir al estado 30
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+
+    DIV       [reduce usando la regla 23 (expr)]
+    '+'       [reduce usando la regla 23 (expr)]
+    '-'       [reduce usando la regla 23 (expr)]
+    '*'       [reduce usando la regla 23 (expr)]
+    '/'       [reduce usando la regla 23 (expr)]
+    '%'       [reduce usando la regla 23 (expr)]
+    $default  reduce usando la regla 23 (expr)
+
+
+Estado 42
+
+   19 expr: expr • '+' expr
+   19     | expr '+' expr •
+   20     | expr • '-' expr
+   21     | expr • '*' expr
+   22     | expr • '/' expr
+   23     | expr • DIV expr
+   24     | expr • '%' expr
+
+    DIV  desplazar e ir al estado 28
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+
+    DIV       [reduce usando la regla 19 (expr)]
+    '*'       [reduce usando la regla 19 (expr)]
+    '/'       [reduce usando la regla 19 (expr)]
+    '%'       [reduce usando la regla 19 (expr)]
+    $default  reduce usando la regla 19 (expr)
+
+
+Estado 43
+
+   19 expr: expr • '+' expr
+   20     | expr • '-' expr
+   20     | expr '-' expr •
+   21     | expr • '*' expr
+   22     | expr • '/' expr
+   23     | expr • DIV expr
+   24     | expr • '%' expr
+
+    DIV  desplazar e ir al estado 28
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+
+    DIV       [reduce usando la regla 20 (expr)]
+    '*'       [reduce usando la regla 20 (expr)]
+    '/'       [reduce usando la regla 20 (expr)]
+    '%'       [reduce usando la regla 20 (expr)]
+    $default  reduce usando la regla 20 (expr)
+
+
+Estado 44
+
+    6 definicion: IDENTIFICADORMINUSCULA ASIGNACION expr ";" saltoOpcional •
+
+    $default  reduce usando la regla 6 (definicion)
+
+
+Estado 45
+
+   19 expr: expr • '+' expr
+   20     | expr • '-' expr
+   21     | expr • '*' expr
+   21     | expr '*' expr •
+   22     | expr • '/' expr
+   23     | expr • DIV expr
+   24     | expr • '%' expr
+
+    DIV  desplazar e ir al estado 28
+    '+'  desplazar e ir al estado 29
+    '-'  desplazar e ir al estado 30
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+
+    DIV       [reduce usando la regla 21 (expr)]
+    '+'       [reduce usando la regla 21 (expr)]
+    '-'       [reduce usando la regla 21 (expr)]
+    '*'       [reduce usando la regla 21 (expr)]
+    '/'       [reduce usando la regla 21 (expr)]
+    '%'       [reduce usando la regla 21 (expr)]
+    $default  reduce usando la regla 21 (expr)
+
+
+Estado 46
+
+   19 expr: expr • '+' expr
+   20     | expr • '-' expr
+   21     | expr • '*' expr
+   22     | expr • '/' expr
+   22     | expr '/' expr •
+   23     | expr • DIV expr
+   24     | expr • '%' expr
+
+    DIV  desplazar e ir al estado 28
+    '+'  desplazar e ir al estado 29
+    '-'  desplazar e ir al estado 30
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+
+    DIV       [reduce usando la regla 22 (expr)]
+    '+'       [reduce usando la regla 22 (expr)]
+    '-'       [reduce usando la regla 22 (expr)]
+    '*'       [reduce usando la regla 22 (expr)]
+    '/'       [reduce usando la regla 22 (expr)]
+    '%'       [reduce usando la regla 22 (expr)]
+    $default  reduce usando la regla 22 (expr)
+
+
+Estado 47
+
+   19 expr: expr • '+' expr
+   20     | expr • '-' expr
+   21     | expr • '*' expr
+   22     | expr • '/' expr
+   23     | expr • DIV expr
+   24     | expr • '%' expr
+   24     | expr '%' expr •
+
+    DIV  desplazar e ir al estado 28
+    '+'  desplazar e ir al estado 29
+    '-'  desplazar e ir al estado 30
+    '*'  desplazar e ir al estado 32
+    '/'  desplazar e ir al estado 33
+    '%'  desplazar e ir al estado 34
+
+    DIV       [reduce usando la regla 24 (expr)]
+    '+'       [reduce usando la regla 24 (expr)]
+    '-'       [reduce usando la regla 24 (expr)]
+    '*'       [reduce usando la regla 24 (expr)]
+    '/'       [reduce usando la regla 24 (expr)]
+    '%'       [reduce usando la regla 24 (expr)]
+    $default  reduce usando la regla 24 (expr)
+
+
+Estado 48
+
+    5 definicion: tipo IDENTIFICADORMINUSCULA ASIGNACION expr ";" • saltoOpcional
+
+    "\n"  desplazar e ir al estado 9
+
+    $default  reduce usando la regla 11 (saltoOpcional)
+
+    salto          ir al estado 36
+    saltoOpcional  ir al estado 50
+
+
+Estado 49
+
+   10 salto: salto "\n" •
+   12 saltoOpcional: salto "\n" •
+
+    $end      reduce usando la regla 12 (saltoOpcional)
+    $default  reduce usando la regla 10 (salto)
+
+
+Estado 50
+
+    5 definicion: tipo IDENTIFICADORMINUSCULA ASIGNACION expr ";" saltoOpcional •
+
+    $default  reduce usando la regla 5 (definicion)

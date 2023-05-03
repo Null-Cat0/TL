@@ -51,32 +51,76 @@ string enteroOreal(bool enteroOreal)
       } c_expresion;
 }
 
-%token COMENTARIO TIPO COMENTARIO ASIGNACION
-%token <c_entero> NUMERO
-%token <var> IDENTIFICADOR
+%token COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION TIPOREAL TIPOENTERO TIPOLOGICO DIV MENOS 
+%token <c_entero> ENTERO
+%token <var> IDENTIFICADORMINUSCULA IDENTIFICADORMAYUSCULA
 %token <c_real> REAL
 %token <c_bool> BOOL
 
 %type <c_expresion> expr
-%type <c_bool> logica
+
+
+%left '+' '-'   /* asociativo por la izquierda, misma prioridad /
+%left '' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
+%left menos
 
 %%
-definicion : tipo IDENTIFICADOR "\n"
-           | tipo secuencia_de_Identificadores 
-           | tipo IDENTIFICADOR ASIGNACION expr
+
+
+//-------------------------------------------BLOQUE VARIABLES------------------------------------
+
+zona_variables : VARIABLES salto {;}
+               | definicion {;}
+               ;
+
+definicion : tipo IDENTIFICADORMINUSCULA";" saltoOpcional {;}
+           | tipo secuencia_de_Identificadores";" saltoOpcional {;}
+           | tipo IDENTIFICADORMINUSCULA ASIGNACION expr";" saltoOpcional {;}
+           | IDENTIFICADORMINUSCULA ASIGNACION expr";" saltoOpcional {;}
            ;
 
-secuencia_de_Identificadores : IDENTIFICADOR 
-                             | secuencia_de_Identificadores", " IDENTIFICADOR
+secuencia_de_Identificadores : IDENTIFICADORMINUSCULA {;}
+                             | secuencia_de_Identificadores", " IDENTIFICADORMINUSCULA {;}
                              ;
 
-tipo : TIPOENTERO
-     | TIPOREAL
-     | TIPOLOGICO
+//------------------------------------------------------------------------------------------------
+//-------------------------------------------BLOQUE RECUADROS-------------------------------------
+
+zona_recuadros : RECUADROS salto {;}
+               |  definicion_cuadro {;}
+               ;
+
+definicion_cuadro : IDENTIFICADORMAYUSCULA IGUAL "<" expr"," expr"," COLOR ">" salto {;}//preferimos que haya salto
+                  ;
+
+//------------------------------------------------------------------------------------------------
+//-------------------------------------------BLOQUE LINEAS----------------------------------------
+
+zona_lineas : LINEAS salto {;}
+            |  definicion_linea {;}
+            ;
+
+definicion_linea : IDENTIFICADORMAYUSCULA IGUAL "<" expr"," ORIENTACION"," COLOR ">" salto {;}//preferimos que haya salto
+                 ;
+
+//------------------------------------------------------------------------------------------------
+
+
+salto : "\n"
+      | salto "\n"
+      ;
+
+saltoOpcional : 
+       | salto "\n"
+       ; 
+
+tipo : TIPOENTERO  {;}
+     | TIPOREAL     {;}
+     | TIPOLOGICO   {;}
      ;
-expr: NUMERO               {;}
+expr: ENTERO               {;}
     | REAL 		         {;}  
-    | ID                   {;}
+    | IDENTIFICADORMINUSCULA   {;}
     | expr '+' expr        {;}              
     | expr '-' expr        {;}            
     | expr '*' expr        {;} 
@@ -90,6 +134,13 @@ expr: NUMERO               {;}
 %%
 
 int main(int argc, char **argv){
+     
+     n_lineas = 0;
+     yyin = fopen(argv[1],"rt");
+     yyout = fopen("salida.txt","wt");
      yyparse();
+     mostrarTabla(tablaSimbolos, yyout);
+     fclose(yyout);
+     fclose(yyin);
      return 0;
 }
