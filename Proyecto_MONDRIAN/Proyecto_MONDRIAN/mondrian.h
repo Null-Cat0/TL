@@ -62,20 +62,18 @@ extern int yydebug;
     COLOR = 263,                   /* COLOR  */
     LINEAS = 264,                  /* LINEAS  */
     ORIENTACION = 265,             /* ORIENTACION  */
-    TIPOREAL = 266,                /* TIPOREAL  */
-    TIPOENTERO = 267,              /* TIPOENTERO  */
-    TIPOLOGICO = 268,              /* TIPOLOGICO  */
-    DIV = 269,                     /* DIV  */
-    MENOS = 270,                   /* MENOS  */
-    SALTOLINEA = 271,              /* SALTOLINEA  */
-    PUNTOYCOMA = 272,              /* PUNTOYCOMA  */
-    TIPO = 273,                    /* TIPO  */
+    DIV = 266,                     /* DIV  */
+    MENOS = 267,                   /* MENOS  */
+    SALTOLINEA = 268,              /* SALTOLINEA  */
+    PUNTOYCOMA = 269,              /* PUNTOYCOMA  */
+    TIPO = 270,                    /* TIPO  */
+    COMA = 271,                    /* COMA  */
+    ID = 272,                      /* ID  */
+    ENTERO = 273,                  /* ENTERO  */
     IDENTIFICADORMINUSCULA = 274,  /* IDENTIFICADORMINUSCULA  */
-    IDENTIFICADORMAYUSCULA = 275,  /* IDENTIFICADORMAYUSCULA  */
-    ENTERO = 276,                  /* ENTERO  */
-    REAL = 277,                    /* REAL  */
-    BOOL = 278,                    /* BOOL  */
-    menos = 279                    /* menos  */
+    REAL = 275,                    /* REAL  */
+    BOOL = 276,                    /* BOOL  */
+    menos = 277                    /* menos  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -96,7 +94,7 @@ union YYSTYPE
       bool esLogica;
       } c_expresion;
 
-#line 100 "mondrian.h"
+#line 98 "mondrian.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

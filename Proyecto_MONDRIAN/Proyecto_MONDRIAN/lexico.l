@@ -8,53 +8,99 @@ int n_lineas;
 std::map<std::string, InformacionSimbolo> tablaSimbolos;
 %}
 
-identificadorMinuscula [a-z][_a-zA-Z0-9]*
-identificadorMayuscula [A-Z][_a-zA-Z0-9]*
-
+identificador [_a-zA-Z][_a-zA-Z0-9]*
 digito [0-9]
 entero {digito}+
 real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
-color blanco|negro|gris|rojo|azul|amarillo|verde
-tipo Entero|Real|Logico
-orientacion horizontal|vertical
+variables [V][A][R][I][A][B][L][E][S]
+color [b][l][a][n][c][o]|[n][e][g][r][o]|[g][r][i][s]|[r][o][j][o]|[a][z][u][l]|[a][m][a][r][i][l][l][o]|[v][e][r][d][e]
+tipo [E][n][t][e][r][o]|[R][e][a][l]|[L][o][g][i][c][o]
+orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
+
 
 %option noyywrap
 %x COM1
 %%
+
 [#] { BEGIN(COM1); }
-<COM1>"\n" { BEGIN(0); n_lineas++; return COMENTARIO; }
+<COM1>"\n" { 
+    BEGIN(0); n_lineas++; 
+            return COMENTARIO; 
+}
 <COM1>. ;
 
-VARIABLES           return VARIABLES;
-RECUADROS return RECUADROS;
-LINEAS return LINEAS;
-true  yylval.c_bool=true; return BOOL;   
-false yylval.c_bool=false; return BOOL;
-
-{orientacion} return ORIENTACION;
-{tipo}  cout << "hola"; return TIPO;
-{color} return COLOR;
-{real}               yylval.c_real = atof(yytext); cout << "Real"<<endl; return REAL;
-{identificadorMinuscula}     strcpy(yylval.var, yytext); cout << "minuscula"; return IDENTIFICADORMINUSCULA;
-{identificadorMayuscula}     strcpy(yylval.var, yytext); return IDENTIFICADORMAYUSCULA;
-{entero}		         yylval.c_entero = atoi(yytext); return ENTERO;
-
-
-\n				           n_lineas++; return SALTOLINEA;
-;               return PUNTOYCOMA;
-:=            return ASIGNACION;
-=             return IGUAL;
-
-
-
-
-
-
-
-
+true  {
+  //  cout<<"TRue ";
+    yylval.c_bool=true; 
+    return BOOL;
+}   
+false {
+    //cout<<"False ";
+    yylval.c_bool=false; 
+    return BOOL;
+} 
+{color}               {
+                       
+             //           cout<<"COlor ";
+                       return COLOR;
+                    }
+{tipo}               {
+                       
+                   //     cout<<"Tipo ";
+                       return TIPO;
+                    }
+{orientacion}               {
+                       
+                      //  cout<<"Orientacion ";
+                       return ORIENTACION;
+                    }
 
 
+^{variables}  {
+             //   cout<<"VAriable ";
+                return VARIABLES;
+                }
 
-. 				           return (yytext[0]);
+
+{identificador}     {
+                    strcpy(yylval.var, yytext); 
+                  //  cout << "IDENTIFICADOR ";
+                    return ID;
+                    }
+{entero}		      { 
+                        yylval.c_entero = atoi(yytext); 
+                   //     cout<<"Entero ";
+                        return ENTERO;
+                        }
+{real}               {
+                        yylval.c_real = atof(yytext);
+                    //    cout<<"Real ";
+                       return REAL;
+                    }
+
+\n			  {
+                    n_lineas++; 
+                   //cout<<"Saltolinea"<<endl;
+                   return SALTOLINEA;
+            }
+,          {// cout<<"COma ";
+            return COMA;
+            }
+;           { //cout<<"PuntoyCOma ";
+return PUNTOYCOMA;
+}
+:=           {//cout<<"Asignacion ";
+ return ASIGNACION;
+}
+=            {//cout<<"Igual ";
+return IGUAL;
+}
+. 		     return (yytext[0]);
 
 %%
+// int main(int argc , char ** argv){
+	 
+// 	n_lineas = 0;
+//   yylex();
+//   	return 0;  
+// }

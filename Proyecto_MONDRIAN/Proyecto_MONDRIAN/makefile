@@ -23,4 +23,4 @@ lex.yy.c: lexico.l						#obtenemos el analizador léxico en C
 	flex lexico.l
 
 clean : 
-	rm  -f  *.c *.o 
+	rm  -f  *.c *.o mondrian mondrian.output mondrian.h

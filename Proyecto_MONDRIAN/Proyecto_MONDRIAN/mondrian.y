@@ -51,9 +51,9 @@ string enteroOreal(bool enteroOreal)
       } c_expresion;
 }
 
-%token COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION TIPOREAL TIPOENTERO TIPOLOGICO DIV MENOS SALTOLINEA PUNTOYCOMA TIPO 
+%token COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION  DIV MENOS SALTOLINEA PUNTOYCOMA TIPO COMA ID
 %token <c_entero> ENTERO
-%token <var> IDENTIFICADORMINUSCULA IDENTIFICADORMAYUSCULA
+%token <var> IDENTIFICADORMINUSCULA 
 %token <c_real> REAL
 %token <c_bool> BOOL
 
@@ -71,19 +71,20 @@ string enteroOreal(bool enteroOreal)
 
 //-------------------------------------------BLOQUE VARIABLES------------------------------------
 
-zona_variables : VARIABLES salto {cout << "ohiogiog";}
-               | definicion {cout << "gggg";}
+zona_variables : VARIABLES salto definicion{cout << "VARIABLES"<<endl;}
                ;
 
-definicion : TIPO IDENTIFICADORMINUSCULA PUNTOYCOMA saltoOpcional {;}
-           | TIPO secuencia_de_Identificadores PUNTOYCOMA saltoOpcional {;}
-           | TIPO IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA saltoOpcional{;}
-           | IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA saltoOpcional {;}
+definicion :
+// TIPO IDENTIFICADORMINUSCULA PUNTOYCOMA saltoOpcional {;}
+          // | TIPO secuencia_de_Identificadores PUNTOYCOMA saltoOpcional {;}
+           | TIPO {cout<<"Tipo ";}' ' ID{cout<<"Identificador ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{;}
+          // | IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA saltoOpcional {;}
            ;
-
-secuencia_de_Identificadores : IDENTIFICADORMINUSCULA {;}
-                             | secuencia_de_Identificadores", " IDENTIFICADORMINUSCULA {;}
-                             ;
+asignacion :
+            |ID {cout<<"Variable";} '=' REAL PUNTOYCOMA {;}
+// secuencia_de_Identificadores : IDENTIFICADORMINUSCULA {;}
+//                              | secuencia_de_Identificadores COMA IDENTIFICADORMINUSCULA {;}
+//                              ;
 
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE RECUADROS-------------------------------------
@@ -113,25 +114,21 @@ salto : SALTOLINEA
       ;
 
 saltoOpcional : 
-       | salto SALTOLINEA
+       | salto 
        ; 
 
-tipo : TIPOENTERO  {;}
-     | TIPOREAL     {;}
-     | TIPOLOGICO   {;}
-     ;
-expr: ENTERO               {;}
-    | REAL 		         {;}  
-    | IDENTIFICADORMINUSCULA   {;}
-    | expr '+' expr        {;}              
-    | expr '-' expr        {;}            
-    | expr '*' expr        {;} 
-    | expr '/' expr        {;}
-    | expr DIV expr        {;} 
-    | expr '%' expr     {;}
-    |'-' expr %prec menos  {;}
-    | '(' expr ')'         {;}
-    ;
+// expr: ENTERO               {;}
+//     | REAL 		         {;}  
+//     | IDENTIFICADORMINUSCULA   {;}
+//     | expr '+' expr        {;}              
+//     | expr '-' expr        {;}            
+//     | expr '*' expr        {;} 
+//     | expr '/' expr        {;}
+//     | expr DIV expr        {;} 
+//     | expr '%' expr     {;}
+//     |'-' expr %prec menos  {;}
+//     | '(' expr ')'         {;}
+//     ;
 
 %%
 

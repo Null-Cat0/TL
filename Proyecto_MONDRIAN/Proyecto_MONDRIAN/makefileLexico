@@ -1,0 +1,9 @@
+# Jesús Castaño Tato, Asier Serrano Martin
+salida.txt : lexico	
+	./lexico < entrada.txt 
+lexico : lex.yy.c
+	g++ -o  lexico lex.yy.c
+lex.yy.c : lexico.l
+	flex lexico.l
+clean:
+	rm  -f lex.yy.c actividad3 salida.txt
