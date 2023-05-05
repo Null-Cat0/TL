@@ -74,17 +74,19 @@ string enteroOreal(bool enteroOreal)
 zona_variables : VARIABLES salto definicion{cout << "VARIABLES"<<endl;}
                ;
 
-definicion :
-// TIPO IDENTIFICADORMINUSCULA PUNTOYCOMA saltoOpcional {;}
-          // | TIPO secuencia_de_Identificadores PUNTOYCOMA saltoOpcional {;}
-           | TIPO {cout<<"Tipo ";}' ' ID{cout<<"Identificador ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{;}
-          // | IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA saltoOpcional {;}
+definicion :  
+           | definicion TIPO {cout<<"Tipo ";}' ' ID{cout<<"Identificador ";}asignacion{;}
+           | definicion TIPO{cout<<"Tipo Secuencia ";}' 'secuencia_de_Identificadores  saltoOpcional {;}
+           | definicion ID{cout<<"Identificador ";}asignacion{;}
            ;
 asignacion :
-            |ID {cout<<"Variable";} '=' REAL PUNTOYCOMA {;}
-// secuencia_de_Identificadores : IDENTIFICADORMINUSCULA {;}
-//                              | secuencia_de_Identificadores COMA IDENTIFICADORMINUSCULA {;}
-//                              ;
+            |' 'ASIGNACION {cout<<"Asignacion ";}REAL{cout<<"Real ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
+            |' 'ASIGNACION {cout<<"Asignacion ";}ENTERO{cout<<"Entero ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
+            |' 'ASIGNACION {cout<<"Asignacion ";}expr{cout<<"Entero ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
+            ;
+secuencia_de_Identificadores : ID PUNTOYCOMA{cout<<"Identificador ";cout<<"PuntoYCOma ";}
+                             | secuencia_de_Identificadores ID COMA' '{cout<<"Identificador "; cout<<"Coma ";}
+                             ;
 
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE RECUADROS-------------------------------------
@@ -117,18 +119,18 @@ saltoOpcional :
        | salto 
        ; 
 
-// expr: ENTERO               {;}
-//     | REAL 		         {;}  
-//     | IDENTIFICADORMINUSCULA   {;}
-//     | expr '+' expr        {;}              
-//     | expr '-' expr        {;}            
-//     | expr '*' expr        {;} 
-//     | expr '/' expr        {;}
-//     | expr DIV expr        {;} 
-//     | expr '%' expr     {;}
-//     |'-' expr %prec menos  {;}
-//     | '(' expr ')'         {;}
-//     ;
+expr: ENTERO               {;}
+    | REAL 		         {;}  
+    | IDENTIFICADORMINUSCULA   {;}
+    | expr '+' expr        {;}              
+    | expr '-' expr        {;}            
+    | expr '*' expr        {;} 
+    | expr '/' expr        {;}
+    | expr DIV expr        {;} 
+    | expr '%' expr     {;}
+    |'-' expr %prec menos  {;}
+    | '(' expr ')'         {;}
+    ;
 
 %%
 
