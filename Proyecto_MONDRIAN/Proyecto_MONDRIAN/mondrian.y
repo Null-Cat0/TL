@@ -51,7 +51,7 @@ string enteroOreal(bool enteroOreal)
       } c_expresion;
 }
 
-%token COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION TIPOREAL TIPOENTERO TIPOLOGICO DIV MENOS 
+%token COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION TIPOREAL TIPOENTERO TIPOLOGICO DIV MENOS SALTOLINEA PUNTOYCOMA TIPO 
 %token <c_entero> ENTERO
 %token <var> IDENTIFICADORMINUSCULA IDENTIFICADORMAYUSCULA
 %token <c_real> REAL
@@ -59,24 +59,26 @@ string enteroOreal(bool enteroOreal)
 
 %type <c_expresion> expr
 
+%start zona_variables
 
 %left '+' '-'   /* asociativo por la izquierda, misma prioridad /
 %left '' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
 %left menos
+
 
 %%
 
 
 //-------------------------------------------BLOQUE VARIABLES------------------------------------
 
-zona_variables : VARIABLES salto {;}
-               | definicion {;}
+zona_variables : VARIABLES salto {cout << "ohiogiog";}
+               | definicion {cout << "gggg";}
                ;
 
-definicion : tipo IDENTIFICADORMINUSCULA";" saltoOpcional {;}
-           | tipo secuencia_de_Identificadores";" saltoOpcional {;}
-           | tipo IDENTIFICADORMINUSCULA ASIGNACION expr";" saltoOpcional {;}
-           | IDENTIFICADORMINUSCULA ASIGNACION expr";" saltoOpcional {;}
+definicion : TIPO IDENTIFICADORMINUSCULA PUNTOYCOMA saltoOpcional {;}
+           | TIPO secuencia_de_Identificadores PUNTOYCOMA saltoOpcional {;}
+           | TIPO IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA saltoOpcional{;}
+           | IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA saltoOpcional {;}
            ;
 
 secuencia_de_Identificadores : IDENTIFICADORMINUSCULA {;}
@@ -86,32 +88,32 @@ secuencia_de_Identificadores : IDENTIFICADORMINUSCULA {;}
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE RECUADROS-------------------------------------
 
-zona_recuadros : RECUADROS salto {;}
-               |  definicion_cuadro {;}
-               ;
+// zona_recuadros : RECUADROS salto {cout << "Recuadro";}
+//                |  definicion_cuadro {;}
+//                ;
 
-definicion_cuadro : IDENTIFICADORMAYUSCULA IGUAL "<" expr"," expr"," COLOR ">" salto {;}//preferimos que haya salto
-                  ;
+// definicion_cuadro : IDENTIFICADORMAYUSCULA IGUAL "<" expr"," expr"," COLOR ">" salto {;}//preferimos que haya salto
+//                   ;
+
+// //------------------------------------------------------------------------------------------------
+// //-------------------------------------------BLOQUE LINEAS----------------------------------------
+
+// zona_lineas : LINEAS salto {cout << "Lineas";}
+//             |  definicion_linea {;}
+//             ;
+
+// definicion_linea : IDENTIFICADORMAYUSCULA IGUAL "<" expr"," ORIENTACION"," COLOR ">" salto {;}//preferimos que haya salto
+//                  ;
 
 //------------------------------------------------------------------------------------------------
-//-------------------------------------------BLOQUE LINEAS----------------------------------------
-
-zona_lineas : LINEAS salto {;}
-            |  definicion_linea {;}
-            ;
-
-definicion_linea : IDENTIFICADORMAYUSCULA IGUAL "<" expr"," ORIENTACION"," COLOR ">" salto {;}//preferimos que haya salto
-                 ;
-
-//------------------------------------------------------------------------------------------------
 
 
-salto : "\n"
-      | salto "\n"
+salto : SALTOLINEA
+      | salto SALTOLINEA
       ;
 
 saltoOpcional : 
-       | salto "\n"
+       | salto SALTOLINEA
        ; 
 
 tipo : TIPOENTERO  {;}
