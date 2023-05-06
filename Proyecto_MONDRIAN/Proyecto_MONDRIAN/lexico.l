@@ -76,16 +76,7 @@ false {
 ^{cuadro}   {
                 return CUADRO;
                 }
-{identificadorMayuscula}     {
-                    strcpy(yylval.var, yytext); 
-                  //  cout << "IDENTIFICADOR ";
-                    return IDENTIFICADORMAYUSCULA;
-                    }
-{identificadorMinuscula} {
-                    strcpy(yylval.var, yytext); 
-                    //  cout << "IDENTIFICADOR ";
-                    return IDENTIFICADORMINUSCULA;
-                    }          
+       
 {entero}		      { 
                         yylval.c_entero = atoi(yytext); 
                    //     cout<<"Entero ";
@@ -99,15 +90,11 @@ false {
 Pintar {
         return PINTAR;
 }
-Mensaje {
-        return MENSAJE;
-}
 {pausa} {
-       cout<<"Pausa ";
         return PAUSA;
 }
 Mensaje {
-        return PINTAR;
+        return MENSAJE;
 }
 
 \n			  {
@@ -127,6 +114,16 @@ return PUNTOYCOMA;
 =            {//cout<<"Igual ";
 return IGUAL;
 }
+{identificadorMayuscula}     {
+                    strcpy(yylval.var, yytext); 
+                  //  cout << "IDENTIFICADOR ";
+                    return IDENTIFICADORMAYUSCULA;
+                    }
+{identificadorMinuscula} {
+                    strcpy(yylval.var, yytext); 
+                    //  cout << "IDENTIFICADOR ";
+                    return IDENTIFICADORMINUSCULA;
+                    }   
 . 		     return (yytext[0]);
 
 %%

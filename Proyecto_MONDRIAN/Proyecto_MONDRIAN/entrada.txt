@@ -37,9 +37,8 @@ LineaFina = <1, horizontal, gris>
 CUADRO "Homenaje a Mondrian" :
 	
 
-	c1 :=46
 
-	Mensaje ("Se pintan las líneas horizontales y verticales")
+
 	Pintar (LineaH, f1)
 	Pintar (LineaH, f2)
 	Pintar (LineaH, f3)
