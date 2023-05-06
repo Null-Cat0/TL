@@ -14,7 +14,7 @@ entero {digito}+
 real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
 variables [V][A][R][I][A][B][L][E][S]
 color [b][l][a][n][c][o]|[n][e][g][r][o]|[g][r][i][s]|[r][o][j][o]|[a][z][u][l]|[a][m][a][r][i][l][l][o]|[v][e][r][d][e]
-tipo [E][n][t][e][r][o]|[R][e][a][l]|[L][o][g][i][c][o]
+tipo Entero|Real|Logico 
 orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
 
 
@@ -28,7 +28,7 @@ orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
             return COMENTARIO; 
 }
 <COM1>. ;
-
+[\t ]			           ;	
 true  {
   //  cout<<"TRue ";
     yylval.c_bool=true; 

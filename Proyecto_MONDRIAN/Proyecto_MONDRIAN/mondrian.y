@@ -75,14 +75,14 @@ zona_variables : VARIABLES salto definicion{cout << "VARIABLES"<<endl;}
                ;
 
 definicion :  
-           | definicion TIPO {cout<<"Tipo ";}' ' ID{cout<<"Identificador ";}asignacion{;}
-           | definicion TIPO{cout<<"Tipo Secuencia ";}' 'secuencia_de_Identificadores  saltoOpcional {;}
+           | definicion TIPO {cout<<"Tipo ";}ID{cout<<"Identificador ";}asignacion{;}
+           | definicion TIPO{cout<<"Tipo Secuencia ";} secuencia_de_Identificadores  saltoOpcional {;}
            | definicion ID{cout<<"Identificador ";}asignacion{;}
            ;
 asignacion :
-            |' 'ASIGNACION {cout<<"Asignacion ";}REAL{cout<<"Real ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
-            |' 'ASIGNACION {cout<<"Asignacion ";}ENTERO{cout<<"Entero ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
-            |' 'ASIGNACION {cout<<"Asignacion ";}expr{cout<<"Entero ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
+            |ASIGNACION {cout<<"Asignacion ";}REAL{cout<<"Real ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
+            |ASIGNACION {cout<<"Asignacion ";}ENTERO{cout<<"Entero ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
+            |ASIGNACION {cout<<"Asignacion ";}expr{cout<<"Entero ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
             ;
 secuencia_de_Identificadores : ID PUNTOYCOMA{cout<<"Identificador ";cout<<"PuntoYCOma ";}
                              | secuencia_de_Identificadores ID COMA' '{cout<<"Identificador "; cout<<"Coma ";}

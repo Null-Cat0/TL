@@ -16,15 +16,15 @@ La regla es inútil debido a los conflictos
 
 
 Estado 8 conflictos: 1 reducción/reducción
-Estado 19 conflictos: 1 desplazamiento/reducción
-Estado 20 conflictos: 2 reducción/reducción
-Estado 42 conflictos: 4 desplazamiento/reducción
+Estado 15 conflictos: 1 desplazamiento/reducción
+Estado 16 conflictos: 2 reducción/reducción
+Estado 39 conflictos: 4 desplazamiento/reducción
+Estado 51 conflictos: 6 desplazamiento/reducción
+Estado 52 conflictos: 4 desplazamiento/reducción
+Estado 53 conflictos: 4 desplazamiento/reducción
 Estado 54 conflictos: 6 desplazamiento/reducción
-Estado 55 conflictos: 4 desplazamiento/reducción
-Estado 56 conflictos: 4 desplazamiento/reducción
-Estado 57 conflictos: 6 desplazamiento/reducción
-Estado 58 conflictos: 6 desplazamiento/reducción
-Estado 59 conflictos: 6 desplazamiento/reducción
+Estado 55 conflictos: 6 desplazamiento/reducción
+Estado 56 conflictos: 6 desplazamiento/reducción
 
 
 Gramática
@@ -39,11 +39,11 @@ Gramática
 
     4 $@2: ε
 
-    5 definicion: definicion TIPO $@1 ' ' ID $@2 asignacion
+    5 definicion: definicion TIPO $@1 ID $@2 asignacion
 
     6 $@3: ε
 
-    7 definicion: definicion TIPO $@3 ' ' secuencia_de_Identificadores saltoOpcional
+    7 definicion: definicion TIPO $@3 secuencia_de_Identificadores saltoOpcional
 
     8 $@4: ε
 
@@ -57,7 +57,7 @@ Gramática
 
    13 $@7: ε
 
-   14 asignacion: ' ' ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 salto
+   14 asignacion: ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 salto
 
    15 $@8: ε
 
@@ -65,7 +65,7 @@ Gramática
 
    17 $@10: ε
 
-   18 asignacion: ' ' ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 salto
+   18 asignacion: ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 salto
 
    19 $@11: ε
 
@@ -73,7 +73,7 @@ Gramática
 
    21 $@13: ε
 
-   22 asignacion: ' ' ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 salto
+   22 asignacion: ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 salto
 
    23 secuencia_de_Identificadores: ID PUNTOYCOMA
    24                             | secuencia_de_Identificadores ID COMA ' '
@@ -100,7 +100,7 @@ Gramática
 Terminales con las reglas donde aparecen
 
     $end (0) 0
-    ' ' (32) 5 7 14 18 22 24
+    ' ' (32) 24
     '%' (37) 37
     '(' (40) 39
     ')' (41) 39
@@ -258,8 +258,8 @@ Estado 6
 Estado 7
 
     1 zona_variables: VARIABLES salto definicion •
-    5 definicion: definicion • TIPO $@1 ' ' ID $@2 asignacion
-    7           | definicion • TIPO $@3 ' ' secuencia_de_Identificadores saltoOpcional
+    5 definicion: definicion • TIPO $@1 ID $@2 asignacion
+    7           | definicion • TIPO $@3 secuencia_de_Identificadores saltoOpcional
     9           | definicion • ID $@4 asignacion
 
     TIPO  desplazar e ir al estado 8
@@ -270,11 +270,11 @@ Estado 7
 
 Estado 8
 
-    5 definicion: definicion TIPO • $@1 ' ' ID $@2 asignacion
-    7           | definicion TIPO • $@3 ' ' secuencia_de_Identificadores saltoOpcional
+    5 definicion: definicion TIPO • $@1 ID $@2 asignacion
+    7           | definicion TIPO • $@3 secuencia_de_Identificadores saltoOpcional
 
-    ' '       reduce usando la regla 3 ($@1)
-    ' '       [reduce usando la regla 6 ($@3)]
+    ID        reduce usando la regla 3 ($@1)
+    ID        [reduce usando la regla 6 ($@3)]
     $default  reduce usando la regla 3 ($@1)
 
     $@1  ir al estado 10
@@ -292,97 +292,67 @@ Estado 9
 
 Estado 10
 
-    5 definicion: definicion TIPO $@1 • ' ' ID $@2 asignacion
+    5 definicion: definicion TIPO $@1 • ID $@2 asignacion
 
-    ' '  desplazar e ir al estado 13
+    ID  desplazar e ir al estado 13
 
 
 Estado 11
 
-    7 definicion: definicion TIPO $@3 • ' ' secuencia_de_Identificadores saltoOpcional
+    7 definicion: definicion TIPO $@3 • secuencia_de_Identificadores saltoOpcional
 
-    ' '  desplazar e ir al estado 14
+    ID  desplazar e ir al estado 14
+
+    secuencia_de_Identificadores  ir al estado 15
 
 
 Estado 12
 
     9 definicion: definicion ID $@4 • asignacion
 
-    ' '  desplazar e ir al estado 15
+    ASIGNACION  desplazar e ir al estado 16
 
     $default  reduce usando la regla 10 (asignacion)
 
-    asignacion  ir al estado 16
+    asignacion  ir al estado 17
 
 
 Estado 13
 
-    5 definicion: definicion TIPO $@1 ' ' • ID $@2 asignacion
+    5 definicion: definicion TIPO $@1 ID • $@2 asignacion
 
-    ID  desplazar e ir al estado 17
+    $default  reduce usando la regla 4 ($@2)
+
+    $@2  ir al estado 18
 
 
 Estado 14
 
-    7 definicion: definicion TIPO $@3 ' ' • secuencia_de_Identificadores saltoOpcional
+   23 secuencia_de_Identificadores: ID • PUNTOYCOMA
 
-    ID  desplazar e ir al estado 18
-
-    secuencia_de_Identificadores  ir al estado 19
+    PUNTOYCOMA  desplazar e ir al estado 19
 
 
 Estado 15
 
-   14 asignacion: ' ' • ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 salto
-   18           | ' ' • ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 salto
-   22           | ' ' • ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 salto
-
-    ASIGNACION  desplazar e ir al estado 20
-
-
-Estado 16
-
-    9 definicion: definicion ID $@4 asignacion •
-
-    $default  reduce usando la regla 9 (definicion)
-
-
-Estado 17
-
-    5 definicion: definicion TIPO $@1 ' ' ID • $@2 asignacion
-
-    $default  reduce usando la regla 4 ($@2)
-
-    $@2  ir al estado 21
-
-
-Estado 18
-
-   23 secuencia_de_Identificadores: ID • PUNTOYCOMA
-
-    PUNTOYCOMA  desplazar e ir al estado 22
-
-
-Estado 19
-
-    7 definicion: definicion TIPO $@3 ' ' secuencia_de_Identificadores • saltoOpcional
+    7 definicion: definicion TIPO $@3 secuencia_de_Identificadores • saltoOpcional
    24 secuencia_de_Identificadores: secuencia_de_Identificadores • ID COMA ' '
 
     SALTOLINEA  desplazar e ir al estado 3
-    ID          desplazar e ir al estado 23
+    ID          desplazar e ir al estado 20
 
     ID        [reduce usando la regla 27 (saltoOpcional)]
     $default  reduce usando la regla 27 (saltoOpcional)
 
-    salto          ir al estado 24
-    saltoOpcional  ir al estado 25
+    salto          ir al estado 21
+    saltoOpcional  ir al estado 22
 
 
-Estado 20
+Estado 16
 
-   14 asignacion: ' ' ASIGNACION • $@5 REAL $@6 PUNTOYCOMA $@7 salto
-   18           | ' ' ASIGNACION • $@8 ENTERO $@9 PUNTOYCOMA $@10 salto
-   22           | ' ' ASIGNACION • $@11 expr $@12 PUNTOYCOMA $@13 salto
+   14 asignacion: ASIGNACION • $@5 REAL $@6 PUNTOYCOMA $@7 salto
+   18           | ASIGNACION • $@8 ENTERO $@9 PUNTOYCOMA $@10 salto
+   22           | ASIGNACION • $@11 expr $@12 PUNTOYCOMA $@13 salto
 
     ENTERO    reduce usando la regla 15 ($@8)
     ENTERO    [reduce usando la regla 19 ($@11)]
@@ -390,37 +360,44 @@ Estado 20
     REAL      [reduce usando la regla 19 ($@11)]
     $default  reduce usando la regla 19 ($@11)
 
-    $@5   ir al estado 26
-    $@8   ir al estado 27
-    $@11  ir al estado 28
+    $@5   ir al estado 23
+    $@8   ir al estado 24
+    $@11  ir al estado 25
 
 
-Estado 21
+Estado 17
 
-    5 definicion: definicion TIPO $@1 ' ' ID $@2 • asignacion
+    9 definicion: definicion ID $@4 asignacion •
 
-    ' '  desplazar e ir al estado 15
+    $default  reduce usando la regla 9 (definicion)
+
+
+Estado 18
+
+    5 definicion: definicion TIPO $@1 ID $@2 • asignacion
+
+    ASIGNACION  desplazar e ir al estado 16
 
     $default  reduce usando la regla 10 (asignacion)
 
-    asignacion  ir al estado 29
+    asignacion  ir al estado 26
 
 
-Estado 22
+Estado 19
 
    23 secuencia_de_Identificadores: ID PUNTOYCOMA •
 
     $default  reduce usando la regla 23 (secuencia_de_Identificadores)
 
 
-Estado 23
+Estado 20
 
    24 secuencia_de_Identificadores: secuencia_de_Identificadores ID • COMA ' '
 
-    COMA  desplazar e ir al estado 30
+    COMA  desplazar e ir al estado 27
 
 
-Estado 24
+Estado 21
 
    26 salto: salto • SALTOLINEA
    28 saltoOpcional: salto •
@@ -430,122 +407,122 @@ Estado 24
     $default  reduce usando la regla 28 (saltoOpcional)
 
 
-Estado 25
+Estado 22
 
-    7 definicion: definicion TIPO $@3 ' ' secuencia_de_Identificadores saltoOpcional •
+    7 definicion: definicion TIPO $@3 secuencia_de_Identificadores saltoOpcional •
 
     $default  reduce usando la regla 7 (definicion)
 
 
+Estado 23
+
+   14 asignacion: ASIGNACION $@5 • REAL $@6 PUNTOYCOMA $@7 salto
+
+    REAL  desplazar e ir al estado 28
+
+
+Estado 24
+
+   18 asignacion: ASIGNACION $@8 • ENTERO $@9 PUNTOYCOMA $@10 salto
+
+    ENTERO  desplazar e ir al estado 29
+
+
+Estado 25
+
+   22 asignacion: ASIGNACION $@11 • expr $@12 PUNTOYCOMA $@13 salto
+
+    ENTERO                  desplazar e ir al estado 30
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    REAL                    desplazar e ir al estado 32
+    '-'                     desplazar e ir al estado 33
+    '('                     desplazar e ir al estado 34
+
+    expr  ir al estado 35
+
+
 Estado 26
 
-   14 asignacion: ' ' ASIGNACION $@5 • REAL $@6 PUNTOYCOMA $@7 salto
-
-    REAL  desplazar e ir al estado 31
-
-
-Estado 27
-
-   18 asignacion: ' ' ASIGNACION $@8 • ENTERO $@9 PUNTOYCOMA $@10 salto
-
-    ENTERO  desplazar e ir al estado 32
-
-
-Estado 28
-
-   22 asignacion: ' ' ASIGNACION $@11 • expr $@12 PUNTOYCOMA $@13 salto
-
-    ENTERO                  desplazar e ir al estado 33
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 34
-    REAL                    desplazar e ir al estado 35
-    '-'                     desplazar e ir al estado 36
-    '('                     desplazar e ir al estado 37
-
-    expr  ir al estado 38
-
-
-Estado 29
-
-    5 definicion: definicion TIPO $@1 ' ' ID $@2 asignacion •
+    5 definicion: definicion TIPO $@1 ID $@2 asignacion •
 
     $default  reduce usando la regla 5 (definicion)
 
 
-Estado 30
+Estado 27
 
    24 secuencia_de_Identificadores: secuencia_de_Identificadores ID COMA • ' '
 
-    ' '  desplazar e ir al estado 39
+    ' '  desplazar e ir al estado 36
 
 
-Estado 31
+Estado 28
 
-   14 asignacion: ' ' ASIGNACION $@5 REAL • $@6 PUNTOYCOMA $@7 salto
+   14 asignacion: ASIGNACION $@5 REAL • $@6 PUNTOYCOMA $@7 salto
 
     $default  reduce usando la regla 12 ($@6)
 
-    $@6  ir al estado 40
+    $@6  ir al estado 37
 
 
-Estado 32
+Estado 29
 
-   18 asignacion: ' ' ASIGNACION $@8 ENTERO • $@9 PUNTOYCOMA $@10 salto
+   18 asignacion: ASIGNACION $@8 ENTERO • $@9 PUNTOYCOMA $@10 salto
 
     $default  reduce usando la regla 16 ($@9)
 
-    $@9  ir al estado 41
+    $@9  ir al estado 38
 
 
-Estado 33
+Estado 30
 
    29 expr: ENTERO •
 
     $default  reduce usando la regla 29 (expr)
 
 
-Estado 34
+Estado 31
 
    31 expr: IDENTIFICADORMINUSCULA •
 
     $default  reduce usando la regla 31 (expr)
 
 
-Estado 35
+Estado 32
 
    30 expr: REAL •
 
     $default  reduce usando la regla 30 (expr)
 
 
-Estado 36
+Estado 33
 
    38 expr: '-' • expr
 
-    ENTERO                  desplazar e ir al estado 33
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 34
-    REAL                    desplazar e ir al estado 35
-    '-'                     desplazar e ir al estado 36
-    '('                     desplazar e ir al estado 37
+    ENTERO                  desplazar e ir al estado 30
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    REAL                    desplazar e ir al estado 32
+    '-'                     desplazar e ir al estado 33
+    '('                     desplazar e ir al estado 34
 
-    expr  ir al estado 42
+    expr  ir al estado 39
 
 
-Estado 37
+Estado 34
 
    39 expr: '(' • expr ')'
 
-    ENTERO                  desplazar e ir al estado 33
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 34
-    REAL                    desplazar e ir al estado 35
-    '-'                     desplazar e ir al estado 36
-    '('                     desplazar e ir al estado 37
+    ENTERO                  desplazar e ir al estado 30
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    REAL                    desplazar e ir al estado 32
+    '-'                     desplazar e ir al estado 33
+    '('                     desplazar e ir al estado 34
 
-    expr  ir al estado 43
+    expr  ir al estado 40
 
 
-Estado 38
+Estado 35
 
-   22 asignacion: ' ' ASIGNACION $@11 expr • $@12 PUNTOYCOMA $@13 salto
+   22 asignacion: ASIGNACION $@11 expr • $@12 PUNTOYCOMA $@13 salto
    32 expr: expr • '+' expr
    33     | expr • '-' expr
    34     | expr • '*' expr
@@ -553,40 +530,40 @@ Estado 38
    36     | expr • DIV expr
    37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 44
-    '+'  desplazar e ir al estado 45
-    '-'  desplazar e ir al estado 46
-    '*'  desplazar e ir al estado 47
-    '/'  desplazar e ir al estado 48
-    '%'  desplazar e ir al estado 49
+    DIV  desplazar e ir al estado 41
+    '+'  desplazar e ir al estado 42
+    '-'  desplazar e ir al estado 43
+    '*'  desplazar e ir al estado 44
+    '/'  desplazar e ir al estado 45
+    '%'  desplazar e ir al estado 46
 
     $default  reduce usando la regla 20 ($@12)
 
-    $@12  ir al estado 50
+    $@12  ir al estado 47
 
 
-Estado 39
+Estado 36
 
    24 secuencia_de_Identificadores: secuencia_de_Identificadores ID COMA ' ' •
 
     $default  reduce usando la regla 24 (secuencia_de_Identificadores)
 
 
-Estado 40
+Estado 37
 
-   14 asignacion: ' ' ASIGNACION $@5 REAL $@6 • PUNTOYCOMA $@7 salto
+   14 asignacion: ASIGNACION $@5 REAL $@6 • PUNTOYCOMA $@7 salto
 
-    PUNTOYCOMA  desplazar e ir al estado 51
-
-
-Estado 41
-
-   18 asignacion: ' ' ASIGNACION $@8 ENTERO $@9 • PUNTOYCOMA $@10 salto
-
-    PUNTOYCOMA  desplazar e ir al estado 52
+    PUNTOYCOMA  desplazar e ir al estado 48
 
 
-Estado 42
+Estado 38
+
+   18 asignacion: ASIGNACION $@8 ENTERO $@9 • PUNTOYCOMA $@10 salto
+
+    PUNTOYCOMA  desplazar e ir al estado 49
+
+
+Estado 39
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
@@ -596,10 +573,10 @@ Estado 42
    37     | expr • '%' expr
    38     | '-' expr •
 
-    DIV  desplazar e ir al estado 44
-    '*'  desplazar e ir al estado 47
-    '/'  desplazar e ir al estado 48
-    '%'  desplazar e ir al estado 49
+    DIV  desplazar e ir al estado 41
+    '*'  desplazar e ir al estado 44
+    '/'  desplazar e ir al estado 45
+    '%'  desplazar e ir al estado 46
 
     DIV       [reduce usando la regla 38 (expr)]
     '*'       [reduce usando la regla 38 (expr)]
@@ -608,7 +585,7 @@ Estado 42
     $default  reduce usando la regla 38 (expr)
 
 
-Estado 43
+Estado 40
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
@@ -618,126 +595,126 @@ Estado 43
    37     | expr • '%' expr
    39     | '(' expr • ')'
 
-    DIV  desplazar e ir al estado 44
-    '+'  desplazar e ir al estado 45
-    '-'  desplazar e ir al estado 46
-    '*'  desplazar e ir al estado 47
-    '/'  desplazar e ir al estado 48
-    '%'  desplazar e ir al estado 49
-    ')'  desplazar e ir al estado 53
+    DIV  desplazar e ir al estado 41
+    '+'  desplazar e ir al estado 42
+    '-'  desplazar e ir al estado 43
+    '*'  desplazar e ir al estado 44
+    '/'  desplazar e ir al estado 45
+    '%'  desplazar e ir al estado 46
+    ')'  desplazar e ir al estado 50
+
+
+Estado 41
+
+   36 expr: expr DIV • expr
+
+    ENTERO                  desplazar e ir al estado 30
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    REAL                    desplazar e ir al estado 32
+    '-'                     desplazar e ir al estado 33
+    '('                     desplazar e ir al estado 34
+
+    expr  ir al estado 51
+
+
+Estado 42
+
+   32 expr: expr '+' • expr
+
+    ENTERO                  desplazar e ir al estado 30
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    REAL                    desplazar e ir al estado 32
+    '-'                     desplazar e ir al estado 33
+    '('                     desplazar e ir al estado 34
+
+    expr  ir al estado 52
+
+
+Estado 43
+
+   33 expr: expr '-' • expr
+
+    ENTERO                  desplazar e ir al estado 30
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    REAL                    desplazar e ir al estado 32
+    '-'                     desplazar e ir al estado 33
+    '('                     desplazar e ir al estado 34
+
+    expr  ir al estado 53
 
 
 Estado 44
 
-   36 expr: expr DIV • expr
+   34 expr: expr '*' • expr
 
-    ENTERO                  desplazar e ir al estado 33
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 34
-    REAL                    desplazar e ir al estado 35
-    '-'                     desplazar e ir al estado 36
-    '('                     desplazar e ir al estado 37
+    ENTERO                  desplazar e ir al estado 30
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    REAL                    desplazar e ir al estado 32
+    '-'                     desplazar e ir al estado 33
+    '('                     desplazar e ir al estado 34
 
     expr  ir al estado 54
 
 
 Estado 45
 
-   32 expr: expr '+' • expr
+   35 expr: expr '/' • expr
 
-    ENTERO                  desplazar e ir al estado 33
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 34
-    REAL                    desplazar e ir al estado 35
-    '-'                     desplazar e ir al estado 36
-    '('                     desplazar e ir al estado 37
+    ENTERO                  desplazar e ir al estado 30
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    REAL                    desplazar e ir al estado 32
+    '-'                     desplazar e ir al estado 33
+    '('                     desplazar e ir al estado 34
 
     expr  ir al estado 55
 
 
 Estado 46
 
-   33 expr: expr '-' • expr
+   37 expr: expr '%' • expr
 
-    ENTERO                  desplazar e ir al estado 33
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 34
-    REAL                    desplazar e ir al estado 35
-    '-'                     desplazar e ir al estado 36
-    '('                     desplazar e ir al estado 37
+    ENTERO                  desplazar e ir al estado 30
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    REAL                    desplazar e ir al estado 32
+    '-'                     desplazar e ir al estado 33
+    '('                     desplazar e ir al estado 34
 
     expr  ir al estado 56
 
 
 Estado 47
 
-   34 expr: expr '*' • expr
+   22 asignacion: ASIGNACION $@11 expr $@12 • PUNTOYCOMA $@13 salto
 
-    ENTERO                  desplazar e ir al estado 33
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 34
-    REAL                    desplazar e ir al estado 35
-    '-'                     desplazar e ir al estado 36
-    '('                     desplazar e ir al estado 37
-
-    expr  ir al estado 57
+    PUNTOYCOMA  desplazar e ir al estado 57
 
 
 Estado 48
 
-   35 expr: expr '/' • expr
+   14 asignacion: ASIGNACION $@5 REAL $@6 PUNTOYCOMA • $@7 salto
 
-    ENTERO                  desplazar e ir al estado 33
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 34
-    REAL                    desplazar e ir al estado 35
-    '-'                     desplazar e ir al estado 36
-    '('                     desplazar e ir al estado 37
+    $default  reduce usando la regla 13 ($@7)
 
-    expr  ir al estado 58
+    $@7  ir al estado 58
 
 
 Estado 49
 
-   37 expr: expr '%' • expr
-
-    ENTERO                  desplazar e ir al estado 33
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 34
-    REAL                    desplazar e ir al estado 35
-    '-'                     desplazar e ir al estado 36
-    '('                     desplazar e ir al estado 37
-
-    expr  ir al estado 59
-
-
-Estado 50
-
-   22 asignacion: ' ' ASIGNACION $@11 expr $@12 • PUNTOYCOMA $@13 salto
-
-    PUNTOYCOMA  desplazar e ir al estado 60
-
-
-Estado 51
-
-   14 asignacion: ' ' ASIGNACION $@5 REAL $@6 PUNTOYCOMA • $@7 salto
-
-    $default  reduce usando la regla 13 ($@7)
-
-    $@7  ir al estado 61
-
-
-Estado 52
-
-   18 asignacion: ' ' ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA • $@10 salto
+   18 asignacion: ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA • $@10 salto
 
     $default  reduce usando la regla 17 ($@10)
 
-    $@10  ir al estado 62
+    $@10  ir al estado 59
 
 
-Estado 53
+Estado 50
 
    39 expr: '(' expr ')' •
 
     $default  reduce usando la regla 39 (expr)
 
 
-Estado 54
+Estado 51
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
@@ -747,12 +724,12 @@ Estado 54
    36     | expr DIV expr •
    37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 44
-    '+'  desplazar e ir al estado 45
-    '-'  desplazar e ir al estado 46
-    '*'  desplazar e ir al estado 47
-    '/'  desplazar e ir al estado 48
-    '%'  desplazar e ir al estado 49
+    DIV  desplazar e ir al estado 41
+    '+'  desplazar e ir al estado 42
+    '-'  desplazar e ir al estado 43
+    '*'  desplazar e ir al estado 44
+    '/'  desplazar e ir al estado 45
+    '%'  desplazar e ir al estado 46
 
     DIV       [reduce usando la regla 36 (expr)]
     '+'       [reduce usando la regla 36 (expr)]
@@ -763,7 +740,7 @@ Estado 54
     $default  reduce usando la regla 36 (expr)
 
 
-Estado 55
+Estado 52
 
    32 expr: expr • '+' expr
    32     | expr '+' expr •
@@ -773,10 +750,10 @@ Estado 55
    36     | expr • DIV expr
    37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 44
-    '*'  desplazar e ir al estado 47
-    '/'  desplazar e ir al estado 48
-    '%'  desplazar e ir al estado 49
+    DIV  desplazar e ir al estado 41
+    '*'  desplazar e ir al estado 44
+    '/'  desplazar e ir al estado 45
+    '%'  desplazar e ir al estado 46
 
     DIV       [reduce usando la regla 32 (expr)]
     '*'       [reduce usando la regla 32 (expr)]
@@ -785,7 +762,7 @@ Estado 55
     $default  reduce usando la regla 32 (expr)
 
 
-Estado 56
+Estado 53
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
@@ -795,10 +772,10 @@ Estado 56
    36     | expr • DIV expr
    37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 44
-    '*'  desplazar e ir al estado 47
-    '/'  desplazar e ir al estado 48
-    '%'  desplazar e ir al estado 49
+    DIV  desplazar e ir al estado 41
+    '*'  desplazar e ir al estado 44
+    '/'  desplazar e ir al estado 45
+    '%'  desplazar e ir al estado 46
 
     DIV       [reduce usando la regla 33 (expr)]
     '*'       [reduce usando la regla 33 (expr)]
@@ -807,7 +784,7 @@ Estado 56
     $default  reduce usando la regla 33 (expr)
 
 
-Estado 57
+Estado 54
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
@@ -817,12 +794,12 @@ Estado 57
    36     | expr • DIV expr
    37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 44
-    '+'  desplazar e ir al estado 45
-    '-'  desplazar e ir al estado 46
-    '*'  desplazar e ir al estado 47
-    '/'  desplazar e ir al estado 48
-    '%'  desplazar e ir al estado 49
+    DIV  desplazar e ir al estado 41
+    '+'  desplazar e ir al estado 42
+    '-'  desplazar e ir al estado 43
+    '*'  desplazar e ir al estado 44
+    '/'  desplazar e ir al estado 45
+    '%'  desplazar e ir al estado 46
 
     DIV       [reduce usando la regla 34 (expr)]
     '+'       [reduce usando la regla 34 (expr)]
@@ -833,7 +810,7 @@ Estado 57
     $default  reduce usando la regla 34 (expr)
 
 
-Estado 58
+Estado 55
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
@@ -843,12 +820,12 @@ Estado 58
    36     | expr • DIV expr
    37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 44
-    '+'  desplazar e ir al estado 45
-    '-'  desplazar e ir al estado 46
-    '*'  desplazar e ir al estado 47
-    '/'  desplazar e ir al estado 48
-    '%'  desplazar e ir al estado 49
+    DIV  desplazar e ir al estado 41
+    '+'  desplazar e ir al estado 42
+    '-'  desplazar e ir al estado 43
+    '*'  desplazar e ir al estado 44
+    '/'  desplazar e ir al estado 45
+    '%'  desplazar e ir al estado 46
 
     DIV       [reduce usando la regla 35 (expr)]
     '+'       [reduce usando la regla 35 (expr)]
@@ -859,7 +836,7 @@ Estado 58
     $default  reduce usando la regla 35 (expr)
 
 
-Estado 59
+Estado 56
 
    32 expr: expr • '+' expr
    33     | expr • '-' expr
@@ -869,12 +846,12 @@ Estado 59
    37     | expr • '%' expr
    37     | expr '%' expr •
 
-    DIV  desplazar e ir al estado 44
-    '+'  desplazar e ir al estado 45
-    '-'  desplazar e ir al estado 46
-    '*'  desplazar e ir al estado 47
-    '/'  desplazar e ir al estado 48
-    '%'  desplazar e ir al estado 49
+    DIV  desplazar e ir al estado 41
+    '+'  desplazar e ir al estado 42
+    '-'  desplazar e ir al estado 43
+    '*'  desplazar e ir al estado 44
+    '/'  desplazar e ir al estado 45
+    '%'  desplazar e ir al estado 46
 
     DIV       [reduce usando la regla 37 (expr)]
     '+'       [reduce usando la regla 37 (expr)]
@@ -885,45 +862,45 @@ Estado 59
     $default  reduce usando la regla 37 (expr)
 
 
-Estado 60
+Estado 57
 
-   22 asignacion: ' ' ASIGNACION $@11 expr $@12 PUNTOYCOMA • $@13 salto
+   22 asignacion: ASIGNACION $@11 expr $@12 PUNTOYCOMA • $@13 salto
 
     $default  reduce usando la regla 21 ($@13)
 
-    $@13  ir al estado 63
+    $@13  ir al estado 60
+
+
+Estado 58
+
+   14 asignacion: ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 • salto
+
+    SALTOLINEA  desplazar e ir al estado 3
+
+    salto  ir al estado 61
+
+
+Estado 59
+
+   18 asignacion: ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 • salto
+
+    SALTOLINEA  desplazar e ir al estado 3
+
+    salto  ir al estado 62
+
+
+Estado 60
+
+   22 asignacion: ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 • salto
+
+    SALTOLINEA  desplazar e ir al estado 3
+
+    salto  ir al estado 63
 
 
 Estado 61
 
-   14 asignacion: ' ' ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 • salto
-
-    SALTOLINEA  desplazar e ir al estado 3
-
-    salto  ir al estado 64
-
-
-Estado 62
-
-   18 asignacion: ' ' ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 • salto
-
-    SALTOLINEA  desplazar e ir al estado 3
-
-    salto  ir al estado 65
-
-
-Estado 63
-
-   22 asignacion: ' ' ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 • salto
-
-    SALTOLINEA  desplazar e ir al estado 3
-
-    salto  ir al estado 66
-
-
-Estado 64
-
-   14 asignacion: ' ' ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 salto •
+   14 asignacion: ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 salto •
    26 salto: salto • SALTOLINEA
 
     SALTOLINEA  desplazar e ir al estado 6
@@ -931,9 +908,9 @@ Estado 64
     $default  reduce usando la regla 14 (asignacion)
 
 
-Estado 65
+Estado 62
 
-   18 asignacion: ' ' ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 salto •
+   18 asignacion: ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 salto •
    26 salto: salto • SALTOLINEA
 
     SALTOLINEA  desplazar e ir al estado 6
@@ -941,9 +918,9 @@ Estado 65
     $default  reduce usando la regla 18 (asignacion)
 
 
-Estado 66
+Estado 63
 
-   22 asignacion: ' ' ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 salto •
+   22 asignacion: ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 salto •
    26 salto: salto • SALTOLINEA
 
     SALTOLINEA  desplazar e ir al estado 6
