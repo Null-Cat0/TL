@@ -51,7 +51,7 @@ string enteroOreal(bool enteroOreal)
       } c_expresion;
 }
 
-%token PINTAR MENSAJE PAUSA COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION  DIV MENOS SALTOLINEA PUNTOYCOMA TIPO COMA CUADRO 
+%token PINTAR MENSAJE PAUSA COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION  DIV MENOS SALTOLINEA PUNTOYCOMA TIPO COMA CUADRO FINCUADRO
 %token <c_entero> ENTERO
 %token <var> IDENTIFICADORMINUSCULA IDENTIFICADORMAYUSCULA CADENA
 %token <c_real> REAL
@@ -64,7 +64,7 @@ string enteroOreal(bool enteroOreal)
 %left '+' '-'  ASIGNACION /* asociativo por la izquierda, misma prioridad /
 %left '' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
 %left menos
-
+%nonassoc PINTAR
 
 %%
 
@@ -120,17 +120,18 @@ comentario:
 //----------------------------------BLOQUE CUADROS CREADOS----------------------------------------
 //------------------------------------------------------------------------------------------------
 creacion_cuadros_nombre :
-                        | CUADRO {cout<<"Cuadro ";} CADENA {cout<<"NombreCuadro ";} ':' salto  {cout<<endl;} acciones_cuadros
+                        |  creacion_cuadros_nombre CUADRO {cout<<"Cuadro ";} CADENA {cout<<"NombreCuadro ";} ':' salto  {cout<<endl;}  acciones_cuadros  FINCUADRO salto
+
                         ;
-acciones_cuadros:
-                | acciones_cuadros PAUSA  {cout<<"Pausa ";}'('expr {cout<<"expr ";}')' salto{cout<<endl;} 
-                | acciones_cuadros expr {cout<<"Identificador_Minuscula ";} ASIGNACION {cout<<"Asignaciøn ";} expr {cout<<"Expr ";} salto {cout<<endl;}
-                | acciones_cuadros MENSAJE {cout<<"Mensaje ";} '('CADENA {cout<<"Cadena ";}')' salto {cout<<endl;}
-                | acciones_cuadros PINTAR {cout<<"Pintar ";} pintado
+acciones_cuadros: 
+                |acciones_cuadros  pintado saltoOpcional{cout<<endl;}
+                |acciones_cuadros PAUSA  {cout<<"Pausa ";}'('expr {cout<<"expr ";}')'  saltoOpcional{cout<<endl;}
+                |acciones_cuadros  expr {cout<<"Identificador_Minuscula ";} ASIGNACION {cout<<"Asignaciøn ";} expr {cout<<"Expr ";} saltoOpcional{cout<<endl;}
+                |acciones_cuadros  MENSAJE {cout<<"Mensaje ";} '('CADENA {cout<<"Cadena ";}')' saltoOpcional{cout<<endl;}
                 ;
-pintado:
-        | pintado '(' IDENTIFICADORMAYUSCULA {cout<<"Identificador_mayuscula ";} COMA expr{cout<<"Expr ";}')' salto{cout<<endl;} 
-        | pintado '(' IDENTIFICADORMAYUSCULA {cout<<"Identificador_mayuscula ";} COMA expr{cout<<"Expr ";} COMA expr {cout<<"Expr ";}')' salto{cout<<endl;}
+pintado :
+        | PINTAR {cout<<"Pintar ";} '(' IDENTIFICADORMAYUSCULA {cout<<"Identificador_mayuscula ";} COMA expr{cout<<"Expr ";}')'  saltoOpcional {cout<<endl;}
+        | PINTAR {cout<<"Pintar ";} '(' IDENTIFICADORMAYUSCULA {cout<<"Identificador_mayuscula ";} COMA expr{cout<<"Expr ";} COMA expr{cout<<"Expr ";}')' saltoOpcional{cout<<endl;}
         ;
 salto : SALTOLINEA
       | salto SALTOLINEA

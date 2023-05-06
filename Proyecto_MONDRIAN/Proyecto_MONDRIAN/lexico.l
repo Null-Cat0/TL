@@ -21,7 +21,7 @@ pausa  [P][a][u][s][a]
 color [b][l][a][n][c][o]|[n][e][g][r][o]|[g][r][i][s]|[r][o][j][o]|[a][z][u][l]|[a][m][a][r][i][l][l][o]|[v][e][r][d][e]
 tipo Entero|Real|Logico 
 orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
-
+fincuadro FINCUADRO
 
 %option noyywrap
 %x COM1 COM2
@@ -96,7 +96,9 @@ Pintar {
 Mensaje {
         return MENSAJE;
 }
-
+{fincuadro} {
+        return FINCUADRO;
+}
 \n			  {
                     n_lineas++; 
                    //cout<<"Saltolinea"<<endl;
