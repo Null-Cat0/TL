@@ -15,13 +15,16 @@ entero {digito}+
 real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
 variables [V][A][R][I][A][B][L][E][S]
 recuadros RECUADROS
+cuadro CUADRO
+lineas LINEAS
+pausa  [P][a][u][s][a]
 color [b][l][a][n][c][o]|[n][e][g][r][o]|[g][r][i][s]|[r][o][j][o]|[a][z][u][l]|[a][m][a][r][i][l][l][o]|[v][e][r][d][e]
 tipo Entero|Real|Logico 
 orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
 
 
 %option noyywrap
-%x COM1
+%x COM1 COM2
 %%
 
 [#] { BEGIN(COM1); }
@@ -29,8 +32,10 @@ orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
     BEGIN(0); n_lineas++; 
             return COMENTARIO; 
 }
-<COM1>. ;
-[\t ]			           ;	
+
+["]       {BEGIN(COM2);}
+<COM2>["] {BEGIN(0); return CADENA;}
+[\t ]			        ;	
 true  {
   //  cout<<"TRue ";
     yylval.c_bool=true; 
@@ -65,7 +70,12 @@ false {
 ^{recuadros}   {
                 return RECUADROS;
                 }
-
+^{lineas}   {
+                return LINEAS;
+                }
+^{cuadro}   {
+                return CUADRO;
+                }
 {identificadorMayuscula}     {
                     strcpy(yylval.var, yytext); 
                   //  cout << "IDENTIFICADOR ";
@@ -86,6 +96,19 @@ false {
                     //    cout<<"Real ";
                        return REAL;
                     }
+Pintar {
+        return PINTAR;
+}
+Mensaje {
+        return MENSAJE;
+}
+{pausa} {
+       cout<<"Pausa ";
+        return PAUSA;
+}
+Mensaje {
+        return PINTAR;
+}
 
 \n			  {
                     n_lineas++; 

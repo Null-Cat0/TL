@@ -13,7 +13,7 @@ f3 :=81;
 
 RECUADROS
 
-CuadroAzul = < 46, 46, azul>
+CuadroAzul = <46, 46, azul>
 
 RectanguloRojo = <46, 16, rojo>
 
@@ -35,8 +35,7 @@ LineaFina = <1, horizontal, gris>
 # Comienza la definición de los cuadros
 
 CUADRO "Homenaje a Mondrian" :
-
-	Pausa (tiempoPausa) # Para poder ver el lienzo vacío
+	
 
 	c1 :=46
 
@@ -48,7 +47,7 @@ CUADRO "Homenaje a Mondrian" :
 	Pintar (LineaV, 80)
 	Pausa(1)
 	Mensaje ("Se pintan los recuadros de color")
-  Pintar (CuadroAzul, 4, 0)
+    Pintar (CuadroAzul, 4, 0)
 	Pintar (CuadroAzul, 54, 0)
 	Pintar (RectanguloRojo, 4, 84)
 	Pintar (RectanguloGris, 54, 50)
