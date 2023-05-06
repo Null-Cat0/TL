@@ -8,11 +8,13 @@ int n_lineas;
 std::map<std::string, InformacionSimbolo> tablaSimbolos;
 %}
 
-identificador [_a-zA-Z][_a-zA-Z0-9]*
+identificadorMinuscula [a-z][_a-zA-Z0-9]*
+identificadorMayuscula [A-Z][_a-zA-Z0-9]*
 digito [0-9]
 entero {digito}+
 real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
 variables [V][A][R][I][A][B][L][E][S]
+recuadros RECUADROS
 color [b][l][a][n][c][o]|[n][e][g][r][o]|[g][r][i][s]|[r][o][j][o]|[a][z][u][l]|[a][m][a][r][i][l][l][o]|[v][e][r][d][e]
 tipo Entero|Real|Logico 
 orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
@@ -60,13 +62,20 @@ false {
              //   cout<<"VAriable ";
                 return VARIABLES;
                 }
+^{recuadros}   {
+                return RECUADROS;
+                }
 
-
-{identificador}     {
+{identificadorMayuscula}     {
                     strcpy(yylval.var, yytext); 
                   //  cout << "IDENTIFICADOR ";
-                    return ID;
+                    return IDENTIFICADORMAYUSCULA;
                     }
+{identificadorMinuscula} {
+                    strcpy(yylval.var, yytext); 
+                    //  cout << "IDENTIFICADOR ";
+                    return IDENTIFICADORMINUSCULA;
+                    }          
 {entero}		      { 
                         yylval.c_entero = atoi(yytext); 
                    //     cout<<"Entero ";

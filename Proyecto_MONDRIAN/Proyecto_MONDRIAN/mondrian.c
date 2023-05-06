@@ -153,41 +153,34 @@ enum yysymbol_kind_t
   YYSYMBOL_PUNTOYCOMA = 14,                /* PUNTOYCOMA  */
   YYSYMBOL_TIPO = 15,                      /* TIPO  */
   YYSYMBOL_COMA = 16,                      /* COMA  */
-  YYSYMBOL_ID = 17,                        /* ID  */
-  YYSYMBOL_ENTERO = 18,                    /* ENTERO  */
-  YYSYMBOL_IDENTIFICADORMINUSCULA = 19,    /* IDENTIFICADORMINUSCULA  */
+  YYSYMBOL_ENTERO = 17,                    /* ENTERO  */
+  YYSYMBOL_IDENTIFICADORMINUSCULA = 18,    /* IDENTIFICADORMINUSCULA  */
+  YYSYMBOL_IDENTIFICADORMAYUSCULA = 19,    /* IDENTIFICADORMAYUSCULA  */
   YYSYMBOL_REAL = 20,                      /* REAL  */
   YYSYMBOL_BOOL = 21,                      /* BOOL  */
   YYSYMBOL_22_ = 22,                       /* '+'  */
   YYSYMBOL_23_ = 23,                       /* '-'  */
   YYSYMBOL_menos = 24,                     /* menos  */
-  YYSYMBOL_25_ = 25,                       /* ' '  */
-  YYSYMBOL_26_ = 26,                       /* '*'  */
-  YYSYMBOL_27_ = 27,                       /* '/'  */
-  YYSYMBOL_28_ = 28,                       /* '%'  */
-  YYSYMBOL_29_ = 29,                       /* '('  */
-  YYSYMBOL_30_ = 30,                       /* ')'  */
-  YYSYMBOL_YYACCEPT = 31,                  /* $accept  */
-  YYSYMBOL_zona_variables = 32,            /* zona_variables  */
-  YYSYMBOL_definicion = 33,                /* definicion  */
-  YYSYMBOL_34_1 = 34,                      /* $@1  */
-  YYSYMBOL_35_2 = 35,                      /* $@2  */
-  YYSYMBOL_36_3 = 36,                      /* $@3  */
-  YYSYMBOL_37_4 = 37,                      /* $@4  */
-  YYSYMBOL_asignacion = 38,                /* asignacion  */
-  YYSYMBOL_39_5 = 39,                      /* $@5  */
-  YYSYMBOL_40_6 = 40,                      /* $@6  */
-  YYSYMBOL_41_7 = 41,                      /* $@7  */
-  YYSYMBOL_42_8 = 42,                      /* $@8  */
-  YYSYMBOL_43_9 = 43,                      /* $@9  */
-  YYSYMBOL_44_10 = 44,                     /* $@10  */
-  YYSYMBOL_45_11 = 45,                     /* $@11  */
-  YYSYMBOL_46_12 = 46,                     /* $@12  */
-  YYSYMBOL_47_13 = 47,                     /* $@13  */
-  YYSYMBOL_secuencia_de_Identificadores = 48, /* secuencia_de_Identificadores  */
-  YYSYMBOL_salto = 49,                     /* salto  */
-  YYSYMBOL_saltoOpcional = 50,             /* saltoOpcional  */
-  YYSYMBOL_expr = 51                       /* expr  */
+  YYSYMBOL_25_ = 25,                       /* '<'  */
+  YYSYMBOL_26_ = 26,                       /* '>'  */
+  YYSYMBOL_27_ = 27,                       /* '*'  */
+  YYSYMBOL_28_ = 28,                       /* '/'  */
+  YYSYMBOL_29_ = 29,                       /* '%'  */
+  YYSYMBOL_30_ = 30,                       /* '('  */
+  YYSYMBOL_31_ = 31,                       /* ')'  */
+  YYSYMBOL_YYACCEPT = 32,                  /* $accept  */
+  YYSYMBOL_all = 33,                       /* all  */
+  YYSYMBOL_zona_variables = 34,            /* zona_variables  */
+  YYSYMBOL_definicion = 35,                /* definicion  */
+  YYSYMBOL_asignacion = 36,                /* asignacion  */
+  YYSYMBOL_secuencia_de_Identificadores = 37, /* secuencia_de_Identificadores  */
+  YYSYMBOL_zona_recuadros = 38,            /* zona_recuadros  */
+  YYSYMBOL_39_1 = 39,                      /* $@1  */
+  YYSYMBOL_definicion_cuadro = 40,         /* definicion_cuadro  */
+  YYSYMBOL_41_2 = 41,                      /* $@2  */
+  YYSYMBOL_salto = 42,                     /* salto  */
+  YYSYMBOL_saltoOpcional = 43,             /* saltoOpcional  */
+  YYSYMBOL_expr = 44                       /* expr  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -513,18 +506,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  5
+#define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   55
+#define YYLAST   110
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  31
+#define YYNTOKENS  32
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  21
+#define YYNNTS  13
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  40
+#define YYNRULES  33
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  64
+#define YYNSTATES  67
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   277
@@ -544,10 +537,10 @@ static const yytype_int8 yytranslate[] =
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,    25,     2,     2,     2,     2,    28,     2,     2,
-      29,    30,    26,    22,     2,    23,     2,    27,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,    29,     2,     2,
+      30,    31,    27,    22,     2,    23,     2,    28,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      25,     2,    26,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -575,11 +568,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    74,    74,    77,    78,    78,    78,    79,    79,    80,
-      80,    82,    83,    83,    83,    83,    84,    84,    84,    84,
-      85,    85,    85,    85,    87,    88,   114,   115,   118,   119,
-     122,   123,   124,   125,   126,   127,   128,   129,   130,   131,
-     132
+       0,    74,    74,    77,    80,    81,    82,    83,    84,    86,
+      87,    88,    89,    91,    92,    98,    98,   101,   101,   117,
+     118,   121,   122,   125,   126,   127,   128,   129,   130,   131,
+     132,   133,   134,   135
 };
 #endif
 
@@ -598,11 +590,11 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "COMENTARIO",
   "ASIGNACION", "IGUAL", "VARIABLES", "RECUADROS", "COLOR", "LINEAS",
   "ORIENTACION", "DIV", "MENOS", "SALTOLINEA", "PUNTOYCOMA", "TIPO",
-  "COMA", "ID", "ENTERO", "IDENTIFICADORMINUSCULA", "REAL", "BOOL", "'+'",
-  "'-'", "menos", "' '", "'*'", "'/'", "'%'", "'('", "')'", "$accept",
-  "zona_variables", "definicion", "$@1", "$@2", "$@3", "$@4", "asignacion",
-  "$@5", "$@6", "$@7", "$@8", "$@9", "$@10", "$@11", "$@12", "$@13",
-  "secuencia_de_Identificadores", "salto", "saltoOpcional", "expr", YY_NULLPTR
+  "COMA", "ENTERO", "IDENTIFICADORMINUSCULA", "IDENTIFICADORMAYUSCULA",
+  "REAL", "BOOL", "'+'", "'-'", "menos", "'<'", "'>'", "'*'", "'/'", "'%'",
+  "'('", "')'", "$accept", "all", "zona_variables", "definicion",
+  "asignacion", "secuencia_de_Identificadores", "zona_recuadros", "$@1",
+  "definicion_cuadro", "$@2", "salto", "saltoOpcional", "expr", YY_NULLPTR
 };
 
 static const char *
@@ -612,12 +604,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-16)
+#define YYPACT_NINF (-17)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-17)
+#define YYTABLE_NINF (-1)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -626,13 +618,13 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -4,    -5,    19,   -16,    10,   -16,   -16,    17,   -16,   -16,
-       7,    11,    32,   -16,   -11,    -6,    15,   -16,    32,   -16,
-      21,    10,   -16,    20,    23,   -14,   -16,    27,   -16,   -16,
-     -16,   -16,   -16,   -14,   -14,    -1,   -16,    28,    39,     3,
-     -10,   -14,   -14,   -14,   -14,   -14,   -14,    40,   -16,   -16,
-     -16,    -1,     3,     3,    -1,    -1,    -1,   -16,    -5,    -5,
-      -5,    10,    10,    10
+      -1,    16,    10,     5,   -17,     2,   -17,   -17,   -17,   -17,
+     -17,   -11,    19,    21,    36,   -17,    16,    -3,   -10,    -4,
+     -17,    39,    33,   -17,   -17,    34,    33,   -17,    38,   -17,
+      40,    80,    80,    37,    28,   -17,    16,    16,   -17,   -17,
+      -5,    14,    80,    16,    80,    80,    80,    80,    80,    80,
+      33,    33,   -17,    67,    33,    -5,    -5,    67,    67,    67,
+      45,    80,    59,    47,    31,    16,    33
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -640,29 +632,27 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,    26,     3,     1,    27,     2,     4,     9,
-       0,     0,    11,     5,     0,    28,    20,    10,    11,    24,
-       0,    29,     8,     0,     0,     0,     6,     0,    13,    17,
-      30,    32,    31,     0,     0,    21,    25,     0,     0,    39,
-       0,     0,     0,     0,     0,     0,     0,     0,    14,    18,
-      40,    37,    33,    34,    35,    36,    38,    22,     0,     0,
-       0,    15,    19,    23
+       0,     0,     0,     0,    19,     4,     1,    15,     2,     8,
+      20,     3,     0,     0,     9,    17,     0,     9,    21,     0,
+       7,     0,    16,    13,     5,     0,    22,     6,    23,    25,
+      24,     0,     0,     0,     0,    14,     0,     0,    23,    24,
+      32,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+      11,    10,    33,    30,    12,    26,    27,    28,    29,    31,
+       0,     0,     0,     0,     0,     0,     0
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -16,   -16,   -16,   -16,   -16,   -16,   -16,    37,   -16,   -16,
-     -16,   -16,   -16,   -16,   -16,   -16,   -16,   -16,   -15,   -16,
-       5
+     -17,   -17,   -17,   -17,    41,   -17,   -17,   -17,   -17,   -17,
+     -16,   -17,   -14
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     2,     7,    10,    18,    11,    12,    17,    23,    37,
-      58,    24,    38,    59,    25,    47,    60,    15,     4,    22,
-      35
+       0,     2,     3,    11,    20,    18,     8,    12,    16,    21,
+       5,    27,    33
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -670,55 +660,65 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      21,    41,     1,    19,    30,    31,    32,     3,     3,    33,
-      41,    20,    42,    43,    41,    34,    44,    45,    46,     5,
-      50,    42,    43,     6,    13,    44,    45,    46,    14,    44,
-      45,    46,     8,   -16,     9,   -12,    16,    27,    39,    40,
-      28,    29,    48,    61,    62,    63,    51,    52,    53,    54,
-      55,    56,    36,    49,    57,    26
+      22,    19,    26,     4,    13,     1,    42,    14,    25,     9,
+       6,    23,     7,    28,    29,    10,    30,    40,    41,    31,
+      50,    51,    46,    47,    48,    42,    32,    54,    53,     4,
+      55,    56,    57,    58,    59,    60,    44,    45,    15,    17,
+      19,    46,    47,    48,    34,    52,    10,    62,    42,    66,
+      35,    43,    36,    49,    37,    64,    42,    65,    24,    44,
+      45,    61,     0,     0,    46,    47,    48,    44,    45,     0,
+      42,     0,    46,    47,    48,    63,     0,     0,    42,     0,
+       0,    44,    45,     0,     0,     0,    46,    47,    48,    44,
+      45,     0,     0,     0,    46,    47,    48,    38,    29,     0,
+      39,     0,     0,    31,     0,     0,     0,     0,     0,     0,
+      32
 };
 
 static const yytype_int8 yycheck[] =
 {
-      15,    11,     6,    14,    18,    19,    20,    13,    13,    23,
-      11,    17,    22,    23,    11,    29,    26,    27,    28,     0,
-      30,    22,    23,    13,    17,    26,    27,    28,    17,    26,
-      27,    28,    15,    18,    17,    20,     4,    16,    33,    34,
-      20,    18,    14,    58,    59,    60,    41,    42,    43,    44,
-      45,    46,    25,    14,    14,    18
+      16,     4,    18,    13,    15,     6,    11,    18,    18,     7,
+       0,    14,     7,    17,    18,    13,    20,    31,    32,    23,
+      36,    37,    27,    28,    29,    11,    30,    43,    42,    13,
+      44,    45,    46,    47,    48,    49,    22,    23,    19,    18,
+       4,    27,    28,    29,     5,    31,    13,    61,    11,    65,
+      16,    14,    14,    25,    14,     8,    11,    26,    17,    22,
+      23,    16,    -1,    -1,    27,    28,    29,    22,    23,    -1,
+      11,    -1,    27,    28,    29,    16,    -1,    -1,    11,    -1,
+      -1,    22,    23,    -1,    -1,    -1,    27,    28,    29,    22,
+      23,    -1,    -1,    -1,    27,    28,    29,    17,    18,    -1,
+      20,    -1,    -1,    23,    -1,    -1,    -1,    -1,    -1,    -1,
+      30
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     6,    32,    13,    49,     0,    13,    33,    15,    17,
-      34,    36,    37,    17,    17,    48,     4,    38,    35,    14,
-      17,    49,    50,    39,    42,    45,    38,    16,    20,    18,
-      18,    19,    20,    23,    29,    51,    25,    40,    43,    51,
-      51,    11,    22,    23,    26,    27,    28,    46,    14,    14,
-      30,    51,    51,    51,    51,    51,    51,    14,    41,    44,
-      47,    49,    49,    49
+       0,     6,    33,    34,    13,    42,     0,     7,    38,     7,
+      13,    35,    39,    15,    18,    19,    40,    18,    37,     4,
+      36,    41,    42,    14,    36,    18,    42,    43,    17,    18,
+      20,    23,    30,    44,     5,    16,    14,    14,    17,    20,
+      44,    44,    11,    14,    22,    23,    27,    28,    29,    25,
+      42,    42,    31,    44,    42,    44,    44,    44,    44,    44,
+      44,    16,    44,    16,     8,    26,    42
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    31,    32,    33,    34,    35,    33,    36,    33,    37,
-      33,    38,    39,    40,    41,    38,    42,    43,    44,    38,
-      45,    46,    47,    38,    48,    48,    49,    49,    50,    50,
-      51,    51,    51,    51,    51,    51,    51,    51,    51,    51,
-      51
+       0,    32,    33,    34,    35,    35,    35,    35,    35,    36,
+      36,    36,    36,    37,    37,    39,    38,    41,    40,    42,
+      42,    43,    43,    44,    44,    44,    44,    44,    44,    44,
+      44,    44,    44,    44
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     3,     0,     0,     0,     6,     0,     5,     0,
-       4,     0,     0,     0,     0,     7,     0,     0,     0,     7,
-       0,     0,     0,     7,     2,     4,     1,     2,     0,     1,
-       1,     1,     1,     3,     3,     3,     3,     3,     3,     2,
-       3
+       0,     2,     2,     3,     0,     4,     4,     3,     1,     0,
+       4,     4,     4,     2,     3,     0,     4,     0,    11,     1,
+       2,     0,     1,     1,     1,     1,     3,     3,     3,     3,
+       3,     3,     2,     3
 };
 
 
@@ -1181,206 +1181,158 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* zona_variables: VARIABLES salto definicion  */
+  case 2: /* all: zona_variables zona_recuadros  */
 #line 74 "mondrian.y"
-                                           {cout << "VARIABLES"<<endl;}
+                                    {;}
 #line 1188 "mondrian.c"
     break;
 
-  case 4: /* $@1: %empty  */
-#line 78 "mondrian.y"
-                             {cout<<"Tipo ";}
+  case 3: /* zona_variables: VARIABLES salto definicion  */
+#line 77 "mondrian.y"
+                                           {cout << "VARIABLES"<<endl;}
 #line 1194 "mondrian.c"
     break;
 
-  case 5: /* $@2: %empty  */
-#line 78 "mondrian.y"
-                                               {cout<<"Identificador ";}
+  case 5: /* definicion: definicion TIPO IDENTIFICADORMINUSCULA asignacion  */
+#line 81 "mondrian.y"
+                                                               {cout<<"Tipo Identificador";}
 #line 1200 "mondrian.c"
     break;
 
-  case 6: /* definicion: definicion TIPO $@1 ID $@2 asignacion  */
-#line 78 "mondrian.y"
-                                                                                  {;}
+  case 6: /* definicion: definicion TIPO secuencia_de_Identificadores saltoOpcional  */
+#line 82 "mondrian.y"
+                                                                         {cout<<"Tipo secuencia_Identificadores ";}
 #line 1206 "mondrian.c"
     break;
 
-  case 7: /* $@3: %empty  */
-#line 79 "mondrian.y"
-                            {cout<<"Tipo Secuencia ";}
+  case 7: /* definicion: definicion IDENTIFICADORMINUSCULA asignacion  */
+#line 83 "mondrian.y"
+                                                         {;}
 #line 1212 "mondrian.c"
     break;
 
-  case 8: /* definicion: definicion TIPO $@3 secuencia_de_Identificadores saltoOpcional  */
-#line 79 "mondrian.y"
-                                                                                                   {;}
+  case 8: /* definicion: RECUADROS  */
+#line 84 "mondrian.y"
+                       {}
 #line 1218 "mondrian.c"
     break;
 
-  case 9: /* $@4: %empty  */
-#line 80 "mondrian.y"
-                          {cout<<"Identificador ";}
+  case 10: /* asignacion: ASIGNACION REAL PUNTOYCOMA salto  */
+#line 87 "mondrian.y"
+                                             {cout<<"Asignacion "<<"Real "<<"PuntoYComa ";cout<<endl;}
 #line 1224 "mondrian.c"
     break;
 
-  case 10: /* definicion: definicion ID $@4 asignacion  */
-#line 80 "mondrian.y"
-                                                             {;}
+  case 11: /* asignacion: ASIGNACION ENTERO PUNTOYCOMA salto  */
+#line 88 "mondrian.y"
+                                               {cout<<"Asignacion  Entero PuntoYComa "<<endl;}
 #line 1230 "mondrian.c"
     break;
 
-  case 12: /* $@5: %empty  */
-#line 83 "mondrian.y"
-                        {cout<<"Asignacion ";}
+  case 12: /* asignacion: ASIGNACION expr PUNTOYCOMA salto  */
+#line 89 "mondrian.y"
+                                             {cout<<"Asignacion  Expr PuntoYComa ";cout<<endl;}
 #line 1236 "mondrian.c"
     break;
 
-  case 13: /* $@6: %empty  */
-#line 83 "mondrian.y"
-                                                  {cout<<"Real ";}
+  case 13: /* secuencia_de_Identificadores: IDENTIFICADORMINUSCULA PUNTOYCOMA  */
+#line 91 "mondrian.y"
+                                                                {cout<<"Identificador ";cout<<"PuntoYCOma ";}
 #line 1242 "mondrian.c"
     break;
 
-  case 14: /* $@7: %empty  */
-#line 83 "mondrian.y"
-                                                                              {cout<<"PuntoYComa ";}
+  case 14: /* secuencia_de_Identificadores: secuencia_de_Identificadores IDENTIFICADORMINUSCULA COMA  */
+#line 92 "mondrian.y"
+                                                                                        {cout<<"Identificador "; cout<<"Coma ";}
 #line 1248 "mondrian.c"
     break;
 
-  case 15: /* asignacion: ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 salto  */
-#line 83 "mondrian.y"
-                                                                                                         {cout<<endl;}
+  case 15: /* $@1: %empty  */
+#line 98 "mondrian.y"
+                          {cout << "RECUADRO"<<endl;}
 #line 1254 "mondrian.c"
     break;
 
-  case 16: /* $@8: %empty  */
-#line 84 "mondrian.y"
-                        {cout<<"Asignacion ";}
+  case 17: /* $@2: %empty  */
+#line 101 "mondrian.y"
+                                           {cout<<"IDENTIFICADORMAYUSCULA";}
 #line 1260 "mondrian.c"
     break;
 
-  case 17: /* $@9: %empty  */
-#line 84 "mondrian.y"
-                                                    {cout<<"Entero ";}
+  case 18: /* definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr COMA expr COMA COLOR '>' salto  */
+#line 101 "mondrian.y"
+                                                                                                                          {;}
 #line 1266 "mondrian.c"
     break;
 
-  case 18: /* $@10: %empty  */
-#line 84 "mondrian.y"
-                                                                                  {cout<<"PuntoYComa ";}
+  case 23: /* expr: ENTERO  */
+#line 125 "mondrian.y"
+                           {;}
 #line 1272 "mondrian.c"
     break;
 
-  case 19: /* asignacion: ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 salto  */
-#line 84 "mondrian.y"
-                                                                                                             {cout<<endl;}
+  case 24: /* expr: REAL  */
+#line 126 "mondrian.y"
+                                 {;}
 #line 1278 "mondrian.c"
     break;
 
-  case 20: /* $@11: %empty  */
-#line 85 "mondrian.y"
-                        {cout<<"Asignacion ";}
+  case 25: /* expr: IDENTIFICADORMINUSCULA  */
+#line 127 "mondrian.y"
+                               {;}
 #line 1284 "mondrian.c"
     break;
 
-  case 21: /* $@12: %empty  */
-#line 85 "mondrian.y"
-                                                  {cout<<"Entero ";}
+  case 26: /* expr: expr '+' expr  */
+#line 128 "mondrian.y"
+                           {;}
 #line 1290 "mondrian.c"
     break;
 
-  case 22: /* $@13: %empty  */
-#line 85 "mondrian.y"
-                                                                                {cout<<"PuntoYComa ";}
+  case 27: /* expr: expr '-' expr  */
+#line 129 "mondrian.y"
+                           {;}
 #line 1296 "mondrian.c"
     break;
 
-  case 23: /* asignacion: ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 salto  */
-#line 85 "mondrian.y"
-                                                                                                           {cout<<endl;}
+  case 28: /* expr: expr '*' expr  */
+#line 130 "mondrian.y"
+                           {;}
 #line 1302 "mondrian.c"
     break;
 
-  case 24: /* secuencia_de_Identificadores: ID PUNTOYCOMA  */
-#line 87 "mondrian.y"
-                                            {cout<<"Identificador ";cout<<"PuntoYCOma ";}
+  case 29: /* expr: expr '/' expr  */
+#line 131 "mondrian.y"
+                           {;}
 #line 1308 "mondrian.c"
     break;
 
-  case 25: /* secuencia_de_Identificadores: secuencia_de_Identificadores ID COMA ' '  */
-#line 88 "mondrian.y"
-                                                                      {cout<<"Identificador "; cout<<"Coma ";}
+  case 30: /* expr: expr DIV expr  */
+#line 132 "mondrian.y"
+                           {;}
 #line 1314 "mondrian.c"
     break;
 
-  case 30: /* expr: ENTERO  */
-#line 122 "mondrian.y"
-                           {;}
+  case 31: /* expr: expr '%' expr  */
+#line 133 "mondrian.y"
+                        {;}
 #line 1320 "mondrian.c"
     break;
 
-  case 31: /* expr: REAL  */
-#line 123 "mondrian.y"
-                                 {;}
+  case 32: /* expr: '-' expr  */
+#line 134 "mondrian.y"
+                           {;}
 #line 1326 "mondrian.c"
     break;
 
-  case 32: /* expr: IDENTIFICADORMINUSCULA  */
-#line 124 "mondrian.y"
-                               {;}
+  case 33: /* expr: '(' expr ')'  */
+#line 135 "mondrian.y"
+                           {;}
 #line 1332 "mondrian.c"
     break;
 
-  case 33: /* expr: expr '+' expr  */
-#line 125 "mondrian.y"
-                           {;}
-#line 1338 "mondrian.c"
-    break;
 
-  case 34: /* expr: expr '-' expr  */
-#line 126 "mondrian.y"
-                           {;}
-#line 1344 "mondrian.c"
-    break;
-
-  case 35: /* expr: expr '*' expr  */
-#line 127 "mondrian.y"
-                           {;}
-#line 1350 "mondrian.c"
-    break;
-
-  case 36: /* expr: expr '/' expr  */
-#line 128 "mondrian.y"
-                           {;}
-#line 1356 "mondrian.c"
-    break;
-
-  case 37: /* expr: expr DIV expr  */
-#line 129 "mondrian.y"
-                           {;}
-#line 1362 "mondrian.c"
-    break;
-
-  case 38: /* expr: expr '%' expr  */
-#line 130 "mondrian.y"
-                        {;}
-#line 1368 "mondrian.c"
-    break;
-
-  case 39: /* expr: '-' expr  */
-#line 131 "mondrian.y"
-                           {;}
-#line 1374 "mondrian.c"
-    break;
-
-  case 40: /* expr: '(' expr ')'  */
-#line 132 "mondrian.y"
-                           {;}
-#line 1380 "mondrian.c"
-    break;
-
-
-#line 1384 "mondrian.c"
+#line 1336 "mondrian.c"
 
       default: break;
     }
@@ -1573,7 +1525,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 135 "mondrian.y"
+#line 138 "mondrian.y"
 
 
 int main(int argc, char **argv){

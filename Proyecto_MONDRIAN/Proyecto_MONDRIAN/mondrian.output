@@ -1,928 +1,941 @@
-Terminales no usados en la gramática
+Terminals unused in grammar
 
     COMENTARIO
-    IGUAL
-    RECUADROS
-    COLOR
     LINEAS
     ORIENTACION
     MENOS
     BOOL
 
 
-La regla es inútil debido a los conflictos
+Rules useless in parser due to conflicts
 
-    6 $@3: ε
-
-
-Estado 8 conflictos: 1 reducción/reducción
-Estado 15 conflictos: 1 desplazamiento/reducción
-Estado 16 conflictos: 2 reducción/reducción
-Estado 39 conflictos: 4 desplazamiento/reducción
-Estado 51 conflictos: 6 desplazamiento/reducción
-Estado 52 conflictos: 4 desplazamiento/reducción
-Estado 53 conflictos: 4 desplazamiento/reducción
-Estado 54 conflictos: 6 desplazamiento/reducción
-Estado 55 conflictos: 6 desplazamiento/reducción
-Estado 56 conflictos: 6 desplazamiento/reducción
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr COMA expr COMA COLOR '>' salto
 
 
-Gramática
-
-    0 $accept: zona_variables $end
-
-    1 zona_variables: VARIABLES salto definicion
-
-    2 definicion: ε
-
-    3 $@1: ε
-
-    4 $@2: ε
-
-    5 definicion: definicion TIPO $@1 ID $@2 asignacion
-
-    6 $@3: ε
-
-    7 definicion: definicion TIPO $@3 secuencia_de_Identificadores saltoOpcional
-
-    8 $@4: ε
-
-    9 definicion: definicion ID $@4 asignacion
-
-   10 asignacion: ε
-
-   11 $@5: ε
-
-   12 $@6: ε
-
-   13 $@7: ε
-
-   14 asignacion: ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 salto
-
-   15 $@8: ε
-
-   16 $@9: ε
-
-   17 $@10: ε
-
-   18 asignacion: ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 salto
-
-   19 $@11: ε
-
-   20 $@12: ε
-
-   21 $@13: ε
-
-   22 asignacion: ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 salto
-
-   23 secuencia_de_Identificadores: ID PUNTOYCOMA
-   24                             | secuencia_de_Identificadores ID COMA ' '
-
-   25 salto: SALTOLINEA
-   26      | salto SALTOLINEA
-
-   27 saltoOpcional: ε
-   28              | salto
-
-   29 expr: ENTERO
-   30     | REAL
-   31     | IDENTIFICADORMINUSCULA
-   32     | expr '+' expr
-   33     | expr '-' expr
-   34     | expr '*' expr
-   35     | expr '/' expr
-   36     | expr DIV expr
-   37     | expr '%' expr
-   38     | '-' expr
-   39     | '(' expr ')'
+State 5 conflicts: 1 shift/reduce
+State 18 conflicts: 1 shift/reduce
+State 28 conflicts: 1 shift/reduce
+State 30 conflicts: 1 shift/reduce
+State 40 conflicts: 4 shift/reduce
+State 53 conflicts: 6 shift/reduce
+State 55 conflicts: 4 shift/reduce
+State 56 conflicts: 4 shift/reduce
+State 57 conflicts: 6 shift/reduce
+State 58 conflicts: 6 shift/reduce
+State 59 conflicts: 6 shift/reduce
+State 66 conflicts: 1 shift/reduce
 
 
-Terminales con las reglas donde aparecen
+Grammar
+
+    0 $accept: all $end
+
+    1 all: zona_variables zona_recuadros
+
+    2 zona_variables: VARIABLES salto definicion
+
+    3 definicion: ε
+    4           | definicion TIPO IDENTIFICADORMINUSCULA asignacion
+    5           | definicion TIPO secuencia_de_Identificadores saltoOpcional
+    6           | definicion IDENTIFICADORMINUSCULA asignacion
+    7           | RECUADROS
+
+    8 asignacion: ε
+    9           | ASIGNACION REAL PUNTOYCOMA salto
+   10           | ASIGNACION ENTERO PUNTOYCOMA salto
+   11           | ASIGNACION expr PUNTOYCOMA salto
+
+   12 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA PUNTOYCOMA
+   13                             | secuencia_de_Identificadores IDENTIFICADORMINUSCULA COMA
+
+   14 $@1: ε
+
+   15 zona_recuadros: RECUADROS $@1 definicion_cuadro salto
+
+   16 $@2: ε
+
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr COMA expr COMA COLOR '>' salto
+
+   18 salto: SALTOLINEA
+   19      | salto SALTOLINEA
+
+   20 saltoOpcional: ε
+   21              | salto
+
+   22 expr: ENTERO
+   23     | REAL
+   24     | IDENTIFICADORMINUSCULA
+   25     | expr '+' expr
+   26     | expr '-' expr
+   27     | expr '*' expr
+   28     | expr '/' expr
+   29     | expr DIV expr
+   30     | expr '%' expr
+   31     | '-' expr
+   32     | '(' expr ')'
+
+
+Terminals, with rules where they appear
 
     $end (0) 0
-    ' ' (32) 24
-    '%' (37) 37
-    '(' (40) 39
-    ')' (41) 39
-    '*' (42) 34
-    '+' (43) 32
-    '-' (45) 33 38
-    '/' (47) 35
+    '%' (37) 30
+    '(' (40) 32
+    ')' (41) 32
+    '*' (42) 27
+    '+' (43) 25
+    '-' (45) 26 31
+    '/' (47) 28
+    '<' (60) 17
+    '>' (62) 17
     error (256)
     COMENTARIO (258)
-    ASIGNACION (259) 14 18 22
-    IGUAL (260)
-    VARIABLES (261) 1
-    RECUADROS (262)
-    COLOR (263)
+    ASIGNACION (259) 9 10 11
+    IGUAL (260) 17
+    VARIABLES (261) 2
+    RECUADROS (262) 7 15
+    COLOR (263) 17
     LINEAS (264)
     ORIENTACION (265)
-    DIV (266) 36
+    DIV (266) 29
     MENOS (267)
-    SALTOLINEA (268) 25 26
-    PUNTOYCOMA (269) 14 18 22 23
-    TIPO (270) 5 7
-    COMA (271) 24
-    ID (272) 5 9 23 24
-    ENTERO <c_entero> (273) 18 29
-    IDENTIFICADORMINUSCULA <var> (274) 31
-    REAL <c_real> (275) 14 30
+    SALTOLINEA (268) 18 19
+    PUNTOYCOMA (269) 9 10 11 12
+    TIPO (270) 4 5
+    COMA (271) 13 17
+    ENTERO <c_entero> (272) 10 22
+    IDENTIFICADORMINUSCULA <var> (273) 4 6 12 13 24
+    IDENTIFICADORMAYUSCULA <var> (274) 17
+    REAL <c_real> (275) 9 23
     BOOL <c_bool> (276)
     menos (277)
 
 
-No terminales con las reglas donde aparecen
+Nonterminals, with rules where they appear
 
-    $accept (31)
+    $accept (32)
         on left: 0
-    zona_variables (32)
+    all (33)
         on left: 1
         on right: 0
-    definicion (33)
-        on left: 2 5 7 9
-        on right: 1 5 7 9
-    $@1 (34)
-        on left: 3
-        on right: 5
-    $@2 (35)
-        on left: 4
-        on right: 5
-    $@3 (36)
-        on left: 6
-        on right: 7
-    $@4 (37)
-        on left: 8
-        on right: 9
-    asignacion (38)
-        on left: 10 14 18 22
-        on right: 5 9
-    $@5 (39)
-        on left: 11
-        on right: 14
-    $@6 (40)
-        on left: 12
-        on right: 14
-    $@7 (41)
-        on left: 13
-        on right: 14
-    $@8 (42)
+    zona_variables (34)
+        on left: 2
+        on right: 1
+    definicion (35)
+        on left: 3 4 5 6 7
+        on right: 2 4 5 6
+    asignacion (36)
+        on left: 8 9 10 11
+        on right: 4 6
+    secuencia_de_Identificadores (37)
+        on left: 12 13
+        on right: 5 13
+    zona_recuadros (38)
         on left: 15
-        on right: 18
-    $@9 (43)
-        on left: 16
-        on right: 18
-    $@10 (44)
+        on right: 1
+    $@1 (39)
+        on left: 14
+        on right: 15
+    definicion_cuadro (40)
         on left: 17
-        on right: 18
-    $@11 (45)
-        on left: 19
-        on right: 22
-    $@12 (46)
-        on left: 20
-        on right: 22
-    $@13 (47)
-        on left: 21
-        on right: 22
-    secuencia_de_Identificadores (48)
-        on left: 23 24
-        on right: 7 24
-    salto (49)
-        on left: 25 26
-        on right: 1 14 18 22 26 28
-    saltoOpcional (50)
-        on left: 27 28
-        on right: 7
-    expr <c_expresion> (51)
-        on left: 29 30 31 32 33 34 35 36 37 38 39
-        on right: 22 32 33 34 35 36 37 38 39
+        on right: 15
+    $@2 (41)
+        on left: 16
+        on right: 17
+    salto (42)
+        on left: 18 19
+        on right: 2 9 10 11 15 17 19 21
+    saltoOpcional (43)
+        on left: 20 21
+        on right: 5
+    expr <c_expresion> (44)
+        on left: 22 23 24 25 26 27 28 29 30 31 32
+        on right: 11 17 25 26 27 28 29 30 31 32
 
 
-Estado 0
+State 0
 
-    0 $accept: • zona_variables $end
+    0 $accept: • all $end
 
-    VARIABLES  desplazar e ir al estado 1
+    VARIABLES  shift, and go to state 1
 
-    zona_variables  ir al estado 2
+    all             go to state 2
+    zona_variables  go to state 3
 
 
-Estado 1
+State 1
 
-    1 zona_variables: VARIABLES • salto definicion
+    2 zona_variables: VARIABLES • salto definicion
 
-    SALTOLINEA  desplazar e ir al estado 3
+    SALTOLINEA  shift, and go to state 4
 
-    salto  ir al estado 4
+    salto  go to state 5
 
 
-Estado 2
+State 2
 
-    0 $accept: zona_variables • $end
+    0 $accept: all • $end
 
-    $end  desplazar e ir al estado 5
+    $end  shift, and go to state 6
 
 
-Estado 3
+State 3
 
-   25 salto: SALTOLINEA •
+    1 all: zona_variables • zona_recuadros
 
-    $default  reduce usando la regla 25 (salto)
+    RECUADROS  shift, and go to state 7
 
+    zona_recuadros  go to state 8
 
-Estado 4
 
-    1 zona_variables: VARIABLES salto • definicion
-   26 salto: salto • SALTOLINEA
+State 4
 
-    SALTOLINEA  desplazar e ir al estado 6
+   18 salto: SALTOLINEA •
 
-    $default  reduce usando la regla 2 (definicion)
+    $default  reduce using rule 18 (salto)
 
-    definicion  ir al estado 7
 
+State 5
 
-Estado 5
+    2 zona_variables: VARIABLES salto • definicion
+   19 salto: salto • SALTOLINEA
 
-    0 $accept: zona_variables $end •
+    RECUADROS   shift, and go to state 9
+    SALTOLINEA  shift, and go to state 10
 
-    $default  aceptar
+    RECUADROS  [reduce using rule 3 (definicion)]
+    $default   reduce using rule 3 (definicion)
 
+    definicion  go to state 11
 
-Estado 6
 
-   26 salto: salto SALTOLINEA •
+State 6
 
-    $default  reduce usando la regla 26 (salto)
+    0 $accept: all $end •
 
+    $default  accept
 
-Estado 7
 
-    1 zona_variables: VARIABLES salto definicion •
-    5 definicion: definicion • TIPO $@1 ID $@2 asignacion
-    7           | definicion • TIPO $@3 secuencia_de_Identificadores saltoOpcional
-    9           | definicion • ID $@4 asignacion
+State 7
 
-    TIPO  desplazar e ir al estado 8
-    ID    desplazar e ir al estado 9
+   15 zona_recuadros: RECUADROS • $@1 definicion_cuadro salto
 
-    $default  reduce usando la regla 1 (zona_variables)
+    $default  reduce using rule 14 ($@1)
 
+    $@1  go to state 12
 
-Estado 8
 
-    5 definicion: definicion TIPO • $@1 ID $@2 asignacion
-    7           | definicion TIPO • $@3 secuencia_de_Identificadores saltoOpcional
+State 8
 
-    ID        reduce usando la regla 3 ($@1)
-    ID        [reduce usando la regla 6 ($@3)]
-    $default  reduce usando la regla 3 ($@1)
+    1 all: zona_variables zona_recuadros •
 
-    $@1  ir al estado 10
-    $@3  ir al estado 11
+    $default  reduce using rule 1 (all)
 
 
-Estado 9
+State 9
 
-    9 definicion: definicion ID • $@4 asignacion
+    7 definicion: RECUADROS •
 
-    $default  reduce usando la regla 8 ($@4)
+    $default  reduce using rule 7 (definicion)
 
-    $@4  ir al estado 12
 
+State 10
 
-Estado 10
+   19 salto: salto SALTOLINEA •
 
-    5 definicion: definicion TIPO $@1 • ID $@2 asignacion
+    $default  reduce using rule 19 (salto)
 
-    ID  desplazar e ir al estado 13
 
+State 11
 
-Estado 11
+    2 zona_variables: VARIABLES salto definicion •
+    4 definicion: definicion • TIPO IDENTIFICADORMINUSCULA asignacion
+    5           | definicion • TIPO secuencia_de_Identificadores saltoOpcional
+    6           | definicion • IDENTIFICADORMINUSCULA asignacion
 
-    7 definicion: definicion TIPO $@3 • secuencia_de_Identificadores saltoOpcional
+    TIPO                    shift, and go to state 13
+    IDENTIFICADORMINUSCULA  shift, and go to state 14
 
-    ID  desplazar e ir al estado 14
+    $default  reduce using rule 2 (zona_variables)
 
-    secuencia_de_Identificadores  ir al estado 15
 
+State 12
 
-Estado 12
+   15 zona_recuadros: RECUADROS $@1 • definicion_cuadro salto
 
-    9 definicion: definicion ID $@4 • asignacion
+    IDENTIFICADORMAYUSCULA  shift, and go to state 15
 
-    ASIGNACION  desplazar e ir al estado 16
+    definicion_cuadro  go to state 16
 
-    $default  reduce usando la regla 10 (asignacion)
 
-    asignacion  ir al estado 17
+State 13
 
+    4 definicion: definicion TIPO • IDENTIFICADORMINUSCULA asignacion
+    5           | definicion TIPO • secuencia_de_Identificadores saltoOpcional
 
-Estado 13
+    IDENTIFICADORMINUSCULA  shift, and go to state 17
 
-    5 definicion: definicion TIPO $@1 ID • $@2 asignacion
+    secuencia_de_Identificadores  go to state 18
 
-    $default  reduce usando la regla 4 ($@2)
 
-    $@2  ir al estado 18
+State 14
 
+    6 definicion: definicion IDENTIFICADORMINUSCULA • asignacion
 
-Estado 14
+    ASIGNACION  shift, and go to state 19
 
-   23 secuencia_de_Identificadores: ID • PUNTOYCOMA
+    $default  reduce using rule 8 (asignacion)
 
-    PUNTOYCOMA  desplazar e ir al estado 19
+    asignacion  go to state 20
 
 
-Estado 15
+State 15
 
-    7 definicion: definicion TIPO $@3 secuencia_de_Identificadores • saltoOpcional
-   24 secuencia_de_Identificadores: secuencia_de_Identificadores • ID COMA ' '
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA • $@2 IGUAL '<' expr COMA expr COMA COLOR '>' salto
 
-    SALTOLINEA  desplazar e ir al estado 3
-    ID          desplazar e ir al estado 20
+    $default  reduce using rule 16 ($@2)
 
-    ID        [reduce usando la regla 27 (saltoOpcional)]
-    $default  reduce usando la regla 27 (saltoOpcional)
+    $@2  go to state 21
 
-    salto          ir al estado 21
-    saltoOpcional  ir al estado 22
 
+State 16
 
-Estado 16
+   15 zona_recuadros: RECUADROS $@1 definicion_cuadro • salto
 
-   14 asignacion: ASIGNACION • $@5 REAL $@6 PUNTOYCOMA $@7 salto
-   18           | ASIGNACION • $@8 ENTERO $@9 PUNTOYCOMA $@10 salto
-   22           | ASIGNACION • $@11 expr $@12 PUNTOYCOMA $@13 salto
+    SALTOLINEA  shift, and go to state 4
 
-    ENTERO    reduce usando la regla 15 ($@8)
-    ENTERO    [reduce usando la regla 19 ($@11)]
-    REAL      reduce usando la regla 11 ($@5)
-    REAL      [reduce usando la regla 19 ($@11)]
-    $default  reduce usando la regla 19 ($@11)
+    salto  go to state 22
 
-    $@5   ir al estado 23
-    $@8   ir al estado 24
-    $@11  ir al estado 25
 
+State 17
 
-Estado 17
+    4 definicion: definicion TIPO IDENTIFICADORMINUSCULA • asignacion
+   12 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA • PUNTOYCOMA
 
-    9 definicion: definicion ID $@4 asignacion •
+    ASIGNACION  shift, and go to state 19
+    PUNTOYCOMA  shift, and go to state 23
 
-    $default  reduce usando la regla 9 (definicion)
+    $default  reduce using rule 8 (asignacion)
 
+    asignacion  go to state 24
 
-Estado 18
 
-    5 definicion: definicion TIPO $@1 ID $@2 • asignacion
+State 18
 
-    ASIGNACION  desplazar e ir al estado 16
+    5 definicion: definicion TIPO secuencia_de_Identificadores • saltoOpcional
+   13 secuencia_de_Identificadores: secuencia_de_Identificadores • IDENTIFICADORMINUSCULA COMA
 
-    $default  reduce usando la regla 10 (asignacion)
+    SALTOLINEA              shift, and go to state 4
+    IDENTIFICADORMINUSCULA  shift, and go to state 25
 
-    asignacion  ir al estado 26
+    IDENTIFICADORMINUSCULA  [reduce using rule 20 (saltoOpcional)]
+    $default                reduce using rule 20 (saltoOpcional)
 
+    salto          go to state 26
+    saltoOpcional  go to state 27
 
-Estado 19
 
-   23 secuencia_de_Identificadores: ID PUNTOYCOMA •
+State 19
 
-    $default  reduce usando la regla 23 (secuencia_de_Identificadores)
+    9 asignacion: ASIGNACION • REAL PUNTOYCOMA salto
+   10           | ASIGNACION • ENTERO PUNTOYCOMA salto
+   11           | ASIGNACION • expr PUNTOYCOMA salto
 
+    ENTERO                  shift, and go to state 28
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 30
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
-Estado 20
+    expr  go to state 33
 
-   24 secuencia_de_Identificadores: secuencia_de_Identificadores ID • COMA ' '
 
-    COMA  desplazar e ir al estado 27
+State 20
 
+    6 definicion: definicion IDENTIFICADORMINUSCULA asignacion •
 
-Estado 21
+    $default  reduce using rule 6 (definicion)
 
-   26 salto: salto • SALTOLINEA
-   28 saltoOpcional: salto •
 
-    SALTOLINEA  desplazar e ir al estado 6
+State 21
 
-    $default  reduce usando la regla 28 (saltoOpcional)
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 • IGUAL '<' expr COMA expr COMA COLOR '>' salto
 
+    IGUAL  shift, and go to state 34
 
-Estado 22
 
-    7 definicion: definicion TIPO $@3 secuencia_de_Identificadores saltoOpcional •
+State 22
 
-    $default  reduce usando la regla 7 (definicion)
+   15 zona_recuadros: RECUADROS $@1 definicion_cuadro salto •
+   19 salto: salto • SALTOLINEA
 
+    SALTOLINEA  shift, and go to state 10
 
-Estado 23
+    $default  reduce using rule 15 (zona_recuadros)
 
-   14 asignacion: ASIGNACION $@5 • REAL $@6 PUNTOYCOMA $@7 salto
 
-    REAL  desplazar e ir al estado 28
+State 23
 
+   12 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA PUNTOYCOMA •
 
-Estado 24
+    $default  reduce using rule 12 (secuencia_de_Identificadores)
 
-   18 asignacion: ASIGNACION $@8 • ENTERO $@9 PUNTOYCOMA $@10 salto
 
-    ENTERO  desplazar e ir al estado 29
+State 24
 
+    4 definicion: definicion TIPO IDENTIFICADORMINUSCULA asignacion •
 
-Estado 25
+    $default  reduce using rule 4 (definicion)
 
-   22 asignacion: ASIGNACION $@11 • expr $@12 PUNTOYCOMA $@13 salto
 
-    ENTERO                  desplazar e ir al estado 30
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+State 25
 
-    expr  ir al estado 35
+   13 secuencia_de_Identificadores: secuencia_de_Identificadores IDENTIFICADORMINUSCULA • COMA
 
+    COMA  shift, and go to state 35
 
-Estado 26
 
-    5 definicion: definicion TIPO $@1 ID $@2 asignacion •
+State 26
 
-    $default  reduce usando la regla 5 (definicion)
+   19 salto: salto • SALTOLINEA
+   21 saltoOpcional: salto •
 
+    SALTOLINEA  shift, and go to state 10
 
-Estado 27
+    $default  reduce using rule 21 (saltoOpcional)
 
-   24 secuencia_de_Identificadores: secuencia_de_Identificadores ID COMA • ' '
 
-    ' '  desplazar e ir al estado 36
+State 27
 
+    5 definicion: definicion TIPO secuencia_de_Identificadores saltoOpcional •
 
-Estado 28
+    $default  reduce using rule 5 (definicion)
 
-   14 asignacion: ASIGNACION $@5 REAL • $@6 PUNTOYCOMA $@7 salto
 
-    $default  reduce usando la regla 12 ($@6)
+State 28
 
-    $@6  ir al estado 37
+   10 asignacion: ASIGNACION ENTERO • PUNTOYCOMA salto
+   22 expr: ENTERO •
 
+    PUNTOYCOMA  shift, and go to state 36
 
-Estado 29
+    PUNTOYCOMA  [reduce using rule 22 (expr)]
+    $default    reduce using rule 22 (expr)
 
-   18 asignacion: ASIGNACION $@8 ENTERO • $@9 PUNTOYCOMA $@10 salto
 
-    $default  reduce usando la regla 16 ($@9)
+State 29
 
-    $@9  ir al estado 38
+   24 expr: IDENTIFICADORMINUSCULA •
 
+    $default  reduce using rule 24 (expr)
 
-Estado 30
 
-   29 expr: ENTERO •
+State 30
 
-    $default  reduce usando la regla 29 (expr)
+    9 asignacion: ASIGNACION REAL • PUNTOYCOMA salto
+   23 expr: REAL •
 
+    PUNTOYCOMA  shift, and go to state 37
 
-Estado 31
+    PUNTOYCOMA  [reduce using rule 23 (expr)]
+    $default    reduce using rule 23 (expr)
 
-   31 expr: IDENTIFICADORMINUSCULA •
 
-    $default  reduce usando la regla 31 (expr)
+State 31
 
+   31 expr: '-' • expr
 
-Estado 32
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
-   30 expr: REAL •
+    expr  go to state 40
 
-    $default  reduce usando la regla 30 (expr)
 
+State 32
 
-Estado 33
+   32 expr: '(' • expr ')'
 
-   38 expr: '-' • expr
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
-    ENTERO                  desplazar e ir al estado 30
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+    expr  go to state 41
 
-    expr  ir al estado 39
 
+State 33
 
-Estado 34
+   11 asignacion: ASIGNACION expr • PUNTOYCOMA salto
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   30     | expr • '%' expr
 
-   39 expr: '(' • expr ')'
+    DIV         shift, and go to state 42
+    PUNTOYCOMA  shift, and go to state 43
+    '+'         shift, and go to state 44
+    '-'         shift, and go to state 45
+    '*'         shift, and go to state 46
+    '/'         shift, and go to state 47
+    '%'         shift, and go to state 48
 
-    ENTERO                  desplazar e ir al estado 30
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
 
-    expr  ir al estado 40
+State 34
 
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL • '<' expr COMA expr COMA COLOR '>' salto
 
-Estado 35
+    '<'  shift, and go to state 49
 
-   22 asignacion: ASIGNACION $@11 expr • $@12 PUNTOYCOMA $@13 salto
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   34     | expr • '*' expr
-   35     | expr • '/' expr
-   36     | expr • DIV expr
-   37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 41
-    '+'  desplazar e ir al estado 42
-    '-'  desplazar e ir al estado 43
-    '*'  desplazar e ir al estado 44
-    '/'  desplazar e ir al estado 45
-    '%'  desplazar e ir al estado 46
+State 35
 
-    $default  reduce usando la regla 20 ($@12)
+   13 secuencia_de_Identificadores: secuencia_de_Identificadores IDENTIFICADORMINUSCULA COMA •
 
-    $@12  ir al estado 47
+    $default  reduce using rule 13 (secuencia_de_Identificadores)
 
 
-Estado 36
+State 36
 
-   24 secuencia_de_Identificadores: secuencia_de_Identificadores ID COMA ' ' •
+   10 asignacion: ASIGNACION ENTERO PUNTOYCOMA • salto
 
-    $default  reduce usando la regla 24 (secuencia_de_Identificadores)
+    SALTOLINEA  shift, and go to state 4
 
+    salto  go to state 50
 
-Estado 37
 
-   14 asignacion: ASIGNACION $@5 REAL $@6 • PUNTOYCOMA $@7 salto
+State 37
 
-    PUNTOYCOMA  desplazar e ir al estado 48
+    9 asignacion: ASIGNACION REAL PUNTOYCOMA • salto
 
+    SALTOLINEA  shift, and go to state 4
 
-Estado 38
+    salto  go to state 51
 
-   18 asignacion: ASIGNACION $@8 ENTERO $@9 • PUNTOYCOMA $@10 salto
 
-    PUNTOYCOMA  desplazar e ir al estado 49
+State 38
 
+   22 expr: ENTERO •
 
-Estado 39
+    $default  reduce using rule 22 (expr)
 
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   34     | expr • '*' expr
-   35     | expr • '/' expr
-   36     | expr • DIV expr
-   37     | expr • '%' expr
-   38     | '-' expr •
 
-    DIV  desplazar e ir al estado 41
-    '*'  desplazar e ir al estado 44
-    '/'  desplazar e ir al estado 45
-    '%'  desplazar e ir al estado 46
+State 39
 
-    DIV       [reduce usando la regla 38 (expr)]
-    '*'       [reduce usando la regla 38 (expr)]
-    '/'       [reduce usando la regla 38 (expr)]
-    '%'       [reduce usando la regla 38 (expr)]
-    $default  reduce usando la regla 38 (expr)
+   23 expr: REAL •
 
+    $default  reduce using rule 23 (expr)
 
-Estado 40
 
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   34     | expr • '*' expr
-   35     | expr • '/' expr
-   36     | expr • DIV expr
-   37     | expr • '%' expr
-   39     | '(' expr • ')'
+State 40
 
-    DIV  desplazar e ir al estado 41
-    '+'  desplazar e ir al estado 42
-    '-'  desplazar e ir al estado 43
-    '*'  desplazar e ir al estado 44
-    '/'  desplazar e ir al estado 45
-    '%'  desplazar e ir al estado 46
-    ')'  desplazar e ir al estado 50
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   30     | expr • '%' expr
+   31     | '-' expr •
 
+    DIV  shift, and go to state 42
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+    '%'  shift, and go to state 48
 
-Estado 41
+    DIV       [reduce using rule 31 (expr)]
+    '*'       [reduce using rule 31 (expr)]
+    '/'       [reduce using rule 31 (expr)]
+    '%'       [reduce using rule 31 (expr)]
+    $default  reduce using rule 31 (expr)
 
-   36 expr: expr DIV • expr
 
-    ENTERO                  desplazar e ir al estado 30
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+State 41
 
-    expr  ir al estado 51
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   30     | expr • '%' expr
+   32     | '(' expr • ')'
 
+    DIV  shift, and go to state 42
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+    '%'  shift, and go to state 48
+    ')'  shift, and go to state 52
 
-Estado 42
 
-   32 expr: expr '+' • expr
+State 42
 
-    ENTERO                  desplazar e ir al estado 30
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+   29 expr: expr DIV • expr
 
-    expr  ir al estado 52
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
+    expr  go to state 53
 
-Estado 43
 
-   33 expr: expr '-' • expr
+State 43
 
-    ENTERO                  desplazar e ir al estado 30
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+   11 asignacion: ASIGNACION expr PUNTOYCOMA • salto
 
-    expr  ir al estado 53
+    SALTOLINEA  shift, and go to state 4
 
+    salto  go to state 54
 
-Estado 44
 
-   34 expr: expr '*' • expr
+State 44
 
-    ENTERO                  desplazar e ir al estado 30
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+   25 expr: expr '+' • expr
 
-    expr  ir al estado 54
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
+    expr  go to state 55
 
-Estado 45
 
-   35 expr: expr '/' • expr
+State 45
 
-    ENTERO                  desplazar e ir al estado 30
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+   26 expr: expr '-' • expr
 
-    expr  ir al estado 55
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
+    expr  go to state 56
 
-Estado 46
 
-   37 expr: expr '%' • expr
+State 46
 
-    ENTERO                  desplazar e ir al estado 30
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+   27 expr: expr '*' • expr
 
-    expr  ir al estado 56
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
+    expr  go to state 57
 
-Estado 47
 
-   22 asignacion: ASIGNACION $@11 expr $@12 • PUNTOYCOMA $@13 salto
+State 47
 
-    PUNTOYCOMA  desplazar e ir al estado 57
+   28 expr: expr '/' • expr
 
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
-Estado 48
+    expr  go to state 58
 
-   14 asignacion: ASIGNACION $@5 REAL $@6 PUNTOYCOMA • $@7 salto
 
-    $default  reduce usando la regla 13 ($@7)
+State 48
 
-    $@7  ir al estado 58
+   30 expr: expr '%' • expr
 
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
-Estado 49
+    expr  go to state 59
 
-   18 asignacion: ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA • $@10 salto
 
-    $default  reduce usando la regla 17 ($@10)
+State 49
 
-    $@10  ir al estado 59
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' • expr COMA expr COMA COLOR '>' salto
 
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
-Estado 50
+    expr  go to state 60
 
-   39 expr: '(' expr ')' •
 
-    $default  reduce usando la regla 39 (expr)
+State 50
 
+   10 asignacion: ASIGNACION ENTERO PUNTOYCOMA salto •
+   19 salto: salto • SALTOLINEA
 
-Estado 51
+    SALTOLINEA  shift, and go to state 10
 
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   34     | expr • '*' expr
-   35     | expr • '/' expr
-   36     | expr • DIV expr
-   36     | expr DIV expr •
-   37     | expr • '%' expr
+    $default  reduce using rule 10 (asignacion)
 
-    DIV  desplazar e ir al estado 41
-    '+'  desplazar e ir al estado 42
-    '-'  desplazar e ir al estado 43
-    '*'  desplazar e ir al estado 44
-    '/'  desplazar e ir al estado 45
-    '%'  desplazar e ir al estado 46
 
-    DIV       [reduce usando la regla 36 (expr)]
-    '+'       [reduce usando la regla 36 (expr)]
-    '-'       [reduce usando la regla 36 (expr)]
-    '*'       [reduce usando la regla 36 (expr)]
-    '/'       [reduce usando la regla 36 (expr)]
-    '%'       [reduce usando la regla 36 (expr)]
-    $default  reduce usando la regla 36 (expr)
+State 51
 
+    9 asignacion: ASIGNACION REAL PUNTOYCOMA salto •
+   19 salto: salto • SALTOLINEA
 
-Estado 52
+    SALTOLINEA  shift, and go to state 10
 
-   32 expr: expr • '+' expr
-   32     | expr '+' expr •
-   33     | expr • '-' expr
-   34     | expr • '*' expr
-   35     | expr • '/' expr
-   36     | expr • DIV expr
-   37     | expr • '%' expr
+    $default  reduce using rule 9 (asignacion)
 
-    DIV  desplazar e ir al estado 41
-    '*'  desplazar e ir al estado 44
-    '/'  desplazar e ir al estado 45
-    '%'  desplazar e ir al estado 46
 
-    DIV       [reduce usando la regla 32 (expr)]
-    '*'       [reduce usando la regla 32 (expr)]
-    '/'       [reduce usando la regla 32 (expr)]
-    '%'       [reduce usando la regla 32 (expr)]
-    $default  reduce usando la regla 32 (expr)
+State 52
 
+   32 expr: '(' expr ')' •
 
-Estado 53
+    $default  reduce using rule 32 (expr)
 
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   33     | expr '-' expr •
-   34     | expr • '*' expr
-   35     | expr • '/' expr
-   36     | expr • DIV expr
-   37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 41
-    '*'  desplazar e ir al estado 44
-    '/'  desplazar e ir al estado 45
-    '%'  desplazar e ir al estado 46
+State 53
 
-    DIV       [reduce usando la regla 33 (expr)]
-    '*'       [reduce usando la regla 33 (expr)]
-    '/'       [reduce usando la regla 33 (expr)]
-    '%'       [reduce usando la regla 33 (expr)]
-    $default  reduce usando la regla 33 (expr)
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   29     | expr DIV expr •
+   30     | expr • '%' expr
 
+    DIV  shift, and go to state 42
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+    '%'  shift, and go to state 48
 
-Estado 54
+    DIV       [reduce using rule 29 (expr)]
+    '+'       [reduce using rule 29 (expr)]
+    '-'       [reduce using rule 29 (expr)]
+    '*'       [reduce using rule 29 (expr)]
+    '/'       [reduce using rule 29 (expr)]
+    '%'       [reduce using rule 29 (expr)]
+    $default  reduce using rule 29 (expr)
 
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   34     | expr • '*' expr
-   34     | expr '*' expr •
-   35     | expr • '/' expr
-   36     | expr • DIV expr
-   37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 41
-    '+'  desplazar e ir al estado 42
-    '-'  desplazar e ir al estado 43
-    '*'  desplazar e ir al estado 44
-    '/'  desplazar e ir al estado 45
-    '%'  desplazar e ir al estado 46
+State 54
 
-    DIV       [reduce usando la regla 34 (expr)]
-    '+'       [reduce usando la regla 34 (expr)]
-    '-'       [reduce usando la regla 34 (expr)]
-    '*'       [reduce usando la regla 34 (expr)]
-    '/'       [reduce usando la regla 34 (expr)]
-    '%'       [reduce usando la regla 34 (expr)]
-    $default  reduce usando la regla 34 (expr)
+   11 asignacion: ASIGNACION expr PUNTOYCOMA salto •
+   19 salto: salto • SALTOLINEA
 
+    SALTOLINEA  shift, and go to state 10
 
-Estado 55
+    $default  reduce using rule 11 (asignacion)
 
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   34     | expr • '*' expr
-   35     | expr • '/' expr
-   35     | expr '/' expr •
-   36     | expr • DIV expr
-   37     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 41
-    '+'  desplazar e ir al estado 42
-    '-'  desplazar e ir al estado 43
-    '*'  desplazar e ir al estado 44
-    '/'  desplazar e ir al estado 45
-    '%'  desplazar e ir al estado 46
+State 55
 
-    DIV       [reduce usando la regla 35 (expr)]
-    '+'       [reduce usando la regla 35 (expr)]
-    '-'       [reduce usando la regla 35 (expr)]
-    '*'       [reduce usando la regla 35 (expr)]
-    '/'       [reduce usando la regla 35 (expr)]
-    '%'       [reduce usando la regla 35 (expr)]
-    $default  reduce usando la regla 35 (expr)
+   25 expr: expr • '+' expr
+   25     | expr '+' expr •
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   30     | expr • '%' expr
 
+    DIV  shift, and go to state 42
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+    '%'  shift, and go to state 48
 
-Estado 56
+    DIV       [reduce using rule 25 (expr)]
+    '*'       [reduce using rule 25 (expr)]
+    '/'       [reduce using rule 25 (expr)]
+    '%'       [reduce using rule 25 (expr)]
+    $default  reduce using rule 25 (expr)
 
-   32 expr: expr • '+' expr
-   33     | expr • '-' expr
-   34     | expr • '*' expr
-   35     | expr • '/' expr
-   36     | expr • DIV expr
-   37     | expr • '%' expr
-   37     | expr '%' expr •
 
-    DIV  desplazar e ir al estado 41
-    '+'  desplazar e ir al estado 42
-    '-'  desplazar e ir al estado 43
-    '*'  desplazar e ir al estado 44
-    '/'  desplazar e ir al estado 45
-    '%'  desplazar e ir al estado 46
+State 56
 
-    DIV       [reduce usando la regla 37 (expr)]
-    '+'       [reduce usando la regla 37 (expr)]
-    '-'       [reduce usando la regla 37 (expr)]
-    '*'       [reduce usando la regla 37 (expr)]
-    '/'       [reduce usando la regla 37 (expr)]
-    '%'       [reduce usando la regla 37 (expr)]
-    $default  reduce usando la regla 37 (expr)
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   26     | expr '-' expr •
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   30     | expr • '%' expr
 
+    DIV  shift, and go to state 42
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+    '%'  shift, and go to state 48
 
-Estado 57
+    DIV       [reduce using rule 26 (expr)]
+    '*'       [reduce using rule 26 (expr)]
+    '/'       [reduce using rule 26 (expr)]
+    '%'       [reduce using rule 26 (expr)]
+    $default  reduce using rule 26 (expr)
 
-   22 asignacion: ASIGNACION $@11 expr $@12 PUNTOYCOMA • $@13 salto
 
-    $default  reduce usando la regla 21 ($@13)
+State 57
 
-    $@13  ir al estado 60
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   27     | expr '*' expr •
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   30     | expr • '%' expr
 
+    DIV  shift, and go to state 42
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+    '%'  shift, and go to state 48
 
-Estado 58
+    DIV       [reduce using rule 27 (expr)]
+    '+'       [reduce using rule 27 (expr)]
+    '-'       [reduce using rule 27 (expr)]
+    '*'       [reduce using rule 27 (expr)]
+    '/'       [reduce using rule 27 (expr)]
+    '%'       [reduce using rule 27 (expr)]
+    $default  reduce using rule 27 (expr)
 
-   14 asignacion: ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 • salto
 
-    SALTOLINEA  desplazar e ir al estado 3
+State 58
 
-    salto  ir al estado 61
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   28     | expr '/' expr •
+   29     | expr • DIV expr
+   30     | expr • '%' expr
 
+    DIV  shift, and go to state 42
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+    '%'  shift, and go to state 48
 
-Estado 59
+    DIV       [reduce using rule 28 (expr)]
+    '+'       [reduce using rule 28 (expr)]
+    '-'       [reduce using rule 28 (expr)]
+    '*'       [reduce using rule 28 (expr)]
+    '/'       [reduce using rule 28 (expr)]
+    '%'       [reduce using rule 28 (expr)]
+    $default  reduce using rule 28 (expr)
 
-   18 asignacion: ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 • salto
 
-    SALTOLINEA  desplazar e ir al estado 3
+State 59
 
-    salto  ir al estado 62
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   30     | expr • '%' expr
+   30     | expr '%' expr •
 
+    DIV  shift, and go to state 42
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+    '%'  shift, and go to state 48
 
-Estado 60
+    DIV       [reduce using rule 30 (expr)]
+    '+'       [reduce using rule 30 (expr)]
+    '-'       [reduce using rule 30 (expr)]
+    '*'       [reduce using rule 30 (expr)]
+    '/'       [reduce using rule 30 (expr)]
+    '%'       [reduce using rule 30 (expr)]
+    $default  reduce using rule 30 (expr)
 
-   22 asignacion: ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 • salto
 
-    SALTOLINEA  desplazar e ir al estado 3
+State 60
 
-    salto  ir al estado 63
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr • COMA expr COMA COLOR '>' salto
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   30     | expr • '%' expr
 
+    DIV   shift, and go to state 42
+    COMA  shift, and go to state 61
+    '+'   shift, and go to state 44
+    '-'   shift, and go to state 45
+    '*'   shift, and go to state 46
+    '/'   shift, and go to state 47
+    '%'   shift, and go to state 48
 
-Estado 61
 
-   14 asignacion: ASIGNACION $@5 REAL $@6 PUNTOYCOMA $@7 salto •
-   26 salto: salto • SALTOLINEA
+State 61
 
-    SALTOLINEA  desplazar e ir al estado 6
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr COMA • expr COMA COLOR '>' salto
 
-    $default  reduce usando la regla 14 (asignacion)
+    ENTERO                  shift, and go to state 38
+    IDENTIFICADORMINUSCULA  shift, and go to state 29
+    REAL                    shift, and go to state 39
+    '-'                     shift, and go to state 31
+    '('                     shift, and go to state 32
 
+    expr  go to state 62
 
-Estado 62
 
-   18 asignacion: ASIGNACION $@8 ENTERO $@9 PUNTOYCOMA $@10 salto •
-   26 salto: salto • SALTOLINEA
+State 62
 
-    SALTOLINEA  desplazar e ir al estado 6
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr COMA expr • COMA COLOR '>' salto
+   25 expr: expr • '+' expr
+   26     | expr • '-' expr
+   27     | expr • '*' expr
+   28     | expr • '/' expr
+   29     | expr • DIV expr
+   30     | expr • '%' expr
 
-    $default  reduce usando la regla 18 (asignacion)
+    DIV   shift, and go to state 42
+    COMA  shift, and go to state 63
+    '+'   shift, and go to state 44
+    '-'   shift, and go to state 45
+    '*'   shift, and go to state 46
+    '/'   shift, and go to state 47
+    '%'   shift, and go to state 48
 
 
-Estado 63
+State 63
 
-   22 asignacion: ASIGNACION $@11 expr $@12 PUNTOYCOMA $@13 salto •
-   26 salto: salto • SALTOLINEA
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr COMA expr COMA • COLOR '>' salto
 
-    SALTOLINEA  desplazar e ir al estado 6
+    COLOR  shift, and go to state 64
 
-    $default  reduce usando la regla 22 (asignacion)
+
+State 64
+
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr COMA expr COMA COLOR • '>' salto
+
+    '>'  shift, and go to state 65
+
+
+State 65
+
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr COMA expr COMA COLOR '>' • salto
+
+    SALTOLINEA  shift, and go to state 4
+
+    salto  go to state 66
+
+
+State 66
+
+   17 definicion_cuadro: IDENTIFICADORMAYUSCULA $@2 IGUAL '<' expr COMA expr COMA COLOR '>' salto •
+   19 salto: salto • SALTOLINEA
+
+    SALTOLINEA  shift, and go to state 10
+
+    SALTOLINEA  [reduce using rule 17 (definicion_cuadro)]

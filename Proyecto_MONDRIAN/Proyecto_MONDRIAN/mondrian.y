@@ -51,17 +51,17 @@ string enteroOreal(bool enteroOreal)
       } c_expresion;
 }
 
-%token COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION  DIV MENOS SALTOLINEA PUNTOYCOMA TIPO COMA ID
+%token COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION  DIV MENOS SALTOLINEA PUNTOYCOMA TIPO COMA   
 %token <c_entero> ENTERO
-%token <var> IDENTIFICADORMINUSCULA 
+%token <var> IDENTIFICADORMINUSCULA IDENTIFICADORMAYUSCULA
 %token <c_real> REAL
 %token <c_bool> BOOL
 
 %type <c_expresion> expr
 
-%start zona_variables
+%start all
 
-%left '+' '-'   /* asociativo por la izquierda, misma prioridad /
+%left '+' '-'  ASIGNACION /* asociativo por la izquierda, misma prioridad /
 %left '' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
 %left menos
 
@@ -71,32 +71,35 @@ string enteroOreal(bool enteroOreal)
 
 //-------------------------------------------BLOQUE VARIABLES------------------------------------
 
+all : zona_variables zona_recuadros {;}
+    ;
+
 zona_variables : VARIABLES salto definicion{cout << "VARIABLES"<<endl;}
                ;
 
 definicion :  
-           | definicion TIPO {cout<<"Tipo ";}ID{cout<<"Identificador ";}asignacion{;}
-           | definicion TIPO{cout<<"Tipo Secuencia ";} secuencia_de_Identificadores  saltoOpcional {;}
-           | definicion ID{cout<<"Identificador ";}asignacion{;}
+           | definicion TIPO  IDENTIFICADORMINUSCULA asignacion{cout<<"Tipo Identificador";}
+           | definicion TIPO secuencia_de_Identificadores  saltoOpcional {cout<<"Tipo secuencia_Identificadores ";}
+           | definicion IDENTIFICADORMINUSCULA asignacion{;}
+           | RECUADROS {}
            ;
 asignacion :
-            |ASIGNACION {cout<<"Asignacion ";}REAL{cout<<"Real ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
-            |ASIGNACION {cout<<"Asignacion ";}ENTERO{cout<<"Entero ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
-            |ASIGNACION {cout<<"Asignacion ";}expr{cout<<"Entero ";} PUNTOYCOMA {cout<<"PuntoYComa ";}salto{cout<<endl;}
+            |ASIGNACION REAL PUNTOYCOMA salto{cout<<"Asignacion "<<"Real "<<"PuntoYComa ";cout<<endl;}
+            |ASIGNACION ENTERO PUNTOYCOMA salto{cout<<"Asignacion  Entero PuntoYComa "<<endl;}
+            |ASIGNACION expr PUNTOYCOMA salto{cout<<"Asignacion  Expr PuntoYComa ";cout<<endl;}
             ;
-secuencia_de_Identificadores : ID PUNTOYCOMA{cout<<"Identificador ";cout<<"PuntoYCOma ";}
-                             | secuencia_de_Identificadores ID COMA' '{cout<<"Identificador "; cout<<"Coma ";}
+secuencia_de_Identificadores : IDENTIFICADORMINUSCULA PUNTOYCOMA{cout<<"Identificador ";cout<<"PuntoYCOma ";}
+                             | secuencia_de_Identificadores IDENTIFICADORMINUSCULA COMA {cout<<"Identificador "; cout<<"Coma ";}
                              ;
 
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE RECUADROS-------------------------------------
 
-// zona_recuadros : RECUADROS salto {cout << "Recuadro";}
-//                |  definicion_cuadro {;}
-//                ;
+zona_recuadros : RECUADROS {cout << "RECUADRO"<<endl;}  definicion_cuadro salto  
+               ;
 
-// definicion_cuadro : IDENTIFICADORMAYUSCULA IGUAL "<" expr"," expr"," COLOR ">" salto {;}//preferimos que haya salto
-//                   ;
+definicion_cuadro : IDENTIFICADORMAYUSCULA {cout<<"IDENTIFICADORMAYUSCULA";}IGUAL '<' expr COMA expr COMA COLOR '>' salto {;}//preferimos que haya salto
+                  ;
 
 // //------------------------------------------------------------------------------------------------
 // //-------------------------------------------BLOQUE LINEAS----------------------------------------
