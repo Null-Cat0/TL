@@ -68,9 +68,9 @@ extern int yydebug;
     PUNTOYCOMA = 269,              /* PUNTOYCOMA  */
     TIPO = 270,                    /* TIPO  */
     COMA = 271,                    /* COMA  */
-    ID = 272,                      /* ID  */
-    ENTERO = 273,                  /* ENTERO  */
-    IDENTIFICADORMINUSCULA = 274,  /* IDENTIFICADORMINUSCULA  */
+    ENTERO = 272,                  /* ENTERO  */
+    IDENTIFICADORMINUSCULA = 273,  /* IDENTIFICADORMINUSCULA  */
+    IDENTIFICADORMAYUSCULA = 274,  /* IDENTIFICADORMAYUSCULA  */
     REAL = 275,                    /* REAL  */
     BOOL = 276,                    /* BOOL  */
     menos = 277                    /* menos  */
