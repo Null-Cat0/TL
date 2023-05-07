@@ -92,7 +92,7 @@ definicion :  TIPO  expr asignacion{cout<<"Tipo Identificador";}
 asignacion : ASIGNACION expr PUNTOYCOMA salto{cout<<"Asignacion  Expr PuntoYComa ";cout<<endl;}
             ;
 
-secuencia_de_Identificadores : IDENTIFICADORMINUSCULA PUNTOYCOMA{cout<<"Identificador ";cout<<"PuntoYCOma ";}
+secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA PUNTOYCOMA{cout<<"Identificador ";cout<<"PuntoYCOma ";}
                              |  IDENTIFICADORMINUSCULA COMA secuencia_de_Identificadores {cout<<"Identificador "; cout<<"Coma ";}
                              ;
 
@@ -132,11 +132,12 @@ creacion_cuadros_nombre :
 inic_acciones_cuadros :
                       |  acciones_cuadros inic_acciones_cuadros
                       ;
-acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr')' saltoOpcional {cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;}
+acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' saltoOpcional {cout<<"Pintar (Identificador_mayuscula, Expr,Expr)"<<endl;}
                 | PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')'  saltoOpcional {cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;}
                 | PAUSA  '('expr ')'  saltoOpcional{cout<<"Pausa (expr)"<<endl;}
                 | expr ASIGNACION expr saltoOpcional{cout<<"Identificador_Minuscula Asignacion Expr"<<endl;}
                 | MENSAJE  '('CADENA ')' saltoOpcional{cout<<"Mensaje (CADENA)"<<endl;}
+                | COMENTARIO
                 ;
 
 salto : SALTOLINEA

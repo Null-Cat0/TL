@@ -37,7 +37,7 @@ CUADRO "Homenaje a Mondrian" :
 	
 
 
-
+    Pintar (FranjaVerde, 0, 0)
 	Pintar (LineaH, f1)
 	Pintar (LineaH, f2)
 	Pintar (LineaH, f3)
@@ -50,9 +50,7 @@ FINCUADRO
 
 
 CUADRO "Bandera" :
-  Pintar (FranjaVerde, 0, 0)
-	Pintar (LineaFina, 32)
-	Pintar (LineaFina, 67)
+    Pintar (FranjaVerde, 0, 0)
 	Pintar (FranjaNegra, 68, 0)
 
 FINCUADRO
