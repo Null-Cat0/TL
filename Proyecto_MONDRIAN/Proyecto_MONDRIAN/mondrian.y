@@ -61,78 +61,84 @@ string enteroOreal(bool enteroOreal)
 
 %start all
 
-%left '+' '-'  ASIGNACION /* asociativo por la izquierda, misma prioridad /
-%left '' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
-%left menos
-%nonassoc PINTAR
-
+%left OR
+%left AND
+%left IGUAL DISTINTO ASIGNACION
+%left MENOR MENORIGUAL MAYORIGUAL MAYOR
+%left '+' '-'   /* asociativo por la izquierda, misma prioridad */
+%left '*' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
+%left menos  
+%left NOT
 %%
 
 
 //-------------------------------------------BLOQUE VARIABLES------------------------------------
-
-all : zona_variables zona_recuadros zona_lineas creacion_cuadros_nombre  {;}
+all :
+    | zona_variables zona_recuadros zona_lineas creacion_cuadros_nombre  {;}
     ;
 
-zona_variables : VARIABLES salto definicion{cout << "VARIABLES"<<endl;}
+zona_variables : VARIABLES salto inic_definicion{cout << "VARIABLES"<<endl;}
                ;
 
-definicion :  
-           | definicion TIPO  IDENTIFICADORMINUSCULA asignacion{cout<<"Tipo Identificador";}
-           | definicion TIPO secuencia_de_Identificadores  saltoOpcional {cout<<"Tipo secuencia_Identificadores ";}
-           | definicion IDENTIFICADORMINUSCULA asignacion{;}
-           | RECUADROS {}
+inic_definicion :
+              | inic_definicion definicion
+              ;
+
+definicion :  TIPO  expr asignacion{cout<<"Tipo Identificador";}
+           |  TIPO secuencia_de_Identificadores  saltoOpcional {cout<<"Tipo secuencia_Identificadores ";}
+           |  expr asignacion{;}
            ;
-asignacion :
-            |ASIGNACION REAL PUNTOYCOMA salto{cout<<"Asignacion "<<"Real "<<"PuntoYComa ";cout<<endl;}
-            |ASIGNACION ENTERO PUNTOYCOMA salto{cout<<"Asignacion  Entero PuntoYComa "<<endl;}
-            |ASIGNACION expr PUNTOYCOMA salto{cout<<"Asignacion  Expr PuntoYComa ";cout<<endl;}
+
+asignacion : ASIGNACION expr PUNTOYCOMA salto{cout<<"Asignacion  Expr PuntoYComa ";cout<<endl;}
             ;
+
 secuencia_de_Identificadores : IDENTIFICADORMINUSCULA PUNTOYCOMA{cout<<"Identificador ";cout<<"PuntoYCOma ";}
-                             | secuencia_de_Identificadores IDENTIFICADORMINUSCULA COMA {cout<<"Identificador "; cout<<"Coma ";}
+                             |  IDENTIFICADORMINUSCULA COMA secuencia_de_Identificadores {cout<<"Identificador "; cout<<"Coma ";}
                              ;
 
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE RECUADROS-------------------------------------
 
-zona_recuadros : RECUADROS salto {cout << "RECUADRO"<<endl;}  definicion_recuadro  {;}  
+zona_recuadros : 
+               | RECUADROS salto  inic_definicion_recuadro {cout<<"RECUADROS"<<endl;}  
                ;
-
-definicion_recuadro : 
-                  | definicion_recuadro IDENTIFICADORMAYUSCULA {cout << "Identificador_mayuscula ";} IGUAL {cout << "igual ";} '<' expr {cout << "entero ";} COMA {cout << "coma ";} expr {cout << "entero ";} COMA {cout << "coma ";} COLOR {cout << "color ";} '>' {cout << "mayor ";} salto {cout << endl;} {;}//preferimos que haya salto
-                  | LINEAS {;}
+inic_definicion_recuadro :
+                        | inic_definicion_recuadro definicion_recuadro
+                        ;
+definicion_recuadro : IDENTIFICADORMAYUSCULA IGUAL '<' expr  COMA  expr  COMA COLOR '>'  salto {cout << "Identificador_mayuscula = < Entero, Entero, Color>"<<endl;}//preferimos que haya salto
                   ;
 
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE LINEAS----------------------------------------
 
-zona_lineas : LINEAS {cout << "LINEAS"<<endl;} salto definicion_linea 
+zona_lineas : LINEAS  salto inic_definicion_linea {cout << "LINEAS"<<endl;}
             ;
 
-definicion_linea : 
-                 | definicion_linea comentario {cout << "Comentario"<<endl;} 
-                 | definicion_linea IDENTIFICADORMAYUSCULA {cout << "Identificador_mayuscula ";} IGUAL {cout << "igual ";} '<' expr {cout << "entero ";} COMA {cout << "coma ";} ORIENTACION {cout << "entero ";} COMA {cout << "coma ";} COLOR {cout << "color ";} '>' {cout << "mayor ";} salto {cout << endl;} {;}//preferimos que haya salto
+inic_definicion_linea :
+                      | inic_definicion_linea definicion_linea
+                      ;  
+definicion_linea : comentario {cout << "Comentario"<<endl;} 
+                 | IDENTIFICADORMAYUSCULA IGUAL  '<' expr  COMA  ORIENTACION  COMA COLOR '>' salto {cout << "Identificador_mayuscula = < Entero, Orientacion, Color>"<<endl;} //preferimos que haya salto
                  ;
-comentario:
-          | comentario  COMENTARIO  salto 
+comentario: COMENTARIO 
+          | COMENTARIO salto  comentario
           ;
 //------------------------------------------------------------------------------------------------
 //----------------------------------BLOQUE CUADROS CREADOS----------------------------------------
 //------------------------------------------------------------------------------------------------
 creacion_cuadros_nombre :
-                        |  creacion_cuadros_nombre CUADRO {cout<<"Cuadro ";} CADENA {cout<<"NombreCuadro ";} ':' salto  {cout<<endl;}  acciones_cuadros  FINCUADRO salto
-
+                        |  creacion_cuadros_nombre CUADRO CADENA  ':' salto  inic_acciones_cuadros FINCUADRO salto  {cout<<"Cuadro NombreCuadro :"<<endl;} 
                         ;
-acciones_cuadros: 
-                |acciones_cuadros  pintado saltoOpcional{cout<<endl;}
-                |acciones_cuadros PAUSA  {cout<<"Pausa ";}'('expr {cout<<"expr ";}')'  saltoOpcional{cout<<endl;}
-                |acciones_cuadros  expr {cout<<"Identificador_Minuscula ";} ASIGNACION {cout<<"Asignaciøn ";} expr {cout<<"Expr ";} saltoOpcional{cout<<endl;}
-                |acciones_cuadros  MENSAJE {cout<<"Mensaje ";} '('CADENA {cout<<"Cadena ";}')' saltoOpcional{cout<<endl;}
+inic_acciones_cuadros :
+                      |  acciones_cuadros inic_acciones_cuadros
+                      ;
+acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr')' saltoOpcional {cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;}
+                | PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')'  saltoOpcional {cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;}
+                | PAUSA  '('expr ')'  saltoOpcional{cout<<"Pausa (expr)"<<endl;}
+                | expr ASIGNACION expr saltoOpcional{cout<<"Identificador_Minuscula Asignacion Expr"<<endl;}
+                | MENSAJE  '('CADENA ')' saltoOpcional{cout<<"Mensaje (CADENA)"<<endl;}
                 ;
-pintado :
-        | PINTAR {cout<<"Pintar ";} '(' IDENTIFICADORMAYUSCULA {cout<<"Identificador_mayuscula ";} COMA expr{cout<<"Expr ";}')'  saltoOpcional {cout<<endl;}
-        | PINTAR {cout<<"Pintar ";} '(' IDENTIFICADORMAYUSCULA {cout<<"Identificador_mayuscula ";} COMA expr{cout<<"Expr ";} COMA expr{cout<<"Expr ";}')' saltoOpcional{cout<<endl;}
-        ;
+
 salto : SALTOLINEA
       | salto SALTOLINEA
       ;

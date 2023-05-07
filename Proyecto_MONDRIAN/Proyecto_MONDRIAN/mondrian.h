@@ -79,7 +79,15 @@ extern int yydebug;
     CADENA = 280,                  /* CADENA  */
     REAL = 281,                    /* REAL  */
     BOOL = 282,                    /* BOOL  */
-    menos = 283                    /* menos  */
+    OR = 283,                      /* OR  */
+    AND = 284,                     /* AND  */
+    DISTINTO = 285,                /* DISTINTO  */
+    MENOR = 286,                   /* MENOR  */
+    MENORIGUAL = 287,              /* MENORIGUAL  */
+    MAYORIGUAL = 288,              /* MAYORIGUAL  */
+    MAYOR = 289,                   /* MAYOR  */
+    menos = 290,                   /* menos  */
+    NOT = 291                      /* NOT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -100,7 +108,7 @@ union YYSTYPE
       bool esLogica;
       } c_expresion;
 
-#line 104 "mondrian.h"
+#line 112 "mondrian.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -2,396 +2,198 @@ Terminals unused in grammar
 
     MENOS
     BOOL
-
-
-Rules useless in parser due to conflicts
-
-   66 $@34: ε
-
-
-State 5 conflicts: 1 shift/reduce
-State 17 conflicts: 1 shift/reduce
-State 21 conflicts: 1 shift/reduce
-State 31 conflicts: 1 shift/reduce
-State 33 conflicts: 1 shift/reduce
-State 35 conflicts: 1 shift/reduce
-State 40 conflicts: 1 shift/reduce, 2 reduce/reduce
-State 47 conflicts: 4 shift/reduce
-State 58 conflicts: 1 shift/reduce
-State 63 conflicts: 6 shift/reduce
-State 65 conflicts: 4 shift/reduce
-State 66 conflicts: 4 shift/reduce
-State 67 conflicts: 6 shift/reduce
-State 68 conflicts: 6 shift/reduce
-State 69 conflicts: 6 shift/reduce
-State 80 conflicts: 1 shift/reduce
-State 86 conflicts: 9 shift/reduce
-State 89 conflicts: 1 reduce/reduce
-State 93 conflicts: 1 shift/reduce
-State 124 conflicts: 1 shift/reduce
-State 129 conflicts: 1 shift/reduce
-State 130 conflicts: 1 shift/reduce
-State 131 conflicts: 1 shift/reduce
-State 145 conflicts: 1 shift/reduce
-State 156 conflicts: 1 shift/reduce
+    OR
+    AND
+    DISTINTO
+    MENOR
+    MENORIGUAL
+    MAYORIGUAL
+    MAYOR
+    NOT
 
 
 Grammar
 
     0 $accept: all $end
 
-    1 all: zona_variables zona_recuadros zona_lineas creacion_cuadros_nombre
+    1 all: ε
+    2    | zona_variables zona_recuadros zona_lineas creacion_cuadros_nombre
 
-    2 zona_variables: VARIABLES salto definicion
+    3 zona_variables: VARIABLES salto inic_definicion
 
-    3 definicion: ε
-    4           | definicion TIPO IDENTIFICADORMINUSCULA asignacion
-    5           | definicion TIPO secuencia_de_Identificadores saltoOpcional
-    6           | definicion IDENTIFICADORMINUSCULA asignacion
-    7           | RECUADROS
+    4 inic_definicion: ε
+    5                | inic_definicion definicion
 
-    8 asignacion: ε
-    9           | ASIGNACION REAL PUNTOYCOMA salto
-   10           | ASIGNACION ENTERO PUNTOYCOMA salto
-   11           | ASIGNACION expr PUNTOYCOMA salto
+    6 definicion: TIPO expr asignacion
+    7           | TIPO secuencia_de_Identificadores saltoOpcional
+    8           | expr asignacion
 
-   12 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA PUNTOYCOMA
-   13                             | secuencia_de_Identificadores IDENTIFICADORMINUSCULA COMA
+    9 asignacion: ASIGNACION expr PUNTOYCOMA salto
 
-   14 $@1: ε
+   10 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA PUNTOYCOMA
+   11                             | IDENTIFICADORMINUSCULA COMA secuencia_de_Identificadores
 
-   15 zona_recuadros: RECUADROS salto $@1 definicion_recuadro
+   12 zona_recuadros: ε
+   13               | RECUADROS salto inic_definicion_recuadro
 
-   16 definicion_recuadro: ε
+   14 inic_definicion_recuadro: ε
+   15                         | inic_definicion_recuadro definicion_recuadro
 
-   17 $@2: ε
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR '>' salto
 
-   18 $@3: ε
+   17 zona_lineas: LINEAS salto inic_definicion_linea
 
-   19 $@4: ε
+   18 inic_definicion_linea: ε
+   19                      | inic_definicion_linea definicion_linea
 
-   20 $@5: ε
+   20 definicion_linea: comentario
+   21                 | IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' salto
 
-   21 $@6: ε
+   22 comentario: COMENTARIO
+   23           | COMENTARIO salto comentario
 
-   22 $@7: ε
+   24 creacion_cuadros_nombre: ε
+   25                        | creacion_cuadros_nombre CUADRO CADENA ':' salto inic_acciones_cuadros FINCUADRO salto
 
-   23 $@8: ε
+   26 inic_acciones_cuadros: ε
+   27                      | acciones_cuadros inic_acciones_cuadros
 
-   24 $@9: ε
+   28 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' saltoOpcional
+   29                 | PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')' saltoOpcional
+   30                 | PAUSA '(' expr ')' saltoOpcional
+   31                 | expr ASIGNACION expr
+   32                 | MENSAJE '(' CADENA ')' saltoOpcional
 
-   25 $@10: ε
+   33 salto: SALTOLINEA
+   34      | salto SALTOLINEA
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
-   27                    | LINEAS
+   35 saltoOpcional: ε
+   36              | salto
 
-   28 $@11: ε
-
-   29 zona_lineas: LINEAS $@11 salto definicion_linea
-
-   30 definicion_linea: ε
-   31                 | definicion_linea comentario
-
-   32 $@12: ε
-
-   33 $@13: ε
-
-   34 $@14: ε
-
-   35 $@15: ε
-
-   36 $@16: ε
-
-   37 $@17: ε
-
-   38 $@18: ε
-
-   39 $@19: ε
-
-   40 $@20: ε
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
-
-   42 comentario: ε
-   43           | comentario COMENTARIO salto
-
-   44 creacion_cuadros_nombre: ε
-
-   45 $@21: ε
-
-   46 $@22: ε
-
-   47 $@23: ε
-
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 CADENA $@22 ':' salto $@23 acciones_cuadros FINCUADRO salto
-
-   49 acciones_cuadros: ε
-   50                 | acciones_cuadros pintado saltoOpcional
-
-   51 $@24: ε
-
-   52 $@25: ε
-
-   53 acciones_cuadros: acciones_cuadros PAUSA $@24 '(' expr $@25 ')' saltoOpcional
-
-   54 $@26: ε
-
-   55 $@27: ε
-
-   56 $@28: ε
-
-   57 acciones_cuadros: acciones_cuadros expr $@26 ASIGNACION $@27 expr $@28 saltoOpcional
-
-   58 $@29: ε
-
-   59 $@30: ε
-
-   60 acciones_cuadros: acciones_cuadros MENSAJE $@29 '(' CADENA $@30 ')' saltoOpcional
-
-   61 pintado: ε
-
-   62 $@31: ε
-
-   63 $@32: ε
-
-   64 $@33: ε
-
-   65 pintado: PINTAR $@31 '(' IDENTIFICADORMAYUSCULA $@32 COMA expr $@33 ')' saltoOpcional
-
-   66 $@34: ε
-
-   67 $@35: ε
-
-   68 $@36: ε
-
-   69 $@37: ε
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 COMA expr $@37 ')' saltoOpcional
-
-   71 salto: SALTOLINEA
-   72      | salto SALTOLINEA
-
-   73 saltoOpcional: ε
-   74              | salto
-
-   75 expr: ENTERO
-   76     | REAL
-   77     | IDENTIFICADORMINUSCULA
-   78     | expr '+' expr
-   79     | expr '-' expr
-   80     | expr '*' expr
-   81     | expr '/' expr
-   82     | expr DIV expr
-   83     | expr '%' expr
-   84     | '-' expr
-   85     | '(' expr ')'
+   37 expr: ENTERO
+   38     | REAL
+   39     | IDENTIFICADORMINUSCULA
+   40     | expr '+' expr
+   41     | expr '-' expr
+   42     | expr '*' expr
+   43     | expr '/' expr
+   44     | expr DIV expr
+   45     | expr '%' expr
+   46     | '-' expr
+   47     | '(' expr ')'
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
-    '%' (37) 83
-    '(' (40) 53 60 65 70 85
-    ')' (41) 53 60 65 70 85
-    '*' (42) 80
-    '+' (43) 78
-    '-' (45) 79 84
-    '/' (47) 81
-    ':' (58) 48
-    '<' (60) 26 41
-    '>' (62) 26 41
+    '%' (37) 45
+    '(' (40) 28 29 30 32 47
+    ')' (41) 28 29 30 32 47
+    '*' (42) 42
+    '+' (43) 40
+    '-' (45) 41 46
+    '/' (47) 43
+    ':' (58) 25
+    '<' (60) 16 21
+    '>' (62) 16 21
     error (256)
-    PINTAR (258) 65 70
-    MENSAJE (259) 60
-    PAUSA (260) 53
-    COMENTARIO (261) 43
-    ASIGNACION (262) 9 10 11 57
-    IGUAL (263) 26 41
-    VARIABLES (264) 2
-    RECUADROS (265) 7 15
-    COLOR (266) 26 41
-    LINEAS (267) 27 29
-    ORIENTACION (268) 41
-    DIV (269) 82
+    PINTAR (258) 28 29
+    MENSAJE (259) 32
+    PAUSA (260) 30
+    COMENTARIO (261) 22 23
+    ASIGNACION (262) 9 31
+    IGUAL (263) 16 21
+    VARIABLES (264) 3
+    RECUADROS (265) 13
+    COLOR (266) 16 21
+    LINEAS (267) 17
+    ORIENTACION (268) 21
+    DIV (269) 44
     MENOS (270)
-    SALTOLINEA (271) 71 72
-    PUNTOYCOMA (272) 9 10 11 12
-    TIPO (273) 4 5
-    COMA (274) 13 26 41 65 70
-    CUADRO (275) 48
-    FINCUADRO (276) 48
-    ENTERO <c_entero> (277) 10 75
-    IDENTIFICADORMINUSCULA <var> (278) 4 6 12 13 77
-    IDENTIFICADORMAYUSCULA <var> (279) 26 41 65 70
-    CADENA <var> (280) 48 60
-    REAL <c_real> (281) 9 76
+    SALTOLINEA (271) 33 34
+    PUNTOYCOMA (272) 9 10
+    TIPO (273) 6 7
+    COMA (274) 11 16 21 28 29
+    CUADRO (275) 25
+    FINCUADRO (276) 25
+    ENTERO <c_entero> (277) 37
+    IDENTIFICADORMINUSCULA <var> (278) 10 11 39
+    IDENTIFICADORMAYUSCULA <var> (279) 16 21 28 29
+    CADENA <var> (280) 25 32
+    REAL <c_real> (281) 38
     BOOL <c_bool> (282)
-    menos (283)
+    OR (283)
+    AND (284)
+    DISTINTO (285)
+    MENOR (286)
+    MENORIGUAL (287)
+    MAYORIGUAL (288)
+    MAYOR (289)
+    menos (290)
+    NOT (291)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (39)
+    $accept (47)
         on left: 0
-    all (40)
-        on left: 1
+    all (48)
+        on left: 1 2
         on right: 0
-    zona_variables (41)
-        on left: 2
-        on right: 1
-    definicion (42)
-        on left: 3 4 5 6 7
-        on right: 2 4 5 6
-    asignacion (43)
-        on left: 8 9 10 11
-        on right: 4 6
-    secuencia_de_Identificadores (44)
+    zona_variables (49)
+        on left: 3
+        on right: 2
+    inic_definicion (50)
+        on left: 4 5
+        on right: 3 5
+    definicion (51)
+        on left: 6 7 8
+        on right: 5
+    asignacion (52)
+        on left: 9
+        on right: 6 8
+    secuencia_de_Identificadores (53)
+        on left: 10 11
+        on right: 7 11
+    zona_recuadros (54)
         on left: 12 13
-        on right: 5 13
-    zona_recuadros (45)
-        on left: 15
-        on right: 1
-    $@1 (46)
-        on left: 14
+        on right: 2
+    inic_definicion_recuadro (55)
+        on left: 14 15
+        on right: 13 15
+    definicion_recuadro (56)
+        on left: 16
         on right: 15
-    definicion_recuadro (47)
-        on left: 16 26 27
-        on right: 15 26
-    $@2 (48)
-        on left: 17
-        on right: 26
-    $@3 (49)
-        on left: 18
-        on right: 26
-    $@4 (50)
-        on left: 19
-        on right: 26
-    $@5 (51)
-        on left: 20
-        on right: 26
-    $@6 (52)
-        on left: 21
-        on right: 26
-    $@7 (53)
-        on left: 22
-        on right: 26
-    $@8 (54)
-        on left: 23
-        on right: 26
-    $@9 (55)
-        on left: 24
-        on right: 26
-    $@10 (56)
-        on left: 25
-        on right: 26
     zona_lineas (57)
-        on left: 29
-        on right: 1
-    $@11 (58)
-        on left: 28
-        on right: 29
+        on left: 17
+        on right: 2
+    inic_definicion_linea (58)
+        on left: 18 19
+        on right: 17 19
     definicion_linea (59)
-        on left: 30 31 41
-        on right: 29 31 41
-    $@12 (60)
-        on left: 32
-        on right: 41
-    $@13 (61)
-        on left: 33
-        on right: 41
-    $@14 (62)
-        on left: 34
-        on right: 41
-    $@15 (63)
-        on left: 35
-        on right: 41
-    $@16 (64)
-        on left: 36
-        on right: 41
-    $@17 (65)
-        on left: 37
-        on right: 41
-    $@18 (66)
-        on left: 38
-        on right: 41
-    $@19 (67)
-        on left: 39
-        on right: 41
-    $@20 (68)
-        on left: 40
-        on right: 41
-    comentario (69)
-        on left: 42 43
-        on right: 31 43
-    creacion_cuadros_nombre (70)
-        on left: 44 48
-        on right: 1 48
-    $@21 (71)
-        on left: 45
-        on right: 48
-    $@22 (72)
-        on left: 46
-        on right: 48
-    $@23 (73)
-        on left: 47
-        on right: 48
-    acciones_cuadros (74)
-        on left: 49 50 53 57 60
-        on right: 48 50 53 57 60
-    $@24 (75)
-        on left: 51
-        on right: 53
-    $@25 (76)
-        on left: 52
-        on right: 53
-    $@26 (77)
-        on left: 54
-        on right: 57
-    $@27 (78)
-        on left: 55
-        on right: 57
-    $@28 (79)
-        on left: 56
-        on right: 57
-    $@29 (80)
-        on left: 58
-        on right: 60
-    $@30 (81)
-        on left: 59
-        on right: 60
-    pintado (82)
-        on left: 61 65 70
-        on right: 50
-    $@31 (83)
-        on left: 62
-        on right: 65
-    $@32 (84)
-        on left: 63
-        on right: 65
-    $@33 (85)
-        on left: 64
-        on right: 65
-    $@34 (86)
-        on left: 66
-        on right: 70
-    $@35 (87)
-        on left: 67
-        on right: 70
-    $@36 (88)
-        on left: 68
-        on right: 70
-    $@37 (89)
-        on left: 69
-        on right: 70
-    salto (90)
-        on left: 71 72
-        on right: 2 9 10 11 15 26 29 41 43 48 72 74
-    saltoOpcional (91)
-        on left: 73 74
-        on right: 5 50 53 57 60 65 70
-    expr <c_expresion> (92)
-        on left: 75 76 77 78 79 80 81 82 83 84 85
-        on right: 11 26 41 53 57 65 70 78 79 80 81 82 83 84 85
+        on left: 20 21
+        on right: 19
+    comentario (60)
+        on left: 22 23
+        on right: 20 23
+    creacion_cuadros_nombre (61)
+        on left: 24 25
+        on right: 2 25
+    inic_acciones_cuadros (62)
+        on left: 26 27
+        on right: 25 27
+    acciones_cuadros (63)
+        on left: 28 29 30 31 32
+        on right: 27
+    salto (64)
+        on left: 33 34
+        on right: 3 9 13 16 17 21 23 25 34 36
+    saltoOpcional (65)
+        on left: 35 36
+        on right: 7 28 29 30 32
+    expr <c_expresion> (66)
+        on left: 37 38 39 40 41 42 43 44 45 46 47
+        on right: 6 8 9 16 21 28 29 30 31 40 41 42 43 44 45 46 47
 
 
 State 0
@@ -400,13 +202,15 @@ State 0
 
     VARIABLES  shift, and go to state 1
 
+    $default  reduce using rule 1 (all)
+
     all             go to state 2
     zona_variables  go to state 3
 
 
 State 1
 
-    2 zona_variables: VARIABLES • salto definicion
+    3 zona_variables: VARIABLES • salto inic_definicion
 
     SALTOLINEA  shift, and go to state 4
 
@@ -422,32 +226,32 @@ State 2
 
 State 3
 
-    1 all: zona_variables • zona_recuadros zona_lineas creacion_cuadros_nombre
+    2 all: zona_variables • zona_recuadros zona_lineas creacion_cuadros_nombre
 
     RECUADROS  shift, and go to state 7
+
+    $default  reduce using rule 12 (zona_recuadros)
 
     zona_recuadros  go to state 8
 
 
 State 4
 
-   71 salto: SALTOLINEA •
+   33 salto: SALTOLINEA •
 
-    $default  reduce using rule 71 (salto)
+    $default  reduce using rule 33 (salto)
 
 
 State 5
 
-    2 zona_variables: VARIABLES salto • definicion
-   72 salto: salto • SALTOLINEA
+    3 zona_variables: VARIABLES salto • inic_definicion
+   34 salto: salto • SALTOLINEA
 
-    RECUADROS   shift, and go to state 9
-    SALTOLINEA  shift, and go to state 10
+    SALTOLINEA  shift, and go to state 9
 
-    RECUADROS  [reduce using rule 3 (definicion)]
-    $default   reduce using rule 3 (definicion)
+    $default  reduce using rule 4 (inic_definicion)
 
-    definicion  go to state 11
+    inic_definicion  go to state 10
 
 
 State 6
@@ -459,1693 +263,1206 @@ State 6
 
 State 7
 
-   15 zona_recuadros: RECUADROS • salto $@1 definicion_recuadro
+   13 zona_recuadros: RECUADROS • salto inic_definicion_recuadro
 
     SALTOLINEA  shift, and go to state 4
 
-    salto  go to state 12
+    salto  go to state 11
 
 
 State 8
 
-    1 all: zona_variables zona_recuadros • zona_lineas creacion_cuadros_nombre
+    2 all: zona_variables zona_recuadros • zona_lineas creacion_cuadros_nombre
 
-    LINEAS  shift, and go to state 13
+    LINEAS  shift, and go to state 12
 
-    zona_lineas  go to state 14
+    zona_lineas  go to state 13
 
 
 State 9
 
-    7 definicion: RECUADROS •
+   34 salto: salto SALTOLINEA •
 
-    $default  reduce using rule 7 (definicion)
+    $default  reduce using rule 34 (salto)
 
 
 State 10
 
-   72 salto: salto SALTOLINEA •
+    3 zona_variables: VARIABLES salto inic_definicion •
+    5 inic_definicion: inic_definicion • definicion
 
-    $default  reduce using rule 72 (salto)
+    TIPO                    shift, and go to state 14
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    $default  reduce using rule 3 (zona_variables)
+
+    definicion  go to state 20
+    expr        go to state 21
 
 
 State 11
 
-    2 zona_variables: VARIABLES salto definicion •
-    4 definicion: definicion • TIPO IDENTIFICADORMINUSCULA asignacion
-    5           | definicion • TIPO secuencia_de_Identificadores saltoOpcional
-    6           | definicion • IDENTIFICADORMINUSCULA asignacion
+   13 zona_recuadros: RECUADROS salto • inic_definicion_recuadro
+   34 salto: salto • SALTOLINEA
 
-    TIPO                    shift, and go to state 15
-    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    SALTOLINEA  shift, and go to state 9
 
-    $default  reduce using rule 2 (zona_variables)
+    $default  reduce using rule 14 (inic_definicion_recuadro)
+
+    inic_definicion_recuadro  go to state 22
 
 
 State 12
 
-   15 zona_recuadros: RECUADROS salto • $@1 definicion_recuadro
-   72 salto: salto • SALTOLINEA
+   17 zona_lineas: LINEAS • salto inic_definicion_linea
 
-    SALTOLINEA  shift, and go to state 10
+    SALTOLINEA  shift, and go to state 4
 
-    $default  reduce using rule 14 ($@1)
-
-    $@1  go to state 17
+    salto  go to state 23
 
 
 State 13
 
-   29 zona_lineas: LINEAS • $@11 salto definicion_linea
+    2 all: zona_variables zona_recuadros zona_lineas • creacion_cuadros_nombre
 
-    $default  reduce using rule 28 ($@11)
+    $default  reduce using rule 24 (creacion_cuadros_nombre)
 
-    $@11  go to state 18
+    creacion_cuadros_nombre  go to state 24
 
 
 State 14
 
-    1 all: zona_variables zona_recuadros zona_lineas • creacion_cuadros_nombre
+    6 definicion: TIPO • expr asignacion
+    7           | TIPO • secuencia_de_Identificadores saltoOpcional
 
-    $default  reduce using rule 44 (creacion_cuadros_nombre)
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 25
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
 
-    creacion_cuadros_nombre  go to state 19
+    secuencia_de_Identificadores  go to state 26
+    expr                          go to state 27
 
 
 State 15
 
-    4 definicion: definicion TIPO • IDENTIFICADORMINUSCULA asignacion
-    5           | definicion TIPO • secuencia_de_Identificadores saltoOpcional
+   37 expr: ENTERO •
 
-    IDENTIFICADORMINUSCULA  shift, and go to state 20
-
-    secuencia_de_Identificadores  go to state 21
+    $default  reduce using rule 37 (expr)
 
 
 State 16
 
-    6 definicion: definicion IDENTIFICADORMINUSCULA • asignacion
+   39 expr: IDENTIFICADORMINUSCULA •
 
-    ASIGNACION  shift, and go to state 22
-
-    $default  reduce using rule 8 (asignacion)
-
-    asignacion  go to state 23
+    $default  reduce using rule 39 (expr)
 
 
 State 17
 
-   15 zona_recuadros: RECUADROS salto $@1 • definicion_recuadro
+   38 expr: REAL •
 
-    LINEAS  shift, and go to state 24
-
-    LINEAS    [reduce using rule 16 (definicion_recuadro)]
-    $default  reduce using rule 16 (definicion_recuadro)
-
-    definicion_recuadro  go to state 25
+    $default  reduce using rule 38 (expr)
 
 
 State 18
 
-   29 zona_lineas: LINEAS $@11 • salto definicion_linea
+   46 expr: '-' • expr
 
-    SALTOLINEA  shift, and go to state 4
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
 
-    salto  go to state 26
+    expr  go to state 28
 
 
 State 19
 
-    1 all: zona_variables zona_recuadros zona_lineas creacion_cuadros_nombre •
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre • CUADRO $@21 CADENA $@22 ':' salto $@23 acciones_cuadros FINCUADRO salto
+   47 expr: '(' • expr ')'
 
-    CUADRO  shift, and go to state 27
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
 
-    $default  reduce using rule 1 (all)
+    expr  go to state 29
 
 
 State 20
 
-    4 definicion: definicion TIPO IDENTIFICADORMINUSCULA • asignacion
-   12 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA • PUNTOYCOMA
+    5 inic_definicion: inic_definicion definicion •
 
-    ASIGNACION  shift, and go to state 22
-    PUNTOYCOMA  shift, and go to state 28
-
-    $default  reduce using rule 8 (asignacion)
-
-    asignacion  go to state 29
+    $default  reduce using rule 5 (inic_definicion)
 
 
 State 21
 
-    5 definicion: definicion TIPO secuencia_de_Identificadores • saltoOpcional
-   13 secuencia_de_Identificadores: secuencia_de_Identificadores • IDENTIFICADORMINUSCULA COMA
+    8 definicion: expr • asignacion
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    SALTOLINEA              shift, and go to state 4
-    IDENTIFICADORMINUSCULA  shift, and go to state 30
+    ASIGNACION  shift, and go to state 30
+    DIV         shift, and go to state 31
+    '+'         shift, and go to state 32
+    '-'         shift, and go to state 33
+    '*'         shift, and go to state 34
+    '/'         shift, and go to state 35
+    '%'         shift, and go to state 36
 
-    IDENTIFICADORMINUSCULA  [reduce using rule 73 (saltoOpcional)]
-    $default                reduce using rule 73 (saltoOpcional)
-
-    salto          go to state 31
-    saltoOpcional  go to state 32
+    asignacion  go to state 37
 
 
 State 22
 
-    9 asignacion: ASIGNACION • REAL PUNTOYCOMA salto
-   10           | ASIGNACION • ENTERO PUNTOYCOMA salto
-   11           | ASIGNACION • expr PUNTOYCOMA salto
+   13 zona_recuadros: RECUADROS salto inic_definicion_recuadro •
+   15 inic_definicion_recuadro: inic_definicion_recuadro • definicion_recuadro
 
-    ENTERO                  shift, and go to state 33
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 35
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
+    IDENTIFICADORMAYUSCULA  shift, and go to state 38
 
-    expr  go to state 38
+    $default  reduce using rule 13 (zona_recuadros)
+
+    definicion_recuadro  go to state 39
 
 
 State 23
 
-    6 definicion: definicion IDENTIFICADORMINUSCULA asignacion •
+   17 zona_lineas: LINEAS salto • inic_definicion_linea
+   34 salto: salto • SALTOLINEA
 
-    $default  reduce using rule 6 (definicion)
+    SALTOLINEA  shift, and go to state 9
+
+    $default  reduce using rule 18 (inic_definicion_linea)
+
+    inic_definicion_linea  go to state 40
 
 
 State 24
 
-   27 definicion_recuadro: LINEAS •
+    2 all: zona_variables zona_recuadros zona_lineas creacion_cuadros_nombre •
+   25 creacion_cuadros_nombre: creacion_cuadros_nombre • CUADRO CADENA ':' salto inic_acciones_cuadros FINCUADRO salto
 
-    $default  reduce using rule 27 (definicion_recuadro)
+    CUADRO  shift, and go to state 41
+
+    $default  reduce using rule 2 (all)
 
 
 State 25
 
-   15 zona_recuadros: RECUADROS salto $@1 definicion_recuadro •
-   26 definicion_recuadro: definicion_recuadro • IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
+   10 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA • PUNTOYCOMA
+   11                             | IDENTIFICADORMINUSCULA • COMA secuencia_de_Identificadores
+   39 expr: IDENTIFICADORMINUSCULA •
 
-    IDENTIFICADORMAYUSCULA  shift, and go to state 39
+    PUNTOYCOMA  shift, and go to state 42
+    COMA        shift, and go to state 43
 
-    $default  reduce using rule 15 (zona_recuadros)
+    $default  reduce using rule 39 (expr)
 
 
 State 26
 
-   29 zona_lineas: LINEAS $@11 salto • definicion_linea
-   72 salto: salto • SALTOLINEA
+    7 definicion: TIPO secuencia_de_Identificadores • saltoOpcional
 
-    SALTOLINEA  shift, and go to state 10
+    SALTOLINEA  shift, and go to state 4
 
-    $default  reduce using rule 30 (definicion_linea)
+    $default  reduce using rule 35 (saltoOpcional)
 
-    definicion_linea  go to state 40
+    salto          go to state 44
+    saltoOpcional  go to state 45
 
 
 State 27
 
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO • $@21 CADENA $@22 ':' salto $@23 acciones_cuadros FINCUADRO salto
+    6 definicion: TIPO expr • asignacion
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    $default  reduce using rule 45 ($@21)
+    ASIGNACION  shift, and go to state 30
+    DIV         shift, and go to state 31
+    '+'         shift, and go to state 32
+    '-'         shift, and go to state 33
+    '*'         shift, and go to state 34
+    '/'         shift, and go to state 35
+    '%'         shift, and go to state 36
 
-    $@21  go to state 41
+    asignacion  go to state 46
 
 
 State 28
 
-   12 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA PUNTOYCOMA •
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
+   46     | '-' expr •
 
-    $default  reduce using rule 12 (secuencia_de_Identificadores)
+    $default  reduce using rule 46 (expr)
 
 
 State 29
 
-    4 definicion: definicion TIPO IDENTIFICADORMINUSCULA asignacion •
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
+   47     | '(' expr • ')'
 
-    $default  reduce using rule 4 (definicion)
+    DIV  shift, and go to state 31
+    '+'  shift, and go to state 32
+    '-'  shift, and go to state 33
+    '*'  shift, and go to state 34
+    '/'  shift, and go to state 35
+    '%'  shift, and go to state 36
+    ')'  shift, and go to state 47
 
 
 State 30
 
-   13 secuencia_de_Identificadores: secuencia_de_Identificadores IDENTIFICADORMINUSCULA • COMA
+    9 asignacion: ASIGNACION • expr PUNTOYCOMA salto
 
-    COMA  shift, and go to state 42
-
-
-State 31
-
-   72 salto: salto • SALTOLINEA
-   74 saltoOpcional: salto •
-
-    SALTOLINEA  shift, and go to state 10
-
-    SALTOLINEA  [reduce using rule 74 (saltoOpcional)]
-    $default    reduce using rule 74 (saltoOpcional)
-
-
-State 32
-
-    5 definicion: definicion TIPO secuencia_de_Identificadores saltoOpcional •
-
-    $default  reduce using rule 5 (definicion)
-
-
-State 33
-
-   10 asignacion: ASIGNACION ENTERO • PUNTOYCOMA salto
-   75 expr: ENTERO •
-
-    PUNTOYCOMA  shift, and go to state 43
-
-    PUNTOYCOMA  [reduce using rule 75 (expr)]
-    $default    reduce using rule 75 (expr)
-
-
-State 34
-
-   77 expr: IDENTIFICADORMINUSCULA •
-
-    $default  reduce using rule 77 (expr)
-
-
-State 35
-
-    9 asignacion: ASIGNACION REAL • PUNTOYCOMA salto
-   76 expr: REAL •
-
-    PUNTOYCOMA  shift, and go to state 44
-
-    PUNTOYCOMA  [reduce using rule 76 (expr)]
-    $default    reduce using rule 76 (expr)
-
-
-State 36
-
-   84 expr: '-' • expr
-
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 47
-
-
-State 37
-
-   85 expr: '(' • expr ')'
-
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
 
     expr  go to state 48
 
 
+State 31
+
+   44 expr: expr DIV • expr
+
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 49
+
+
+State 32
+
+   40 expr: expr '+' • expr
+
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 50
+
+
+State 33
+
+   41 expr: expr '-' • expr
+
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 51
+
+
+State 34
+
+   42 expr: expr '*' • expr
+
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 52
+
+
+State 35
+
+   43 expr: expr '/' • expr
+
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 53
+
+
+State 36
+
+   45 expr: expr '%' • expr
+
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 54
+
+
+State 37
+
+    8 definicion: expr asignacion •
+
+    $default  reduce using rule 8 (definicion)
+
+
 State 38
 
-   11 asignacion: ASIGNACION expr • PUNTOYCOMA salto
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA • IGUAL '<' expr COMA expr COMA COLOR '>' salto
 
-    DIV         shift, and go to state 49
-    PUNTOYCOMA  shift, and go to state 50
-    '+'         shift, and go to state 51
-    '-'         shift, and go to state 52
-    '*'         shift, and go to state 53
-    '/'         shift, and go to state 54
-    '%'         shift, and go to state 55
+    IGUAL  shift, and go to state 55
 
 
 State 39
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA • $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
+   15 inic_definicion_recuadro: inic_definicion_recuadro definicion_recuadro •
 
-    $default  reduce using rule 17 ($@2)
-
-    $@2  go to state 56
+    $default  reduce using rule 15 (inic_definicion_recuadro)
 
 
 State 40
 
-   29 zona_lineas: LINEAS $@11 salto definicion_linea •
-   31 definicion_linea: definicion_linea • comentario
-   41                 | definicion_linea • IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
+   17 zona_lineas: LINEAS salto inic_definicion_linea •
+   19 inic_definicion_linea: inic_definicion_linea • definicion_linea
 
+    COMENTARIO              shift, and go to state 56
     IDENTIFICADORMAYUSCULA  shift, and go to state 57
 
-    $end                    reduce using rule 29 (zona_lineas)
-    $end                    [reduce using rule 42 (comentario)]
-    COMENTARIO              reduce using rule 42 (comentario)
-    CUADRO                  reduce using rule 29 (zona_lineas)
-    CUADRO                  [reduce using rule 42 (comentario)]
-    IDENTIFICADORMAYUSCULA  [reduce using rule 42 (comentario)]
-    $default                reduce using rule 29 (zona_lineas)
+    $default  reduce using rule 17 (zona_lineas)
 
-    comentario  go to state 58
+    definicion_linea  go to state 58
+    comentario        go to state 59
 
 
 State 41
 
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 • CADENA $@22 ':' salto $@23 acciones_cuadros FINCUADRO salto
+   25 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO • CADENA ':' salto inic_acciones_cuadros FINCUADRO salto
 
-    CADENA  shift, and go to state 59
+    CADENA  shift, and go to state 60
 
 
 State 42
 
-   13 secuencia_de_Identificadores: secuencia_de_Identificadores IDENTIFICADORMINUSCULA COMA •
+   10 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA PUNTOYCOMA •
 
-    $default  reduce using rule 13 (secuencia_de_Identificadores)
+    $default  reduce using rule 10 (secuencia_de_Identificadores)
 
 
 State 43
 
-   10 asignacion: ASIGNACION ENTERO PUNTOYCOMA • salto
+   11 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA COMA • secuencia_de_Identificadores
 
-    SALTOLINEA  shift, and go to state 4
+    IDENTIFICADORMINUSCULA  shift, and go to state 61
 
-    salto  go to state 60
+    secuencia_de_Identificadores  go to state 62
 
 
 State 44
 
-    9 asignacion: ASIGNACION REAL PUNTOYCOMA • salto
+   34 salto: salto • SALTOLINEA
+   36 saltoOpcional: salto •
 
-    SALTOLINEA  shift, and go to state 4
+    SALTOLINEA  shift, and go to state 9
 
-    salto  go to state 61
+    $default  reduce using rule 36 (saltoOpcional)
 
 
 State 45
 
-   75 expr: ENTERO •
+    7 definicion: TIPO secuencia_de_Identificadores saltoOpcional •
 
-    $default  reduce using rule 75 (expr)
+    $default  reduce using rule 7 (definicion)
 
 
 State 46
 
-   76 expr: REAL •
+    6 definicion: TIPO expr asignacion •
 
-    $default  reduce using rule 76 (expr)
+    $default  reduce using rule 6 (definicion)
 
 
 State 47
 
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
-   84     | '-' expr •
+   47 expr: '(' expr ')' •
 
-    DIV  shift, and go to state 49
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    DIV       [reduce using rule 84 (expr)]
-    '*'       [reduce using rule 84 (expr)]
-    '/'       [reduce using rule 84 (expr)]
-    '%'       [reduce using rule 84 (expr)]
-    $default  reduce using rule 84 (expr)
+    $default  reduce using rule 47 (expr)
 
 
 State 48
 
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
-   85     | '(' expr • ')'
+    9 asignacion: ASIGNACION expr • PUNTOYCOMA salto
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    ')'  shift, and go to state 62
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
+    DIV         shift, and go to state 31
+    PUNTOYCOMA  shift, and go to state 63
+    '+'         shift, and go to state 32
+    '-'         shift, and go to state 33
+    '*'         shift, and go to state 34
+    '/'         shift, and go to state 35
+    '%'         shift, and go to state 36
 
 
 State 49
 
-   82 expr: expr DIV • expr
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   44     | expr DIV expr •
+   45     | expr • '%' expr
 
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 63
+    $default  reduce using rule 44 (expr)
 
 
 State 50
 
-   11 asignacion: ASIGNACION expr PUNTOYCOMA • salto
+   40 expr: expr • '+' expr
+   40     | expr '+' expr •
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    SALTOLINEA  shift, and go to state 4
+    DIV  shift, and go to state 31
+    '*'  shift, and go to state 34
+    '/'  shift, and go to state 35
+    '%'  shift, and go to state 36
 
-    salto  go to state 64
+    $default  reduce using rule 40 (expr)
 
 
 State 51
 
-   78 expr: expr '+' • expr
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   41     | expr '-' expr •
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
+    DIV  shift, and go to state 31
+    '*'  shift, and go to state 34
+    '/'  shift, and go to state 35
+    '%'  shift, and go to state 36
 
-    expr  go to state 65
+    $default  reduce using rule 41 (expr)
 
 
 State 52
 
-   79 expr: expr '-' • expr
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   42     | expr '*' expr •
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 66
+    $default  reduce using rule 42 (expr)
 
 
 State 53
 
-   80 expr: expr '*' • expr
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   43     | expr '/' expr •
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 67
+    $default  reduce using rule 43 (expr)
 
 
 State 54
 
-   81 expr: expr '/' • expr
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
+   45     | expr '%' expr •
 
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 68
+    $default  reduce using rule 45 (expr)
 
 
 State 55
 
-   83 expr: expr '%' • expr
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL • '<' expr COMA expr COMA COLOR '>' salto
 
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 69
+    '<'  shift, and go to state 64
 
 
 State 56
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 • IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
+   22 comentario: COMENTARIO •
+   23           | COMENTARIO • salto comentario
 
-    IGUAL  shift, and go to state 70
+    SALTOLINEA  shift, and go to state 4
+
+    $default  reduce using rule 22 (comentario)
+
+    salto  go to state 65
 
 
 State 57
 
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA • $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
+   21 definicion_linea: IDENTIFICADORMAYUSCULA • IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' salto
 
-    $default  reduce using rule 32 ($@12)
-
-    $@12  go to state 71
+    IGUAL  shift, and go to state 66
 
 
 State 58
 
-   31 definicion_linea: definicion_linea comentario •
-   43 comentario: comentario • COMENTARIO salto
+   19 inic_definicion_linea: inic_definicion_linea definicion_linea •
 
-    COMENTARIO  shift, and go to state 72
-
-    COMENTARIO  [reduce using rule 31 (definicion_linea)]
-    $default    reduce using rule 31 (definicion_linea)
+    $default  reduce using rule 19 (inic_definicion_linea)
 
 
 State 59
 
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 CADENA • $@22 ':' salto $@23 acciones_cuadros FINCUADRO salto
+   20 definicion_linea: comentario •
 
-    $default  reduce using rule 46 ($@22)
-
-    $@22  go to state 73
+    $default  reduce using rule 20 (definicion_linea)
 
 
 State 60
 
-   10 asignacion: ASIGNACION ENTERO PUNTOYCOMA salto •
-   72 salto: salto • SALTOLINEA
+   25 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO CADENA • ':' salto inic_acciones_cuadros FINCUADRO salto
 
-    SALTOLINEA  shift, and go to state 10
-
-    $default  reduce using rule 10 (asignacion)
+    ':'  shift, and go to state 67
 
 
 State 61
 
-    9 asignacion: ASIGNACION REAL PUNTOYCOMA salto •
-   72 salto: salto • SALTOLINEA
+   10 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA • PUNTOYCOMA
+   11                             | IDENTIFICADORMINUSCULA • COMA secuencia_de_Identificadores
 
-    SALTOLINEA  shift, and go to state 10
-
-    $default  reduce using rule 9 (asignacion)
+    PUNTOYCOMA  shift, and go to state 42
+    COMA        shift, and go to state 43
 
 
 State 62
 
-   85 expr: '(' expr ')' •
+   11 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA COMA secuencia_de_Identificadores •
 
-    $default  reduce using rule 85 (expr)
+    $default  reduce using rule 11 (secuencia_de_Identificadores)
 
 
 State 63
 
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   82     | expr DIV expr •
-   83     | expr • '%' expr
+    9 asignacion: ASIGNACION expr PUNTOYCOMA • salto
 
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
+    SALTOLINEA  shift, and go to state 4
 
-    DIV       [reduce using rule 82 (expr)]
-    '+'       [reduce using rule 82 (expr)]
-    '-'       [reduce using rule 82 (expr)]
-    '*'       [reduce using rule 82 (expr)]
-    '/'       [reduce using rule 82 (expr)]
-    '%'       [reduce using rule 82 (expr)]
-    $default  reduce using rule 82 (expr)
+    salto  go to state 68
 
 
 State 64
 
-   11 asignacion: ASIGNACION expr PUNTOYCOMA salto •
-   72 salto: salto • SALTOLINEA
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' • expr COMA expr COMA COLOR '>' salto
 
-    SALTOLINEA  shift, and go to state 10
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
 
-    $default  reduce using rule 11 (asignacion)
+    expr  go to state 69
 
 
 State 65
 
-   78 expr: expr • '+' expr
-   78     | expr '+' expr •
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
+   23 comentario: COMENTARIO salto • comentario
+   34 salto: salto • SALTOLINEA
 
-    DIV  shift, and go to state 49
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
+    COMENTARIO  shift, and go to state 56
+    SALTOLINEA  shift, and go to state 9
 
-    DIV       [reduce using rule 78 (expr)]
-    '*'       [reduce using rule 78 (expr)]
-    '/'       [reduce using rule 78 (expr)]
-    '%'       [reduce using rule 78 (expr)]
-    $default  reduce using rule 78 (expr)
+    comentario  go to state 70
 
 
 State 66
 
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   79     | expr '-' expr •
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
+   21 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL • '<' expr COMA ORIENTACION COMA COLOR '>' salto
 
-    DIV  shift, and go to state 49
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    DIV       [reduce using rule 79 (expr)]
-    '*'       [reduce using rule 79 (expr)]
-    '/'       [reduce using rule 79 (expr)]
-    '%'       [reduce using rule 79 (expr)]
-    $default  reduce using rule 79 (expr)
+    '<'  shift, and go to state 71
 
 
 State 67
 
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   80     | expr '*' expr •
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
+   25 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO CADENA ':' • salto inic_acciones_cuadros FINCUADRO salto
 
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
+    SALTOLINEA  shift, and go to state 4
 
-    DIV       [reduce using rule 80 (expr)]
-    '+'       [reduce using rule 80 (expr)]
-    '-'       [reduce using rule 80 (expr)]
-    '*'       [reduce using rule 80 (expr)]
-    '/'       [reduce using rule 80 (expr)]
-    '%'       [reduce using rule 80 (expr)]
-    $default  reduce using rule 80 (expr)
+    salto  go to state 72
 
 
 State 68
 
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   81     | expr '/' expr •
-   82     | expr • DIV expr
-   83     | expr • '%' expr
+    9 asignacion: ASIGNACION expr PUNTOYCOMA salto •
+   34 salto: salto • SALTOLINEA
 
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
+    SALTOLINEA  shift, and go to state 9
 
-    DIV       [reduce using rule 81 (expr)]
-    '+'       [reduce using rule 81 (expr)]
-    '-'       [reduce using rule 81 (expr)]
-    '*'       [reduce using rule 81 (expr)]
-    '/'       [reduce using rule 81 (expr)]
-    '%'       [reduce using rule 81 (expr)]
-    $default  reduce using rule 81 (expr)
+    $default  reduce using rule 9 (asignacion)
 
 
 State 69
 
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
-   83     | expr '%' expr •
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr • COMA expr COMA COLOR '>' salto
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    DIV       [reduce using rule 83 (expr)]
-    '+'       [reduce using rule 83 (expr)]
-    '-'       [reduce using rule 83 (expr)]
-    '*'       [reduce using rule 83 (expr)]
-    '/'       [reduce using rule 83 (expr)]
-    '%'       [reduce using rule 83 (expr)]
-    $default  reduce using rule 83 (expr)
+    DIV   shift, and go to state 31
+    COMA  shift, and go to state 73
+    '+'   shift, and go to state 32
+    '-'   shift, and go to state 33
+    '*'   shift, and go to state 34
+    '/'   shift, and go to state 35
+    '%'   shift, and go to state 36
 
 
 State 70
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL • $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
+   23 comentario: COMENTARIO salto comentario •
 
-    $default  reduce using rule 18 ($@3)
-
-    $@3  go to state 74
+    $default  reduce using rule 23 (comentario)
 
 
 State 71
 
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 • IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
+   21 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' • expr COMA ORIENTACION COMA COLOR '>' salto
 
-    IGUAL  shift, and go to state 75
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 74
 
 
 State 72
 
-   43 comentario: comentario COMENTARIO • salto
+   25 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO CADENA ':' salto • inic_acciones_cuadros FINCUADRO salto
+   34 salto: salto • SALTOLINEA
 
-    SALTOLINEA  shift, and go to state 4
+    PINTAR                  shift, and go to state 75
+    MENSAJE                 shift, and go to state 76
+    PAUSA                   shift, and go to state 77
+    SALTOLINEA              shift, and go to state 9
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
 
-    salto  go to state 76
+    $default  reduce using rule 26 (inic_acciones_cuadros)
+
+    inic_acciones_cuadros  go to state 78
+    acciones_cuadros       go to state 79
+    expr                   go to state 80
 
 
 State 73
 
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 CADENA $@22 • ':' salto $@23 acciones_cuadros FINCUADRO salto
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA • expr COMA COLOR '>' salto
 
-    ':'  shift, and go to state 77
-
-
-State 74
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 • '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
-
-    '<'  shift, and go to state 78
-
-
-State 75
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL • $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
-
-    $default  reduce using rule 33 ($@13)
-
-    $@13  go to state 79
-
-
-State 76
-
-   43 comentario: comentario COMENTARIO salto •
-   72 salto: salto • SALTOLINEA
-
-    SALTOLINEA  shift, and go to state 10
-
-    $default  reduce using rule 43 (comentario)
-
-
-State 77
-
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 CADENA $@22 ':' • salto $@23 acciones_cuadros FINCUADRO salto
-
-    SALTOLINEA  shift, and go to state 4
-
-    salto  go to state 80
-
-
-State 78
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' • expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
-
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
 
     expr  go to state 81
 
 
+State 74
+
+   21 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr • COMA ORIENTACION COMA COLOR '>' salto
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
+
+    DIV   shift, and go to state 31
+    COMA  shift, and go to state 82
+    '+'   shift, and go to state 32
+    '-'   shift, and go to state 33
+    '*'   shift, and go to state 34
+    '/'   shift, and go to state 35
+    '%'   shift, and go to state 36
+
+
+State 75
+
+   28 acciones_cuadros: PINTAR • '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' saltoOpcional
+   29                 | PINTAR • '(' IDENTIFICADORMAYUSCULA COMA expr ')' saltoOpcional
+
+    '('  shift, and go to state 83
+
+
+State 76
+
+   32 acciones_cuadros: MENSAJE • '(' CADENA ')' saltoOpcional
+
+    '('  shift, and go to state 84
+
+
+State 77
+
+   30 acciones_cuadros: PAUSA • '(' expr ')' saltoOpcional
+
+    '('  shift, and go to state 85
+
+
+State 78
+
+   25 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO CADENA ':' salto inic_acciones_cuadros • FINCUADRO salto
+
+    FINCUADRO  shift, and go to state 86
+
+
 State 79
 
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 • '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
+   27 inic_acciones_cuadros: acciones_cuadros • inic_acciones_cuadros
 
-    '<'  shift, and go to state 82
+    PINTAR                  shift, and go to state 75
+    MENSAJE                 shift, and go to state 76
+    PAUSA                   shift, and go to state 77
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    $default  reduce using rule 26 (inic_acciones_cuadros)
+
+    inic_acciones_cuadros  go to state 87
+    acciones_cuadros       go to state 79
+    expr                   go to state 80
 
 
 State 80
 
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 CADENA $@22 ':' salto • $@23 acciones_cuadros FINCUADRO salto
-   72 salto: salto • SALTOLINEA
+   31 acciones_cuadros: expr • ASIGNACION expr
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    SALTOLINEA  shift, and go to state 10
-
-    SALTOLINEA  [reduce using rule 47 ($@23)]
-    $default    reduce using rule 47 ($@23)
-
-    $@23  go to state 83
+    ASIGNACION  shift, and go to state 88
+    DIV         shift, and go to state 31
+    '+'         shift, and go to state 32
+    '-'         shift, and go to state 33
+    '*'         shift, and go to state 34
+    '/'         shift, and go to state 35
+    '%'         shift, and go to state 36
 
 
 State 81
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr • $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr • COMA COLOR '>' salto
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    $default  reduce using rule 19 ($@4)
-
-    $@4  go to state 84
+    DIV   shift, and go to state 31
+    COMA  shift, and go to state 89
+    '+'   shift, and go to state 32
+    '-'   shift, and go to state 33
+    '*'   shift, and go to state 34
+    '/'   shift, and go to state 35
+    '%'   shift, and go to state 36
 
 
 State 82
 
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' • expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
+   21 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA • ORIENTACION COMA COLOR '>' salto
 
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 85
+    ORIENTACION  shift, and go to state 90
 
 
 State 83
 
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 CADENA $@22 ':' salto $@23 • acciones_cuadros FINCUADRO salto
+   28 acciones_cuadros: PINTAR '(' • IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' saltoOpcional
+   29                 | PINTAR '(' • IDENTIFICADORMAYUSCULA COMA expr ')' saltoOpcional
 
-    $default  reduce using rule 49 (acciones_cuadros)
-
-    acciones_cuadros  go to state 86
+    IDENTIFICADORMAYUSCULA  shift, and go to state 91
 
 
 State 84
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 • COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
+   32 acciones_cuadros: MENSAJE '(' • CADENA ')' saltoOpcional
 
-    COMA  shift, and go to state 87
+    CADENA  shift, and go to state 92
 
 
 State 85
 
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr • $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
+   30 acciones_cuadros: PAUSA '(' • expr ')' saltoOpcional
 
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
 
-    $default  reduce using rule 34 ($@14)
-
-    $@14  go to state 88
+    expr  go to state 93
 
 
 State 86
 
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 CADENA $@22 ':' salto $@23 acciones_cuadros • FINCUADRO salto
-   50 acciones_cuadros: acciones_cuadros • pintado saltoOpcional
-   53                 | acciones_cuadros • PAUSA $@24 '(' expr $@25 ')' saltoOpcional
-   57                 | acciones_cuadros • expr $@26 ASIGNACION $@27 expr $@28 saltoOpcional
-   60                 | acciones_cuadros • MENSAJE $@29 '(' CADENA $@30 ')' saltoOpcional
+   25 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO CADENA ':' salto inic_acciones_cuadros FINCUADRO • salto
 
-    PINTAR                  shift, and go to state 89
-    MENSAJE                 shift, and go to state 90
-    PAUSA                   shift, and go to state 91
-    FINCUADRO               shift, and go to state 92
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
+    SALTOLINEA  shift, and go to state 4
 
-    PINTAR                  [reduce using rule 61 (pintado)]
-    MENSAJE                 [reduce using rule 61 (pintado)]
-    PAUSA                   [reduce using rule 61 (pintado)]
-    FINCUADRO               [reduce using rule 61 (pintado)]
-    ENTERO                  [reduce using rule 61 (pintado)]
-    IDENTIFICADORMINUSCULA  [reduce using rule 61 (pintado)]
-    REAL                    [reduce using rule 61 (pintado)]
-    '-'                     [reduce using rule 61 (pintado)]
-    '('                     [reduce using rule 61 (pintado)]
-    $default                reduce using rule 61 (pintado)
-
-    pintado  go to state 93
-    expr     go to state 94
+    salto  go to state 94
 
 
 State 87
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA • $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
+   27 inic_acciones_cuadros: acciones_cuadros inic_acciones_cuadros •
 
-    $default  reduce using rule 20 ($@5)
-
-    $@5  go to state 95
+    $default  reduce using rule 27 (inic_acciones_cuadros)
 
 
 State 88
 
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 • COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
+   31 acciones_cuadros: expr ASIGNACION • expr
 
-    COMA  shift, and go to state 96
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 95
 
 
 State 89
 
-   65 pintado: PINTAR • $@31 '(' IDENTIFICADORMAYUSCULA $@32 COMA expr $@33 ')' saltoOpcional
-   70        | PINTAR • $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 COMA expr $@37 ')' saltoOpcional
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA • COLOR '>' salto
 
-    '('       reduce using rule 62 ($@31)
-    '('       [reduce using rule 66 ($@34)]
-    $default  reduce using rule 62 ($@31)
-
-    $@31  go to state 97
-    $@34  go to state 98
+    COLOR  shift, and go to state 96
 
 
 State 90
 
-   60 acciones_cuadros: acciones_cuadros MENSAJE • $@29 '(' CADENA $@30 ')' saltoOpcional
+   21 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION • COMA COLOR '>' salto
 
-    $default  reduce using rule 58 ($@29)
-
-    $@29  go to state 99
+    COMA  shift, and go to state 97
 
 
 State 91
 
-   53 acciones_cuadros: acciones_cuadros PAUSA • $@24 '(' expr $@25 ')' saltoOpcional
+   28 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA • COMA expr COMA expr ')' saltoOpcional
+   29                 | PINTAR '(' IDENTIFICADORMAYUSCULA • COMA expr ')' saltoOpcional
 
-    $default  reduce using rule 51 ($@24)
-
-    $@24  go to state 100
+    COMA  shift, and go to state 98
 
 
 State 92
 
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 CADENA $@22 ':' salto $@23 acciones_cuadros FINCUADRO • salto
+   32 acciones_cuadros: MENSAJE '(' CADENA • ')' saltoOpcional
 
-    SALTOLINEA  shift, and go to state 4
-
-    salto  go to state 101
+    ')'  shift, and go to state 99
 
 
 State 93
 
-   50 acciones_cuadros: acciones_cuadros pintado • saltoOpcional
+   30 acciones_cuadros: PAUSA '(' expr • ')' saltoOpcional
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    SALTOLINEA  shift, and go to state 4
-
-    SALTOLINEA  [reduce using rule 73 (saltoOpcional)]
-    $default    reduce using rule 73 (saltoOpcional)
-
-    salto          go to state 31
-    saltoOpcional  go to state 102
+    DIV  shift, and go to state 31
+    '+'  shift, and go to state 32
+    '-'  shift, and go to state 33
+    '*'  shift, and go to state 34
+    '/'  shift, and go to state 35
+    '%'  shift, and go to state 36
+    ')'  shift, and go to state 100
 
 
 State 94
 
-   57 acciones_cuadros: acciones_cuadros expr • $@26 ASIGNACION $@27 expr $@28 saltoOpcional
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
+   25 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO CADENA ':' salto inic_acciones_cuadros FINCUADRO salto •
+   34 salto: salto • SALTOLINEA
 
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
+    SALTOLINEA  shift, and go to state 9
 
-    $default  reduce using rule 54 ($@26)
-
-    $@26  go to state 103
+    $default  reduce using rule 25 (creacion_cuadros_nombre)
 
 
 State 95
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 • expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
+   31 acciones_cuadros: expr ASIGNACION expr •
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
+    DIV  shift, and go to state 31
+    '+'  shift, and go to state 32
+    '-'  shift, and go to state 33
+    '*'  shift, and go to state 34
+    '/'  shift, and go to state 35
+    '%'  shift, and go to state 36
 
-    expr  go to state 104
+    $default  reduce using rule 31 (acciones_cuadros)
 
 
 State 96
 
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA • $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR • '>' salto
 
-    $default  reduce using rule 35 ($@15)
-
-    $@15  go to state 105
+    '>'  shift, and go to state 101
 
 
 State 97
 
-   65 pintado: PINTAR $@31 • '(' IDENTIFICADORMAYUSCULA $@32 COMA expr $@33 ')' saltoOpcional
+   21 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA • COLOR '>' salto
 
-    '('  shift, and go to state 106
+    COLOR  shift, and go to state 102
 
 
 State 98
 
-   70 pintado: PINTAR $@34 • '(' IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 COMA expr $@37 ')' saltoOpcional
+   28 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA • expr COMA expr ')' saltoOpcional
+   29                 | PINTAR '(' IDENTIFICADORMAYUSCULA COMA • expr ')' saltoOpcional
 
-    '('  shift, and go to state 107
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 103
 
 
 State 99
 
-   60 acciones_cuadros: acciones_cuadros MENSAJE $@29 • '(' CADENA $@30 ')' saltoOpcional
+   32 acciones_cuadros: MENSAJE '(' CADENA ')' • saltoOpcional
 
-    '('  shift, and go to state 108
+    SALTOLINEA  shift, and go to state 4
+
+    $default  reduce using rule 35 (saltoOpcional)
+
+    salto          go to state 44
+    saltoOpcional  go to state 104
 
 
 State 100
 
-   53 acciones_cuadros: acciones_cuadros PAUSA $@24 • '(' expr $@25 ')' saltoOpcional
+   30 acciones_cuadros: PAUSA '(' expr ')' • saltoOpcional
 
-    '('  shift, and go to state 109
+    SALTOLINEA  shift, and go to state 4
+
+    $default  reduce using rule 35 (saltoOpcional)
+
+    salto          go to state 44
+    saltoOpcional  go to state 105
 
 
 State 101
 
-   48 creacion_cuadros_nombre: creacion_cuadros_nombre CUADRO $@21 CADENA $@22 ':' salto $@23 acciones_cuadros FINCUADRO salto •
-   72 salto: salto • SALTOLINEA
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR '>' • salto
 
-    SALTOLINEA  shift, and go to state 10
+    SALTOLINEA  shift, and go to state 4
 
-    $default  reduce using rule 48 (creacion_cuadros_nombre)
+    salto  go to state 106
 
 
 State 102
 
-   50 acciones_cuadros: acciones_cuadros pintado saltoOpcional •
+   21 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR • '>' salto
 
-    $default  reduce using rule 50 (acciones_cuadros)
+    '>'  shift, and go to state 107
 
 
 State 103
 
-   57 acciones_cuadros: acciones_cuadros expr $@26 • ASIGNACION $@27 expr $@28 saltoOpcional
+   28 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr • COMA expr ')' saltoOpcional
+   29                 | PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr • ')' saltoOpcional
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    ASIGNACION  shift, and go to state 110
+    DIV   shift, and go to state 31
+    COMA  shift, and go to state 108
+    '+'   shift, and go to state 32
+    '-'   shift, and go to state 33
+    '*'   shift, and go to state 34
+    '/'   shift, and go to state 35
+    '%'   shift, and go to state 36
+    ')'   shift, and go to state 109
 
 
 State 104
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr • $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
+   32 acciones_cuadros: MENSAJE '(' CADENA ')' saltoOpcional •
 
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    $default  reduce using rule 21 ($@6)
-
-    $@6  go to state 111
+    $default  reduce using rule 32 (acciones_cuadros)
 
 
 State 105
 
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 • ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
+   30 acciones_cuadros: PAUSA '(' expr ')' saltoOpcional •
 
-    ORIENTACION  shift, and go to state 112
+    $default  reduce using rule 30 (acciones_cuadros)
 
 
 State 106
 
-   65 pintado: PINTAR $@31 '(' • IDENTIFICADORMAYUSCULA $@32 COMA expr $@33 ')' saltoOpcional
+   16 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR '>' salto •
+   34 salto: salto • SALTOLINEA
 
-    IDENTIFICADORMAYUSCULA  shift, and go to state 113
+    SALTOLINEA  shift, and go to state 9
+
+    $default  reduce using rule 16 (definicion_recuadro)
 
 
 State 107
 
-   70 pintado: PINTAR $@34 '(' • IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 COMA expr $@37 ')' saltoOpcional
+   21 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' • salto
 
-    IDENTIFICADORMAYUSCULA  shift, and go to state 114
+    SALTOLINEA  shift, and go to state 4
+
+    salto  go to state 110
 
 
 State 108
 
-   60 acciones_cuadros: acciones_cuadros MENSAJE $@29 '(' • CADENA $@30 ')' saltoOpcional
+   28 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA • expr ')' saltoOpcional
 
-    CADENA  shift, and go to state 115
+    ENTERO                  shift, and go to state 15
+    IDENTIFICADORMINUSCULA  shift, and go to state 16
+    REAL                    shift, and go to state 17
+    '-'                     shift, and go to state 18
+    '('                     shift, and go to state 19
+
+    expr  go to state 111
 
 
 State 109
 
-   53 acciones_cuadros: acciones_cuadros PAUSA $@24 '(' • expr $@25 ')' saltoOpcional
+   29 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')' • saltoOpcional
 
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
+    SALTOLINEA  shift, and go to state 4
 
-    expr  go to state 116
+    $default  reduce using rule 35 (saltoOpcional)
+
+    salto          go to state 44
+    saltoOpcional  go to state 112
 
 
 State 110
 
-   57 acciones_cuadros: acciones_cuadros expr $@26 ASIGNACION • $@27 expr $@28 saltoOpcional
+   21 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' salto •
+   34 salto: salto • SALTOLINEA
 
-    $default  reduce using rule 55 ($@27)
+    SALTOLINEA  shift, and go to state 9
 
-    $@27  go to state 117
+    $default  reduce using rule 21 (definicion_linea)
 
 
 State 111
 
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 • COMA $@7 COLOR $@8 '>' $@9 salto $@10
+   28 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr • ')' saltoOpcional
+   40 expr: expr • '+' expr
+   41     | expr • '-' expr
+   42     | expr • '*' expr
+   43     | expr • '/' expr
+   44     | expr • DIV expr
+   45     | expr • '%' expr
 
-    COMA  shift, and go to state 118
+    DIV  shift, and go to state 31
+    '+'  shift, and go to state 32
+    '-'  shift, and go to state 33
+    '*'  shift, and go to state 34
+    '/'  shift, and go to state 35
+    '%'  shift, and go to state 36
+    ')'  shift, and go to state 113
 
 
 State 112
 
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION • $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20
+   29 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')' saltoOpcional •
 
-    $default  reduce using rule 36 ($@16)
-
-    $@16  go to state 119
+    $default  reduce using rule 29 (acciones_cuadros)
 
 
 State 113
 
-   65 pintado: PINTAR $@31 '(' IDENTIFICADORMAYUSCULA • $@32 COMA expr $@33 ')' saltoOpcional
+   28 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' • saltoOpcional
 
-    $default  reduce using rule 63 ($@32)
+    SALTOLINEA  shift, and go to state 4
 
-    $@32  go to state 120
+    $default  reduce using rule 35 (saltoOpcional)
+
+    salto          go to state 44
+    saltoOpcional  go to state 114
 
 
 State 114
 
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA • $@35 COMA expr $@36 COMA expr $@37 ')' saltoOpcional
+   28 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' saltoOpcional •
 
-    $default  reduce using rule 67 ($@35)
-
-    $@35  go to state 121
-
-
-State 115
-
-   60 acciones_cuadros: acciones_cuadros MENSAJE $@29 '(' CADENA • $@30 ')' saltoOpcional
-
-    $default  reduce using rule 59 ($@30)
-
-    $@30  go to state 122
-
-
-State 116
-
-   53 acciones_cuadros: acciones_cuadros PAUSA $@24 '(' expr • $@25 ')' saltoOpcional
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
-
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    $default  reduce using rule 52 ($@25)
-
-    $@25  go to state 123
-
-
-State 117
-
-   57 acciones_cuadros: acciones_cuadros expr $@26 ASIGNACION $@27 • expr $@28 saltoOpcional
-
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 124
-
-
-State 118
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA • $@7 COLOR $@8 '>' $@9 salto $@10
-
-    $default  reduce using rule 22 ($@7)
-
-    $@7  go to state 125
-
-
-State 119
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 • COMA $@17 COLOR $@18 '>' $@19 salto $@20
-
-    COMA  shift, and go to state 126
-
-
-State 120
-
-   65 pintado: PINTAR $@31 '(' IDENTIFICADORMAYUSCULA $@32 • COMA expr $@33 ')' saltoOpcional
-
-    COMA  shift, and go to state 127
-
-
-State 121
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 • COMA expr $@36 COMA expr $@37 ')' saltoOpcional
-
-    COMA  shift, and go to state 128
-
-
-State 122
-
-   60 acciones_cuadros: acciones_cuadros MENSAJE $@29 '(' CADENA $@30 • ')' saltoOpcional
-
-    ')'  shift, and go to state 129
-
-
-State 123
-
-   53 acciones_cuadros: acciones_cuadros PAUSA $@24 '(' expr $@25 • ')' saltoOpcional
-
-    ')'  shift, and go to state 130
-
-
-State 124
-
-   57 acciones_cuadros: acciones_cuadros expr $@26 ASIGNACION $@27 expr • $@28 saltoOpcional
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
-
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    '-'       [reduce using rule 56 ($@28)]
-    $default  reduce using rule 56 ($@28)
-
-    $@28  go to state 131
-
-
-State 125
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 • COLOR $@8 '>' $@9 salto $@10
-
-    COLOR  shift, and go to state 132
-
-
-State 126
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA • $@17 COLOR $@18 '>' $@19 salto $@20
-
-    $default  reduce using rule 37 ($@17)
-
-    $@17  go to state 133
-
-
-State 127
-
-   65 pintado: PINTAR $@31 '(' IDENTIFICADORMAYUSCULA $@32 COMA • expr $@33 ')' saltoOpcional
-
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 134
-
-
-State 128
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA • expr $@36 COMA expr $@37 ')' saltoOpcional
-
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 135
-
-
-State 129
-
-   60 acciones_cuadros: acciones_cuadros MENSAJE $@29 '(' CADENA $@30 ')' • saltoOpcional
-
-    SALTOLINEA  shift, and go to state 4
-
-    SALTOLINEA  [reduce using rule 73 (saltoOpcional)]
-    $default    reduce using rule 73 (saltoOpcional)
-
-    salto          go to state 31
-    saltoOpcional  go to state 136
-
-
-State 130
-
-   53 acciones_cuadros: acciones_cuadros PAUSA $@24 '(' expr $@25 ')' • saltoOpcional
-
-    SALTOLINEA  shift, and go to state 4
-
-    SALTOLINEA  [reduce using rule 73 (saltoOpcional)]
-    $default    reduce using rule 73 (saltoOpcional)
-
-    salto          go to state 31
-    saltoOpcional  go to state 137
-
-
-State 131
-
-   57 acciones_cuadros: acciones_cuadros expr $@26 ASIGNACION $@27 expr $@28 • saltoOpcional
-
-    SALTOLINEA  shift, and go to state 4
-
-    SALTOLINEA  [reduce using rule 73 (saltoOpcional)]
-    $default    reduce using rule 73 (saltoOpcional)
-
-    salto          go to state 31
-    saltoOpcional  go to state 138
-
-
-State 132
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR • $@8 '>' $@9 salto $@10
-
-    $default  reduce using rule 23 ($@8)
-
-    $@8  go to state 139
-
-
-State 133
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 • COLOR $@18 '>' $@19 salto $@20
-
-    COLOR  shift, and go to state 140
-
-
-State 134
-
-   65 pintado: PINTAR $@31 '(' IDENTIFICADORMAYUSCULA $@32 COMA expr • $@33 ')' saltoOpcional
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
-
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    $default  reduce using rule 64 ($@33)
-
-    $@33  go to state 141
-
-
-State 135
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA expr • $@36 COMA expr $@37 ')' saltoOpcional
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
-
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    $default  reduce using rule 68 ($@36)
-
-    $@36  go to state 142
-
-
-State 136
-
-   60 acciones_cuadros: acciones_cuadros MENSAJE $@29 '(' CADENA $@30 ')' saltoOpcional •
-
-    $default  reduce using rule 60 (acciones_cuadros)
-
-
-State 137
-
-   53 acciones_cuadros: acciones_cuadros PAUSA $@24 '(' expr $@25 ')' saltoOpcional •
-
-    $default  reduce using rule 53 (acciones_cuadros)
-
-
-State 138
-
-   57 acciones_cuadros: acciones_cuadros expr $@26 ASIGNACION $@27 expr $@28 saltoOpcional •
-
-    $default  reduce using rule 57 (acciones_cuadros)
-
-
-State 139
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 • '>' $@9 salto $@10
-
-    '>'  shift, and go to state 143
-
-
-State 140
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR • $@18 '>' $@19 salto $@20
-
-    $default  reduce using rule 38 ($@18)
-
-    $@18  go to state 144
-
-
-State 141
-
-   65 pintado: PINTAR $@31 '(' IDENTIFICADORMAYUSCULA $@32 COMA expr $@33 • ')' saltoOpcional
-
-    ')'  shift, and go to state 145
-
-
-State 142
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 • COMA expr $@37 ')' saltoOpcional
-
-    COMA  shift, and go to state 146
-
-
-State 143
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' • $@9 salto $@10
-
-    $default  reduce using rule 24 ($@9)
-
-    $@9  go to state 147
-
-
-State 144
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 • '>' $@19 salto $@20
-
-    '>'  shift, and go to state 148
-
-
-State 145
-
-   65 pintado: PINTAR $@31 '(' IDENTIFICADORMAYUSCULA $@32 COMA expr $@33 ')' • saltoOpcional
-
-    SALTOLINEA  shift, and go to state 4
-
-    SALTOLINEA  [reduce using rule 73 (saltoOpcional)]
-    $default    reduce using rule 73 (saltoOpcional)
-
-    salto          go to state 31
-    saltoOpcional  go to state 149
-
-
-State 146
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 COMA • expr $@37 ')' saltoOpcional
-
-    ENTERO                  shift, and go to state 45
-    IDENTIFICADORMINUSCULA  shift, and go to state 34
-    REAL                    shift, and go to state 46
-    '-'                     shift, and go to state 36
-    '('                     shift, and go to state 37
-
-    expr  go to state 150
-
-
-State 147
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 • salto $@10
-
-    SALTOLINEA  shift, and go to state 4
-
-    salto  go to state 151
-
-
-State 148
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' • $@19 salto $@20
-
-    $default  reduce using rule 39 ($@19)
-
-    $@19  go to state 152
-
-
-State 149
-
-   65 pintado: PINTAR $@31 '(' IDENTIFICADORMAYUSCULA $@32 COMA expr $@33 ')' saltoOpcional •
-
-    $default  reduce using rule 65 (pintado)
-
-
-State 150
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 COMA expr • $@37 ')' saltoOpcional
-   78 expr: expr • '+' expr
-   79     | expr • '-' expr
-   80     | expr • '*' expr
-   81     | expr • '/' expr
-   82     | expr • DIV expr
-   83     | expr • '%' expr
-
-    DIV  shift, and go to state 49
-    '+'  shift, and go to state 51
-    '-'  shift, and go to state 52
-    '*'  shift, and go to state 53
-    '/'  shift, and go to state 54
-    '%'  shift, and go to state 55
-
-    $default  reduce using rule 69 ($@37)
-
-    $@37  go to state 153
-
-
-State 151
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto • $@10
-   72 salto: salto • SALTOLINEA
-
-    SALTOLINEA  shift, and go to state 10
-
-    $default  reduce using rule 25 ($@10)
-
-    $@10  go to state 154
-
-
-State 152
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 • salto $@20
-
-    SALTOLINEA  shift, and go to state 4
-
-    salto  go to state 155
-
-
-State 153
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 COMA expr $@37 • ')' saltoOpcional
-
-    ')'  shift, and go to state 156
-
-
-State 154
-
-   26 definicion_recuadro: definicion_recuadro IDENTIFICADORMAYUSCULA $@2 IGUAL $@3 '<' expr $@4 COMA $@5 expr $@6 COMA $@7 COLOR $@8 '>' $@9 salto $@10 •
-
-    $default  reduce using rule 26 (definicion_recuadro)
-
-
-State 155
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto • $@20
-   72 salto: salto • SALTOLINEA
-
-    SALTOLINEA  shift, and go to state 10
-
-    $default  reduce using rule 40 ($@20)
-
-    $@20  go to state 157
-
-
-State 156
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 COMA expr $@37 ')' • saltoOpcional
-
-    SALTOLINEA  shift, and go to state 4
-
-    SALTOLINEA  [reduce using rule 73 (saltoOpcional)]
-    $default    reduce using rule 73 (saltoOpcional)
-
-    salto          go to state 31
-    saltoOpcional  go to state 158
-
-
-State 157
-
-   41 definicion_linea: definicion_linea IDENTIFICADORMAYUSCULA $@12 IGUAL $@13 '<' expr $@14 COMA $@15 ORIENTACION $@16 COMA $@17 COLOR $@18 '>' $@19 salto $@20 •
-
-    $default  reduce using rule 41 (definicion_linea)
-
-
-State 158
-
-   70 pintado: PINTAR $@34 '(' IDENTIFICADORMAYUSCULA $@35 COMA expr $@36 COMA expr $@37 ')' saltoOpcional •
-
-    $default  reduce using rule 70 (pintado)
+    $default  reduce using rule 28 (acciones_cuadros)

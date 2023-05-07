@@ -1,1 +1,1 @@
- Comienza la definición de los cuadrosHomenaje a MondrianSe pintan los recuadros de colorBandera
+Homenaje a MondrianSe pintan los recuadros de colorBandera Y con esto acaba el programa

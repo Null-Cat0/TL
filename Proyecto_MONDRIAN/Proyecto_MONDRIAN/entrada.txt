@@ -32,7 +32,6 @@ LineaV = <grosor, vertical, negro>
 
 LineaFina = <1, horizontal, gris>
 
-# Comienza la definición de los cuadros
 
 CUADRO "Homenaje a Mondrian" :
 	
