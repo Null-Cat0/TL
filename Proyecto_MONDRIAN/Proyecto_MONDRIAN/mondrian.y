@@ -73,8 +73,7 @@ string enteroOreal(bool enteroOreal)
 
 
 //-------------------------------------------BLOQUE VARIABLES------------------------------------
-all :
-    | zona_variables zona_recuadros zona_lineas creacion_cuadros_nombre  {;}
+all : zona_variables zona_recuadros zona_lineas creacion_cuadros_nombre  {;}
     ;
 
 zona_variables : VARIABLES salto inic_definicion{cout << "VARIABLES"<<endl;}
