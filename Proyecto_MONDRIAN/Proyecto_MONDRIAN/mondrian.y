@@ -51,24 +51,27 @@ string enteroOreal(bool enteroOreal)
       } c_expresion;
 }
 
-%token PINTAR MENSAJE PAUSA COMENTARIO ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION  DIV MENOS SALTOLINEA PUNTOYCOMA TIPO COMA CUADRO FINCUADRO
+%token PINTAR MENSAJE PAUSA ASIGNACION IGUAL VARIABLES RECUADROS COLOR LINEAS ORIENTACION  DIV MENOS SALTOLINEA PUNTOYCOMA TIPO COMA CUADRO FINCUADRO SI SINO
 %token <c_entero> ENTERO
 %token <var> IDENTIFICADORMINUSCULA IDENTIFICADORMAYUSCULA CADENA
 %token <c_real> REAL
 %token <c_bool> BOOL
 
 %type <c_expresion> expr
+%type <c_bool> logica
 
 %start all
 
 %left OR
 %left AND
-%left IGUAL DISTINTO ASIGNACION
+%left IGUAL DISTINTO
 %left MENOR MENORIGUAL MAYORIGUAL MAYOR
 %left '+' '-'   /* asociativo por la izquierda, misma prioridad */
 %left '*' '/' '%' DIV /* asociativo por la izquierda, prioridad alta */
 %left menos  
 %left NOT
+%nonassoc IF
+%nonassoc SINO
 %%
 
 
@@ -76,30 +79,27 @@ string enteroOreal(bool enteroOreal)
 all : zona_variables zona_recuadros zona_lineas creacion_cuadros_nombre  {;}
     ;
 
-zona_variables : VARIABLES salto inic_definicion{cout << "VARIABLES"<<endl;}
+zona_variables : 
+               | VARIABLES salto inic_definicion{cout << "VARIABLES"<<endl;}
                ;
 
 inic_definicion :
               | inic_definicion definicion
               ;
 
-definicion :  TIPO  expr asignacion{cout<<"Tipo Identificador";}
-           |  TIPO secuencia_de_Identificadores  saltoOpcional {cout<<"Tipo secuencia_Identificadores ";}
-           |  expr asignacion{;}
+definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA saltoOpcional{cout<<"Tipo Identificador";}
+           |  TIPO secuencia_de_Identificadores  PUNTOYCOMA saltoOpcional {cout<<"Tipo secuencia_Identificadores ";}
+           |  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA saltoOpcional{;}
            ;
 
-asignacion : ASIGNACION expr PUNTOYCOMA salto{cout<<"Asignacion  Expr PuntoYComa ";cout<<endl;}
-            ;
-
-secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA PUNTOYCOMA{cout<<"Identificador ";cout<<"PuntoYCOma ";}
+secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA {cout<<"Identificador ";cout<<"PuntoYCOma ";}
                              |  IDENTIFICADORMINUSCULA COMA secuencia_de_Identificadores {cout<<"Identificador "; cout<<"Coma ";}
                              ;
 
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE RECUADROS-------------------------------------
 
-zona_recuadros : 
-               | RECUADROS salto  inic_definicion_recuadro {cout<<"RECUADROS"<<endl;}  
+zona_recuadros : RECUADROS salto  inic_definicion_recuadro {cout<<"RECUADROS"<<endl;}  
                ;
 inic_definicion_recuadro :
                         | inic_definicion_recuadro definicion_recuadro
@@ -116,28 +116,34 @@ zona_lineas : LINEAS  salto inic_definicion_linea {cout << "LINEAS"<<endl;}
 inic_definicion_linea :
                       | inic_definicion_linea definicion_linea
                       ;  
-definicion_linea : comentario {cout << "Comentario"<<endl;} 
+definicion_linea :
                  | IDENTIFICADORMAYUSCULA IGUAL  '<' expr  COMA  ORIENTACION  COMA COLOR '>' salto {cout << "Identificador_mayuscula = < Entero, Orientacion, Color>"<<endl;} //preferimos que haya salto
                  ;
-comentario: COMENTARIO 
-          | COMENTARIO salto  comentario
-          ;
 //------------------------------------------------------------------------------------------------
 //----------------------------------BLOQUE CUADROS CREADOS----------------------------------------
 //------------------------------------------------------------------------------------------------
+inic_creacion_cuadros_nombre:
+                        |  inic_creacion_cuadros_nombre creacion_cuadros_nombre
+                        ;
 creacion_cuadros_nombre :
-                        |  creacion_cuadros_nombre CUADRO CADENA  ':' salto  inic_acciones_cuadros FINCUADRO salto  {cout<<"Cuadro NombreCuadro :"<<endl;} 
+                        | CUADRO CADENA  ':' salto  inic_acciones_cuadros FINCUADRO salto  {cout<<"Cuadro NombreCuadro :"<<endl;} 
                         ;
 inic_acciones_cuadros :
                       |  acciones_cuadros inic_acciones_cuadros
                       ;
-acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' saltoOpcional {cout<<"Pintar (Identificador_mayuscula, Expr,Expr)"<<endl;}
-                | PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')'  saltoOpcional {cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;}
-                | PAUSA  '('expr ')'  saltoOpcional{cout<<"Pausa (expr)"<<endl;}
-                | expr ASIGNACION expr saltoOpcional{cout<<"Identificador_Minuscula Asignacion Expr"<<endl;}
-                | MENSAJE  '('CADENA ')' saltoOpcional{cout<<"Mensaje (CADENA)"<<endl;}
-                | COMENTARIO
+acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' salto {cout<<"Pintar (Identificador_mayuscula, Expr,Expr)"<<endl;}
+                | PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')'  salto {cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;}
+                | PAUSA  '('expr ')'  salto{cout<<"Pausa (expr)"<<endl;}
+                | IDENTIFICADORMINUSCULA ASIGNACION expr salto{cout<<"Identificador_Minuscula Asignacion Expr"<<endl;}
+                | MENSAJE  '('CADENA ')' salto{cout<<"Mensaje (CADENA)"<<endl;}
+                | condicional saltoOpcional
                 ;
+condicional : SI '(' logica ')' '{' acciones_cuadros '}' %prec IF {}
+            | SI '(' logica ')' '{' acciones_cuadros '}' SINO '{' acciones_cuadros '}'{}
+            ;
+
+
+
 
 salto : SALTOLINEA
       | salto SALTOLINEA
@@ -160,6 +166,20 @@ expr: ENTERO               {;}
     | '(' expr ')'         {;}
     ;
 
+logica: BOOL {$$ = $1;}
+      | logica AND logica {$$ = $1 && $3;}
+      | logica OR logica {$$ = $1 || $3;}
+      | NOT logica {$$ = ! ($2);}
+      | expr DISTINTO expr {$$ = ($1.valor != $3.valor);}
+      | logica DISTINTO logica {$$ = ($1 != $3);}
+      | expr IGUAL expr {$$ =  ($1.valor == $3.valor);}
+      | logica IGUAL logica {$$ =  ($1 == $3);}
+      | expr MENORIGUAL expr {$$ =  ($1.valor <= $3.valor);}
+      | expr MAYOR expr {$$ =  ($1.valor > $3.valor);}
+      | expr MAYORIGUAL expr {$$ =  ($1.valor >= $3.valor);}
+      | expr MENOR expr {$$ =  ($1.valor < $3.valor);}
+      | '(' logica ')'  {$$ =  $2;}
+      ;
 %%
 
 int main(int argc, char **argv){

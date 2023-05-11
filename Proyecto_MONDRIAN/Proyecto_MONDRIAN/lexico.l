@@ -30,7 +30,6 @@ fincuadro FINCUADRO
 [#] { BEGIN(COM1); }
 <COM1>"\n" { 
     BEGIN(0); n_lineas++; 
-            return COMENTARIO; 
 }
 
 ["]       {BEGIN(COM2);}
@@ -46,6 +45,11 @@ false {
     yylval.c_bool=false; 
     return BOOL;
 } 
+and           return AND;
+or              return OR;
+not           return NOT;
+div  return DIV;
+
 {color}               {
                        
              //           cout<<"COlor ";
@@ -61,8 +65,16 @@ false {
                       //  cout<<"Orientacion ";
                        return ORIENTACION;
                     }
-
-
+Si              {
+                       
+                      //  cout<<"Orientacion ";
+                       return SI;
+                    }
+Si_no              {
+                       
+                      //  cout<<"Orientacion ";
+                       return SINO;
+                    }
 ^{variables}  {
              //   cout<<"VAriable ";
                 return VARIABLES;
