@@ -13,18 +13,18 @@ identificadorMayuscula [A-Z][_a-zA-Z0-9]*
 digito [0-9]
 entero {digito}+
 real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
-variables [V][A][R][I][A][B][L][E][S]
+variables VARIABLES
 recuadros RECUADROS
 cuadro CUADRO
 lineas LINEAS
-pausa  [P][a][u][s][a]
-color [b][l][a][n][c][o]|[n][e][g][r][o]|[g][r][i][s]|[r][o][j][o]|[a][z][u][l]|[a][m][a][r][i][l][l][o]|[v][e][r][d][e]
+pausa  Pausa
+colores blanco|negro|gris|rojo|azul|amarillo|verde
 tipo Entero|Real|Logico 
-orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
+orientacion vertical|horizontal
 fincuadro FINCUADRO
 
 %option noyywrap
-%x COM1 COM2
+%x COM1
 %%
 
 [#] { BEGIN(COM1); }
@@ -32,8 +32,8 @@ fincuadro FINCUADRO
     BEGIN(0); n_lineas++; 
 }
 
-["]       {BEGIN(COM2);}
-<COM2>["] {BEGIN(0); return CADENA;}
+\".*\" { strcpy(yylval.var, yytext); return CADENA;}
+
 [\t ]			        ;	
 true  {
   //  cout<<"TRue ";
@@ -50,19 +50,22 @@ or              return OR;
 not           return NOT;
 div  return DIV;
 
-{color}               {
+{colores}               {
                        
              //           cout<<"COlor ";
+                       strcpy(yylval.var, yytext);
                        return COLOR;
                     }
 {tipo}               {
                        
                    //     cout<<"Tipo ";
+                       strcpy(yylval.var, yytext);
                        return TIPO;
                     }
 {orientacion}               {
                        
                       //  cout<<"Orientacion ";
+                       strcpy(yylval.var, yytext);
                        return ORIENTACION;
                     }
 Si              {

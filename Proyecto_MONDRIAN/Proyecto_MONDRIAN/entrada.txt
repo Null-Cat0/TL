@@ -34,7 +34,7 @@ LineaFina = <1, horizontal, gris>
 
 
 CUADRO "Homenaje a Mondrian" :
-	
+	 
 
 
     Pintar (FranjaVerde, 0, 0)
