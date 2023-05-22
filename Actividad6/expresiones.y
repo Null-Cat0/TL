@@ -115,6 +115,7 @@ linea: ID ASIGNACION expr '\n' {
                                     InformacionSimbolo info, auxComprobación;
                                     if(buscarSimbolo(tablaSimbolos, $1, auxComprobación))
                                     {
+                                          
                                          if($3.esReal && (auxComprobación.d == Entero )){
                                                 error = true;
                                                 cout << "Error semantico en la instruccion "<< n_lineas<< ", la variable '" << $1 << "' es de tipo entero y no se le puede asignar un valor real"<< endl;

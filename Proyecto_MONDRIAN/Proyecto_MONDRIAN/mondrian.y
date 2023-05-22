@@ -10,6 +10,8 @@ using namespace std;
 // Jesus Castaño Tato, Asier Serrano Martín			
 extern int n_lineas;
 extern   map<string, InformacionSimbolo> tablaSimbolos;
+extern   map<string, InformacionSimbolo> tablaSimbolosLineas;
+extern   map<string, InformacionSimbolo> tablaSimbolosRecuadros;
 extern int yylex();
 
 extern FILE* yyin ;
@@ -89,22 +91,75 @@ inic_definicion :
               ;
 
 definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA { 
-                                                                                    if($4.esReal)
-                                                                                          fprintf(yyout,"%s %s := %f",$1,$2,$4.valor); 
-                                                                                    else
-                                                                                       fprintf(yyout,"%s %s := %d",$1,$2,(int)$4.valor);   
-                                                                                    cout<<"Tipo Identificador";
-                                                                                    }saltoOpcional
+                                                                        InformacionSimbolo info, auxComprobacion;
+                                                                        if(buscarSimbolo(tablaSimbolos, $2, auxComprobacion))
+                                                                        {
+                                                                              if((strcmp($1,"Real") == 0) &&(!$4.esReal)){
+                                                                                    error = true;
+                                                                                    //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
+                                                                              }else if((strcmp($1,"Entero") == 0) &&($4.esReal))
+                                                                              {
+                                                                                    error = true;
+                                                                                    //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
+                                                                              }
+                                                                        }
+
+
+                                                                         if (!error){ 
+                                                                        
+                                                                              //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
+                                                                              InformacionSimbolo info, aux;
+                                                                              if($4.esReal){
+                                                                                    info.d = Real;
+                                                                                    info.valor_float = $4.valor;
+                                                                              }else{
+                                                                                    info.d = Entero;
+                                                                                    info.valor_int = $4.valor;
+                                                                              }
+                                                                              insertarSimbolo(tablaSimbolos, $2, info);
+                                                                        }    
+                                                                        cout<<"Tipo Identificador";
+                                                                        error = false;
+                                                                  } saltoOpcional
            |  TIPO secuencia_de_Identificadores  PUNTOYCOMA  {
-                                                                                                      fprintf(yyout,";"); 
-                                                                                                      cout<<"Tipo secuencia_Identificadores ";
-                                                                                                      }saltoOpcional
+                                                                  fprintf(yyout,";"); 
+                                                                  cout<<"Tipo secuencia_Identificadores ";
+                                                            }saltoOpcional
            |  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
-                                                                                    if($3.esReal)
-                                                                                          fprintf(yyout,"%s  := %f;",$1,$3.valor); 
-                                                                                    else
-                                                                                       fprintf(yyout,"%s  := %d;",$1,(int)$3.valor);   
-                                                                              }saltoOpcional
+
+                                                                  InformacionSimbolo info, auxComprobacion;
+                                                                  if(buscarSimbolo(tablaSimbolos, $1, auxComprobacion))
+                                                                  {
+                                                                          
+                                                                        if((auxComprobacion.d == Real) &&(!$3.esReal)){
+                                                                              error = true;
+                                                                              //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
+                                                                        }else if((auxComprobacion.d == Entero) &&($3.esReal))
+                                                                        {
+                                                                              error = true;
+                                                                              //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
+                                                                        }
+                                                                  }else // EL simbolo no se encuentra en la tabla de simbolos
+                                                                  {
+                                                                          cout<<endl<<"ENTRA "<< $1 <<endl;
+                                                                        error = true;
+                                                                  }
+
+                                                                  if (!error){ 
+                                                                  //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
+                                                                        InformacionSimbolo info, aux;
+                                                                        if($3.esReal){
+                                                                              info.d = Real;
+                                                                              info.valor_float = $3.valor;
+                                                                        }else{
+                                                                              info.d = Entero;
+                                                                              info.valor_int = $3.valor;
+                                                                        }
+                                                                        insertarSimbolo(tablaSimbolos, $1, info);
+                                                                        }    
+                                                                        cout<<"Tipo Identificador";
+                                                                         error = false;
+                                                                  } saltoOpcional
            ;
 
 secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA {
@@ -124,6 +179,10 @@ inic_definicion_recuadro :
                         | inic_definicion_recuadro definicion_recuadro
                         ;
 definicion_recuadro : IDENTIFICADORMAYUSCULA IGUAL '<' expr  COMA  expr  COMA COLOR '>'   { 
+                                                                                          
+                                                                              
+
+
                                                                                           fprintf(yyout,"%s = <%d, %d, %s>",$1,(int)$4.valor,(int)$6.valor,$8);  
                                                                                           cout << "Identificador_mayuscula = < Entero, Entero, Color>"<<endl;
                                                                                           } salto
@@ -148,13 +207,55 @@ creacion_cuadros_nombre :
                         | CUADRO  CADENA {fprintf(yyout,"CUADRO  %s",$2);} ':' salto  inic_acciones_cuadros FINCUADRO salto  { cout<<"Cuadro NombreCuadro :"<<endl;} 
                         ;
 inic_acciones_cuadros :
-                      |   acciones_cuadros inic_acciones_cuadros {}
+                      |   acciones_cuadros  inic_acciones_cuadros {}
                       ;
 
 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {fprintf(yyout,"PINTAR (%s, %d, %d)",$3,(int)$5.valor,(int)$7.valor); cout<<"Pintar (Identificador_mayuscula, Expr,Expr)"<<endl;}salto
                 | PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')'   {fprintf(yyout,"PINTAR (%s, %d)",$3,(int)$5.valor); cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;}salto
                 | PAUSA  '('expr ')'  {fprintf(yyout,"PAUSA (%d)",(int)$3.valor); cout<<"Pausa (expr)"<<endl;}salto
-                | IDENTIFICADORMINUSCULA ASIGNACION expr { fprintf(yyout,"%s := %d",$1,(int)$3.valor);  cout<<"Identificador_Minuscula Asignacion Expr"<<endl;}salto
+                | IDENTIFICADORMINUSCULA ASIGNACION expr  { 
+                                                            error = false;
+                                                            cout<<endl<<"ENTRA"<<endl;
+                                                            InformacionSimbolo info, auxComprobacion;
+                                                            if(buscarSimbolo(tablaSimbolos, $1, auxComprobacion))
+                                                            {    
+                                                                  cout<<endl<<"ENTRA simbolo encontrado"<<endl;          
+                                                                 if((auxComprobacion.d == Real) &&(!$3.esReal)){
+                                                                  cout<<endl<<"ENTRA ERROR 1"<<endl;    
+                                                                               error = true;
+                                                                              //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
+                                                                  }else if((auxComprobacion.d == Entero) &&($3.esReal))
+                                                                  {
+                                                                        cout<<endl<<"ENTRA ERROR 2"<<endl;    
+                                                                        error = true;
+                                                                        //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
+                                                                  }
+                                                                  }else // EL simbolo no se encuentra en la tabla de simbolos
+                                                                  {
+                                                                        cout<<endl<<"ENTRA "<< $1 <<endl;
+                                                                        error = true;
+                                                            }
+
+                                                            if (!error){ 
+                                                                  //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
+                                                                  cout<<endl<<"ENTRA ACTUALIZAR"<< $1 <<endl;
+                                                                  InformacionSimbolo info, aux;
+                                                                  if($3.esReal){
+                                                                        info.d = Real;
+                                                                        info.valor_float = $3.valor;
+                                                                  }else{
+                                                                        info.d = Entero;
+                                                                        info.valor_int = $3.valor;
+                                                                  }
+                                                            insertarSimbolo(tablaSimbolos, $1, info);
+                                                            }    
+                                                            cout<<"Tipo Identificador";
+                                                            error = false;
+                                                          
+                                                          fprintf(yyout,"%s := %d",$1,(int)$3.valor);  
+                                                          cout<<"Identificador_Minuscula Asignacion Expr"<<endl;
+                                                          
+                                                          } salto
                 | MENSAJE  '('CADENA ')' {fprintf(yyout,"MENSAJE (%s)",$3); cout<<"Mensaje (CADENA)"<<endl;} salto
                 | condicional saltoOpcional
                 ;
@@ -258,7 +359,14 @@ int main(int argc, char **argv){
      n_lineas = 0;
      yyin = fopen(argv[1],"rt");
      yyout = fopen("salida.txt","wt");
+     fprintf(yyout, "#include mondrian.h \n" );
+     fprintf(yyout,"#include <allegro5/allegro5.h> \n");
+     fprintf(yyout,"using namespace std; \n");
+     fprintf(yyout,"int main(int argc, char **argv){ \n");
+      using namespace std;
      yyparse();
+     fprintf(yyout,"}\n");
+      mostrarTabla(tablaSimbolos, yyout);
      fclose(yyout);
      fclose(yyin);
      return 0;

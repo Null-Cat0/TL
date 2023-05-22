@@ -9,11 +9,39 @@ using namespace std;
 enum TipoDato {
     Real,
     Entero,
-    Bool
+    Bool,
+    Recuadro,
+    Linea
 };
 
+enum Color {
+    blacon,
+    negro,
+    gris,
+    rojo,
+    azul,
+    amarillo,
+    verde
+};
+enum Orientacion {
+        horizontal, vertical
+};
+
+struct ValoresLinea {
+    int grosor;
+    Orientacion orientacion;
+    Color color;
+};
+struct ValoresRecuadro {
+    int alto;
+    int ancho;
+    Color color;
+
+};
 struct InformacionSimbolo{
     TipoDato d;
+    ValoresLinea valores_linea;
+    ValoresRecuadro valores_recuadro;
     float valor_float;
     bool valor_bool;
     int valor_int;

@@ -14,25 +14,24 @@ digito [0-9]
 entero {digito}+
 real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
 variables VARIABLES
-recuadros RECUADROS
-cuadro CUADRO
+recuadros [R][E][C][U][A][D][R][O][S]
+cuadro [C][U][A][D][R][O]
 lineas LINEAS
 pausa  Pausa
-colores blanco|negro|gris|rojo|azul|amarillo|verde
+colores [b][l][a][n][c][o]|[n][e][g][r][o]|[g][r][i][s]|[r][o][j][o]|[a][z][u][l]|[a][m][a][r][i][l][l][o]|[v][e][r][d][e]
 tipo Entero|Real|Logico 
-orientacion vertical|horizontal
+orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
 fincuadro FINCUADRO
-
+cadena \".*\"  
 %option noyywrap
 %x COM1
 %%
 
+{cadena} { strcpy(yylval.var, yytext); return CADENA;}
 [#] { BEGIN(COM1); }
 <COM1>"\n" { 
     BEGIN(0); n_lineas++; 
 }
-
-\".*\" { strcpy(yylval.var, yytext); return CADENA;}
 
 [\t ]			        ;	
 true  {
@@ -50,7 +49,7 @@ or              return OR;
 not           return NOT;
 div  return DIV;
 
-{colores}               {
+{colores}            {
                        
              //           cout<<"COlor ";
                        strcpy(yylval.var, yytext);
