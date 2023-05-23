@@ -15,7 +15,7 @@ enum TipoDato {
 };
 
 enum Color {
-    blacon,
+    blanco,
     negro,
     gris,
     rojo,
@@ -23,13 +23,10 @@ enum Color {
     amarillo,
     verde
 };
-enum Orientacion {
-        horizontal, vertical
-};
 
 struct ValoresLinea {
     int grosor;
-    Orientacion orientacion;
+    bool esHorizontal; //True es horizontal, False es vertical
     Color color;
 };
 struct ValoresRecuadro {

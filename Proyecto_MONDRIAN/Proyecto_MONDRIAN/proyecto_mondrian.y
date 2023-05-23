@@ -179,10 +179,24 @@ inic_definicion_recuadro :
                         | inic_definicion_recuadro definicion_recuadro
                         ;
 definicion_recuadro : IDENTIFICADORMAYUSCULA IGUAL '<' expr  COMA  expr  COMA COLOR '>'   { 
-                                                                                          
-                                                                              
-
-
+                                                                                          error = false;
+                                                                                          InformacionSimbolo info, auxComprobacion; 
+                                                                                          if($4.esReal | $6.esReal){  
+                                                                                                error = true;
+                                                                                                //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
+                                                                                          }
+                                                                                          if (!error){ 
+                                                                                                //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
+                                                                                                
+                                                                                                InformacionSimbolo info;
+                                                                                                info.d = Recuadro;
+                                                                                                info.valores_recuadro.alto = $4.valor;
+                                                                                                info.valores_recuadro.ancho = $6.valor;
+                                                                                                //info.valores_recuadro.Color = $8;
+                                                                                                insertarSimbolo(tablaSimbolosRecuadros, $1, info);
+                                                                                          }    
+                                                                                          error = false;
+                                                                                    
                                                                                           fprintf(yyout,"%s = <%d, %d, %s>",$1,(int)$4.valor,(int)$6.valor,$8);  
                                                                                           cout << "Identificador_mayuscula = < Entero, Entero, Color>"<<endl;
                                                                                           } salto
@@ -195,8 +209,34 @@ zona_lineas : LINEAS  {fprintf(yyout,"RECUADROS");}  salto inic_definicion_linea
             ;
 
 inic_definicion_linea :
-                      | inic_definicion_linea IDENTIFICADORMAYUSCULA IGUAL  '<' expr  COMA  ORIENTACION  COMA COLOR '>' salto {fprintf(yyout,"%s = <%d, %s, %s>",$2,(int)$5.valor,$7,$9);   cout << "Identificador_mayuscula = < Entero, Orientacion, Color>"<<endl;} //preferimos que haya salto
-                      ;  
+                      | inic_definicion_linea  definicion_linea {}
+                      ;
+
+
+
+definicion_linea :
+                  | IDENTIFICADORMAYUSCULA IGUAL  '<' expr  COMA  ORIENTACION  COMA COLOR '>' salto {
+                                                                                                                                                                                                                       error = false;
+                                                                                                InformacionSimbolo info, auxComprobacion; 
+                                                                                                if($4.esReal){  
+                                                                                                      error = true;
+                                                                                                      //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
+                                                                                                }
+                                                                                                if (!error){ 
+                                                                                                      //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl;          
+                                                                                                      InformacionSimbolo info;
+                                                                                                      info.d = Linea;
+                                                                                                      info.valores_linea.grosor = $4.valor;
+                                                                                                      info.valores_linea.esHorizontal = (strcmp($6,"horizontal")==0)? true : false  ;
+                                                                                                      //info.valores_recuadro.Color = $8;
+                                                                                                      insertarSimbolo(tablaSimbolosLineas, $1, info);
+                                                                                                }    
+                                                                                                error = false; 
+                                                                                                fprintf(yyout,"%s = <%d, %s, %s>",$1,(int)$4.valor,$6,$8);   
+                                                                                                cout << "Identificador_mayuscula = < Entero, Orientacion, Color>"<<endl;
+                                                                                                                              
+                                                                                                } //preferimos que haya salto
+            ; 
 //------------------------------------------------------------------------------------------------
 //----------------------------------BLOQUE CUADROS CREADOS----------------------------------------
 //------------------------------------------------------------------------------------------------
@@ -204,7 +244,7 @@ inic_creacion_cuadros_nombre:
                         |  inic_creacion_cuadros_nombre creacion_cuadros_nombre {}
                         ;
 creacion_cuadros_nombre :
-                        | CUADRO  CADENA {fprintf(yyout,"CUADRO  %s",$2);} ':' salto  inic_acciones_cuadros FINCUADRO salto  { cout<<"Cuadro NombreCuadro :"<<endl;} 
+                        | CUADRO  CADENA {fprintf(yyout,"nuevoCuadroM(%s);  ",$2);} ':' salto  inic_acciones_cuadros FINCUADRO salto  { cout<<"Cuadro NombreCuadro :"<<endl;} 
                         ;
 inic_acciones_cuadros :
                       |   acciones_cuadros  inic_acciones_cuadros {}
@@ -256,7 +296,7 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {fp
                                                           cout<<"Identificador_Minuscula Asignacion Expr"<<endl;
                                                           
                                                           } salto
-                | MENSAJE  '('CADENA ')' {fprintf(yyout,"MENSAJE (%s)",$3); cout<<"Mensaje (CADENA)"<<endl;} salto
+                | MENSAJE  '('CADENA ')' {fprintf(yyout," // %s",$3); cout<<"Mensaje (CADENA)"<<endl;} salto
                 | condicional saltoOpcional
                 ;
 
@@ -356,18 +396,23 @@ logica: BOOL {$$ = $1;}
 
 int main(int argc, char **argv){
      
-     n_lineas = 0;
-     yyin = fopen(argv[1],"rt");
-     yyout = fopen("salida.txt","wt");
-     fprintf(yyout, "#include mondrian.h \n" );
-     fprintf(yyout,"#include <allegro5/allegro5.h> \n");
-     fprintf(yyout,"using namespace std; \n");
-     fprintf(yyout,"int main(int argc, char **argv){ \n");
+      n_lineas = 0;
+      yyin = fopen(argv[1],"rt");
+      yyout = fopen("salida.txt","wt");
+      fprintf(yyout, "#include mondrian.h \n" );
+      fprintf(yyout,"#include <allegro5/allegro5.h> \n");
+      fprintf(yyout,"using namespace std; \n");
+      fprintf(yyout,"int main(int argc, char **argv){ \n");
       using namespace std;
-     yyparse();
-     fprintf(yyout,"}\n");
+      yyparse();
+      fprintf(yyout,"}\n");
       mostrarTabla(tablaSimbolos, yyout);
-     fclose(yyout);
-     fclose(yyin);
+      
+      fprintf(yyout,"\n Holiwi");
+      mostrarTabla(tablaSimbolosRecuadros, yyout);
+      fprintf(yyout,"\n Holiwi");
+      mostrarTabla(tablaSimbolosLineas, yyout);
+      fclose(yyout);
+      fclose(yyin);
      return 0;
 }

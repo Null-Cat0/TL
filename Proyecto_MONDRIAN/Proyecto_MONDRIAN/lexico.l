@@ -1,11 +1,13 @@
 %{
-#include "mondrian.h"
+#include "proyecto_mondrian.h"
 #include "tablaSimbolos.h"
 #include <math.h>
 
 //Jesus Castaño Tato , Asier Serrano Martín
 int n_lineas;
 std::map<std::string, InformacionSimbolo> tablaSimbolos;
+std::map<std::string, InformacionSimbolo> tablaSimbolosLineas;
+std::map<std::string, InformacionSimbolo> tablaSimbolosRecuadros;
 %}
 
 identificadorMinuscula [a-z][_a-zA-Z0-9]*

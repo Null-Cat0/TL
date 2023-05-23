@@ -53,6 +53,15 @@
                 cout<<info.valor_bool;
                fprintf(fp,"Nombre: %s , Tipo: Logico, Valor: %s \n",nombre.c_str(),(info.valor_bool==true)?"True":"False") ;
                 break;
+
+                case Recuadro:
+                fprintf(fp,"Nombre: %s , Tipo: Recuadro, Alto: %d  Ancho: %d \n",nombre.c_str(),info.valores_recuadro.alto,info.valores_recuadro.ancho) ;
+                break;
+
+                case Linea:
+                fprintf(fp,"Nombre: %s , Tipo: Linea, Grosor: %d  esHorizontal: %s \n",nombre.c_str(),info.valores_linea.grosor,(info.valores_linea.esHorizontal)?"True":"False") ;
+                break;
+
             }
         }
     }
