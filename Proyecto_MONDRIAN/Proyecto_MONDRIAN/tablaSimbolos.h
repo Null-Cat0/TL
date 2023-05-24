@@ -5,6 +5,13 @@ using namespace std;
 
 #ifndef TABLASIMBOLOS_H
 # define TABLASIMBOLOS_H
+const int BLANCO    = 0;
+const int NEGRO     = 1;
+const int GRIS		= 2;
+const int ROJO      = 3;
+const int AZUL      = 4;
+const int AMARILLO  = 5;
+const int VERDE     = 6;
 
 enum TipoDato {
     Real,
@@ -13,26 +20,15 @@ enum TipoDato {
     Recuadro,
     Linea
 };
-
-enum Color {
-    blanco,
-    negro,
-    gris,
-    rojo,
-    azul,
-    amarillo,
-    verde
-};
-
 struct ValoresLinea {
     int grosor;
     bool esHorizontal; //True es horizontal, False es vertical
-    Color color;
+    int color;
 };
 struct ValoresRecuadro {
     int alto;
     int ancho;
-    Color color;
+    int color;
 
 };
 struct InformacionSimbolo{

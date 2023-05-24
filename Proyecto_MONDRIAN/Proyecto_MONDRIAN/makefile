@@ -3,7 +3,7 @@ OBJ = proyecto_mondrian.o lexico.o tablaSimbolos.o
 
 all : run
 run : proyecto_mondrian
-	./proyecto_mondrian entrada.txt salida.txt
+	./proyecto_mondrian entrada.mon
 proyecto_mondrian : $(OBJ)      				#segunda fase de la traducción. Generación del código ejecutable 
 	g++ -o proyecto_mondrian $(OBJ) 
 

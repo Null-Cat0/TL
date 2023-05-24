@@ -37,31 +37,33 @@
 
   // Recorre la tabla de símbolos y muestra su contenido por pantalla
     void mostrarTabla(map<string, InformacionSimbolo> TablaSimbolos, FILE *fp) {
-
+        fprintf(fp,"/* \n") ;
         for (auto const& [nombre, info] : TablaSimbolos) {
            
-
+    
             switch(info.d){
                 case Real:
-                fprintf(fp,"Nombre: %s , Tipo: Real, Valor: %f \n",nombre.c_str(),info.valor_float) ;
+                fprintf(fp,"\t Nombre: %s , Tipo: Real, Valor: %f \n",nombre.c_str(),info.valor_float) ;
                 break;
 
                 case Entero:
-               fprintf(fp,"Nombre: %s , Tipo: Entero, Valor: %d \n",nombre.c_str(),info.valor_int) ;
+               fprintf(fp,"\t Nombre: %s , Tipo: Entero, Valor: %d \n",nombre.c_str(),info.valor_int) ;
                 break;
                 case Bool:
                 cout<<info.valor_bool;
-               fprintf(fp,"Nombre: %s , Tipo: Logico, Valor: %s \n",nombre.c_str(),(info.valor_bool==true)?"True":"False") ;
+               fprintf(fp,"\t Nombre: %s , Tipo: Logico, Valor: %s \n",nombre.c_str(),(info.valor_bool==true)?"True":"False") ;
                 break;
 
                 case Recuadro:
-                fprintf(fp,"Nombre: %s , Tipo: Recuadro, Alto: %d  Ancho: %d \n",nombre.c_str(),info.valores_recuadro.alto,info.valores_recuadro.ancho) ;
+                fprintf(fp,"\t Nombre: %s , Tipo: Recuadro, Alto: %d , Ancho: %d , Color: %d \n",nombre.c_str(),info.valores_recuadro.alto,info.valores_recuadro.ancho,info.valores_recuadro.color) ;
                 break;
 
                 case Linea:
-                fprintf(fp,"Nombre: %s , Tipo: Linea, Grosor: %d  esHorizontal: %s \n",nombre.c_str(),info.valores_linea.grosor,(info.valores_linea.esHorizontal)?"True":"False") ;
+                fprintf(fp,"\t Nombre: %s , Tipo: Linea, Grosor: %d  esHorizontal: %s , Color: %d \n",nombre.c_str(),info.valores_linea.grosor,(info.valores_linea.esHorizontal)?"True":"False", info.valores_linea.color) ;
                 break;
 
             }
+
         }
+         fprintf(fp,"*/\n") ;
     }

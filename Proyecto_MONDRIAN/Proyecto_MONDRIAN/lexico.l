@@ -26,15 +26,12 @@ orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
 fincuadro FINCUADRO
 cadena \".*\"  
 %option noyywrap
-%x COM1
 %%
 
-{cadena} { strcpy(yylval.var, yytext); return CADENA;}
-[#] { BEGIN(COM1); }
-<COM1>"\n" { 
-    BEGIN(0); n_lineas++; 
-}
 
+#.*\n { } 
+
+{cadena} { strcpy(yylval.var, yytext); return CADENA;}
 [\t ]			        ;	
 true  {
   //  cout<<"TRue ";
