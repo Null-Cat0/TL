@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <string.h>
+#include <list>
 using namespace std;
 
 #ifndef TABLASIMBOLOS_H
@@ -18,7 +19,8 @@ enum TipoDato {
     Entero,
     Bool,
     Recuadro,
-    Linea
+    Linea,
+    NoIdentificado
 };
 struct ValoresLinea {
     int grosor;
@@ -45,6 +47,8 @@ struct InformacionSimbolo{
 
     // Busca un símbolo en la tabla de símbolos y devuelve su información
     bool buscarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre, InformacionSimbolo &info);
+
+    list<string> buscarSimbolosNoIdentificados(map<string, InformacionSimbolo> TablaSimbolos);
 
     // Actualiza la información de un símbolo existente en la tabla de símbolos
     void actualizarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre, InformacionSimbolo info);

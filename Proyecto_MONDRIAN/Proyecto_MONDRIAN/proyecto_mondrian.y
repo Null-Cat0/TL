@@ -18,6 +18,7 @@ extern FILE* yyin ;
 extern FILE* yyout ;
 
 bool error = false;
+char Tipo_Secuencia[25];
 void yyerror(const char* s){      
       // error = true;
       // if(strcmp(s,"syntax error") == 0){
@@ -62,6 +63,7 @@ string enteroOreal(bool enteroOreal)
 %union{
   int c_entero;
   char var[25];
+  char text[250];
   float c_real;
   bool c_bool;
   struct {
@@ -73,7 +75,8 @@ string enteroOreal(bool enteroOreal)
 
 %token PINTAR MENSAJE PAUSA ASIGNACION IGUAL VARIABLES RECUADROS  LINEAS   DIV MENOS SALTOLINEA PUNTOYCOMA  COMA CUADRO FINCUADRO SI SINO 
 
-%token <var> IDENTIFICADORMINUSCULA IDENTIFICADORMAYUSCULA CADENA TIPO COLOR ORIENTACION
+%token <var> IDENTIFICADORMINUSCULA IDENTIFICADORMAYUSCULA  TIPO COLOR ORIENTACION
+%token <text> CADENA
 %token <c_entero> ENTERO
 %token <c_real> REAL
 %token <c_bool> BOOL
@@ -101,7 +104,7 @@ all : zona_variables zona_recuadros zona_lineas inic_creacion_cuadros_nombre  {;
     ;
 
 zona_variables : 
-               | VARIABLES salto inic_definicion{ cout << "VARIABLES"<<endl;}
+               | VARIABLES salto inic_definicion{ /*cout << "VARIABLES"<<endl;*/}
                ;
 
 inic_definicion :
@@ -114,10 +117,12 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                         {
                                                                               if((strcmp($1,"Real") == 0) &&(!$4.esReal)){
                                                                                     error = true;
+                                                                                    cout<<"La variable no es tipo real y no se le puede asignar un valor real"<<endl;
                                                                                     //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
                                                                               }else if((strcmp($1,"Entero") == 0) &&($4.esReal))
                                                                               {
                                                                                     error = true;
+                                                                                    cout<<"La variable  es de tipo real y no se le puede asignar un valor entero"<<endl;
                                                                                     //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
                                                                               }
                                                                         }
@@ -135,12 +140,31 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                               }
                                                                               insertarSimbolo(tablaSimbolos, $2, info);
                                                                         }    
-                                                                        cout<<"Tipo Identificador";
+                                                                        //cout<<"Tipo Identificador";
                                                                         error = false;
                                                                   } saltoOpcional
            |  TIPO secuencia_de_Identificadores  PUNTOYCOMA  {
-                                                                  fprintf(yyout,";"); 
-                                                                  cout<<"Tipo secuencia_Identificadores ";
+                                                                  
+                                                                  InformacionSimbolo info, tipoSec;
+                                                                  
+                                                                   if((strcmp($1,"Real") == 0)){
+                                                                              info.d = Real;
+                                                                              info.valor_float = 0;
+                                                                        }else if((strcmp($1,"Entero") == 0))
+                                                                        {
+                                                                              info.d = Entero;
+                                                                              info.valor_int = 0;
+                                                                        }
+                                                                  list<string> l = buscarSimbolosNoIdentificados(tablaSimbolos); 
+                                                                  while (!l.empty()) {
+                                                                        string aux = l.front();
+                                                                        actualizarSimbolo(tablaSimbolos,aux,info);
+                                                                        l.pop_front();
+                                                                  }
+
+
+                                                                  
+                                                                 // cout<<"Tipo secuencia_Identificadores ";
                                                             }saltoOpcional
            |  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
 
@@ -150,15 +174,17 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                           
                                                                         if((auxComprobacion.d == Real) &&(!$3.esReal)){
                                                                               error = true;
+                                                                               cout<<"La variable no es tipo real y no se le puede asignar un valor real"<<endl;
                                                                               //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
                                                                         }else if((auxComprobacion.d == Entero) &&($3.esReal))
                                                                         {
                                                                               error = true;
+                                                                              cout<<"La variable  es de tipo real y no se le puede asignar un valor entero"<<endl;
                                                                               //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
                                                                         }
                                                                   }else // EL simbolo no se encuentra en la tabla de simbolos
                                                                   {
-                                                                          cout<<endl<<"ENTRA "<< $1 <<endl;
+                                                                        //cout<<endl<<"ENTRA "<< $1 <<endl;
                                                                         error = true;
                                                                   }
 
@@ -174,23 +200,30 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                         }
                                                                         insertarSimbolo(tablaSimbolos, $1, info);
                                                                         }    
-                                                                        cout<<"Tipo Identificador";
+                                                                        //cout<<"Tipo Identificador";
                                                                          error = false;
                                                                   } saltoOpcional
            ;
 
 secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA {
-                                                      fprintf(yyout,"%s;",$1); cout<<"Identificador ";cout<<"PuntoYCOma ";
+
+                                                                  InformacionSimbolo info;
+                                                                  info.d=NoIdentificado;
+                                                                  insertarSimbolo(tablaSimbolos, $1, info);
+                                                                  //cout<<"Identificador PuntYComa ";
                                                       }
                              |  IDENTIFICADORMINUSCULA COMA secuencia_de_Identificadores {
-                                                                                          fprintf(yyout,"%s, ",$1); cout<<"Identificador "; cout<<"Coma ";
+                                                                                          InformacionSimbolo info;
+                                                                                          info.d=NoIdentificado;
+                                                                                          insertarSimbolo(tablaSimbolos, $1, info);
+                                                                                          //cout<<"Identificador  ";
                                                                                           }
                              ;
 
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE RECUADROS-------------------------------------
 
-zona_recuadros : RECUADROS {}  salto  inic_definicion_recuadro {cout<<"RECUADROS"<<endl;}  
+zona_recuadros : RECUADROS {}  salto  inic_definicion_recuadro {/*cout<<"RECUADROS"<<endl;*/}  
                ;
 inic_definicion_recuadro :
                         | inic_definicion_recuadro definicion_recuadro
@@ -201,6 +234,7 @@ definicion_recuadro : IDENTIFICADORMAYUSCULA IGUAL '<' expr  COMA  expr  COMA CO
                                                                                           if($4.esReal | $6.esReal){  
                                                                                                 error = true;
                                                                                                 //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
+                                                                                                cout<<"La creaciøn de un recuadro necesita dos operandos enteros"<<endl;
                                                                                           }
                                                                                           if (!error){ 
                                                                                                 //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
@@ -222,7 +256,7 @@ definicion_recuadro : IDENTIFICADORMAYUSCULA IGUAL '<' expr  COMA  expr  COMA CO
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE LINEAS----------------------------------------
 
-zona_lineas : LINEAS  salto inic_definicion_linea {cout << "LINEAS"<<endl;}
+zona_lineas : LINEAS  salto inic_definicion_linea {/*cout << "LINEAS"<<endl;*/}
             ;
 
 inic_definicion_linea :
@@ -231,8 +265,7 @@ inic_definicion_linea :
 
 
 
-definicion_linea :
-                  | IDENTIFICADORMAYUSCULA IGUAL  '<' expr  COMA  ORIENTACION  COMA COLOR '>' salto {
+definicion_linea : IDENTIFICADORMAYUSCULA IGUAL  '<' expr  COMA  ORIENTACION  COMA COLOR '>' salto {
                                                                                                                                                                                                                        error = false;
                                                                                                 InformacionSimbolo info, auxComprobacion; 
                                                                                                 if($4.esReal){  
@@ -260,8 +293,7 @@ definicion_linea :
 inic_creacion_cuadros_nombre:
                         |  inic_creacion_cuadros_nombre creacion_cuadros_nombre {}
                         ;
-creacion_cuadros_nombre :
-                        | CUADRO  CADENA {fprintf(yyout,"\t nuevoCuadroM(%s); \n ",$2);} ':' salto  inic_acciones_cuadros FINCUADRO salto  { cout<<"Cuadro NombreCuadro :"<<endl;} 
+creacion_cuadros_nombre :CUADRO  CADENA {fprintf(yyout,"\t nuevoCuadroM(%s); \n ",$2);} ':' salto  inic_acciones_cuadros FINCUADRO saltoOpcional  { /* cout<<"Cuadro NombreCuadro :"<<endl; */ } 
                         ;
 inic_acciones_cuadros :
                       |   acciones_cuadros  inic_acciones_cuadros {}
@@ -286,10 +318,10 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                                     fprintf(yyout,"\t rectanguloM(%d, %d, %d, %d, %d); \n",filaRecuadro,columnaRecuadro,altoRecuadro,anchoRecuadro,color); 
                                                                               }else
                                                                               {
-                                                                                    cout<<"El valor introducido es real"<<endl;
+                                                                                    cout<<"El valor introducido es real y la funcion pintar precisa de dos valores enteros"<<endl;
                                                                               }                                                                         
                                                                               
-                                                                              cout<<"Pintar (Identificador_mayuscula, Expr,Expr)"<<endl;
+                                                                              //cout<<"Pintar (Identificador_mayuscula, Expr,Expr)"<<endl;
                                                                         
                                                                         
                                                                         
@@ -314,43 +346,42 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                              
                                                                         }else
                                                                         {
-                                                                              cout<<"El valor introducido es real"<<endl;
+                                                                              cout<<"El valor introducido es real y la funcion pintar precisa de un valor entero"<<endl;
                                                                         }                                                                             
                                                                               
                                                                        
-                                                                        cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;
+                                                                        //cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;
                                                                   }salto
 
                 | PAUSA  '('expr ')'  {
                                           fprintf(yyout,"\t pausaM(%.2f); \n",$3.valor); 
-                                          cout<<"Pausa (expr)"<<endl;
+                                         // cout<<"Pausa (expr)"<<endl;
                                     }salto
                 | IDENTIFICADORMINUSCULA ASIGNACION expr  { 
                                                             error = false;
-                                                            cout<<endl<<"ENTRA"<<endl;
+                                                            
                                                             InformacionSimbolo info, auxComprobacion;
                                                             if(buscarSimbolo(tablaSimbolos, $1, auxComprobacion))
                                                             {    
-                                                                  cout<<endl<<"ENTRA simbolo encontrado"<<endl;          
+                                                                            
                                                                  if((auxComprobacion.d == Real) &&(!$3.esReal)){
-                                                                  cout<<endl<<"ENTRA ERROR 1"<<endl;    
+                                                                      
                                                                                error = true;
                                                                               //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
                                                                   }else if((auxComprobacion.d == Entero) &&($3.esReal))
                                                                   {
-                                                                        cout<<endl<<"ENTRA ERROR 2"<<endl;    
+                                                                          
                                                                         error = true;
                                                                         //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
                                                                   }
                                                                   }else // EL simbolo no se encuentra en la tabla de simbolos
                                                                   {
-                                                                        cout<<endl<<"ENTRA "<< $1 <<endl;
                                                                         error = true;
                                                             }
 
                                                             if (!error){ 
                                                                   //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
-                                                                  cout<<endl<<"ENTRA ACTUALIZAR"<< $1 <<endl;
+                                                            
                                                                   InformacionSimbolo info, aux;
                                                                   if($3.esReal){
                                                                         info.d = Real;
@@ -361,14 +392,10 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                   }
                                                                   insertarSimbolo(tablaSimbolos, $1, info);
                                                             }    
-                                                            cout<<"Tipo Identificador";
                                                             error = false;
                                                           
-                                                          //fprintf(yyout,"%s := %d",$1,(int)$3.valor);  
-                                                          cout<<"Identificador_Minuscula Asignacion Expr"<<endl;
-                                                          
                                                           } salto
-                | MENSAJE  '('CADENA ')' {fprintf(yyout,"\t // %s \n",$3); cout<<"Mensaje (CADENA)"<<endl;} salto
+                | MENSAJE  '('CADENA ')' {fprintf(yyout,"\t // %s \n",$3); } salto
                 | condicional saltoOpcional
                 ;
 
@@ -482,21 +509,22 @@ int main(int argc, char **argv){
       fprintf(yyout,"using namespace std; \n");
       fprintf(yyout,"int main(int argc, char **argv){ \n \n");
       
-      
+      fprintf(yyout,"\t// Se inicia el entorno gráfico\n");
       fprintf(yyout,"\tiniciarM();\n");
       using namespace std;
       yyparse();
      
+      fprintf(yyout,"\t// Se liberan los recursos del entorno gráfico\n");
       fprintf(yyout,"\tterminarM();\n");
       fprintf(yyout,"\n}\n");
 
-
-      fprintf(yyout,"\n // Tabla de Simbolos\n");
-      mostrarTabla(tablaSimbolos, yyout);
-      fprintf(yyout,"\n // Tabla de Simbolos Recuadros \n");
-      mostrarTabla(tablaSimbolosRecuadros, yyout);
-      fprintf(yyout,"\n // Tabla de Simbolo de Lineas \n");
-      mostrarTabla(tablaSimbolosLineas, yyout);
+      //Descomentar para mostrar los maps de Variables, 
+//      fprintf(yyout,"\n // Tabla de Simbolos\n");
+//      mostrarTabla(tablaSimbolos, yyout);
+//      fprintf(yyout,"\n // Tabla de Simbolos Recuadros \n");
+//      mostrarTabla(tablaSimbolosRecuadros, yyout);
+//      fprintf(yyout,"\n // Tabla de Simbolo de Lineas \n");
+//      mostrarTabla(tablaSimbolosLineas, yyout);
       
       
       fclose(yyout);

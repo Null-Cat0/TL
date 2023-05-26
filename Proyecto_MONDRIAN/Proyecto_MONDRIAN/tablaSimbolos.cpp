@@ -16,7 +16,17 @@
             return false;
         }
     }
-
+     list<string> buscarSimbolosNoIdentificados(map<string, InformacionSimbolo> TablaSimbolos) {
+        list<string> l ;
+         string nombre;
+        InformacionSimbolo info;
+            for (auto const& [nombre, info] : TablaSimbolos) {
+                
+                if(info.d == NoIdentificado)
+                    l.push_front(nombre);
+            }
+        return l;
+    }
     // Actualiza la información de un símbolo existente en la tabla de símbolos
     void actualizarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre, InformacionSimbolo info) {
         if (TablaSimbolos.count(nombre) > 0) {

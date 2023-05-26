@@ -9,28 +9,29 @@ std::map<std::string, InformacionSimbolo> tablaSimbolos;
 std::map<std::string, InformacionSimbolo> tablaSimbolosLineas;
 std::map<std::string, InformacionSimbolo> tablaSimbolosRecuadros;
 %}
-
+cadena ["].*["]  
 identificadorMinuscula [a-z][_a-zA-Z0-9]*
 identificadorMayuscula [A-Z][_a-zA-Z0-9]*
 digito [0-9]
 entero {digito}+
 real ({entero}[.]{entero}?)|({entero}?[.]{entero})([eE][-+]?{entero})?
 variables VARIABLES
-recuadros [R][E][C][U][A][D][R][O][S]
-cuadro [C][U][A][D][R][O]
+recuadros RECUADROS
+cuadro CUADRO
 lineas LINEAS
 pausa  Pausa
-colores [b][l][a][n][c][o]|[n][e][g][r][o]|[g][r][i][s]|[r][o][j][o]|[a][z][u][l]|[a][m][a][r][i][l][l][o]|[v][e][r][d][e]
+pintar Pintar
+mensaje Mensaje
+colores blanco|negro|gris|rojo|azul|amarillo|verde
 tipo Entero|Real|Logico 
-orientacion [v][e][r][t][i][c][a][l]|[h][o][r][i][z][o][n][t][a][l]
+orientacion vertical|horizontal
 fincuadro FINCUADRO
-cadena \".*\"  
+
 %option noyywrap
 %%
 
 
 #.*\n { } 
-
 {cadena} { strcpy(yylval.var, yytext); return CADENA;}
 [\t ]			        ;	
 true  {
@@ -49,35 +50,18 @@ not           return NOT;
 div  return DIV;
 
 {colores}            {
-                       
-             //           cout<<"COlor ";
                        strcpy(yylval.var, yytext);
                        return COLOR;
                     }
 {tipo}               {
-                       
-                   //     cout<<"Tipo ";
                        strcpy(yylval.var, yytext);
                        return TIPO;
                     }
 {orientacion}               {
-                       
-                      //  cout<<"Orientacion ";
                        strcpy(yylval.var, yytext);
                        return ORIENTACION;
                     }
-Si              {
-                       
-                      //  cout<<"Orientacion ";
-                       return SI;
-                    }
-Si_no              {
-                       
-                      //  cout<<"Orientacion ";
-                       return SINO;
-                    }
 ^{variables}  {
-             //   cout<<"VAriable ";
                 return VARIABLES;
                 }
 ^{recuadros}   {
@@ -90,23 +74,21 @@ Si_no              {
                 return CUADRO;
                 }
        
-{entero}		      { 
+{entero} { 
                         yylval.c_entero = atoi(yytext); 
-                   //     cout<<"Entero ";
                         return ENTERO;
-                        }
-{real}               {
+                }
+{real}  {
                         yylval.c_real = atof(yytext);
-                    //    cout<<"Real ";
                        return REAL;
                     }
-Pintar {
+{pintar} {
         return PINTAR;
 }
 {pausa} {
         return PAUSA;
 }
-Mensaje {
+{mensaje} {
         return MENSAJE;
 }
 {fincuadro} {
@@ -114,37 +96,28 @@ Mensaje {
 }
 \n			  {
                     n_lineas++; 
-                   //cout<<"Saltolinea"<<endl;
                    return SALTOLINEA;
             }
-,          {// cout<<"COma ";
+,          {
             return COMA;
             }
-;           { //cout<<"PuntoyCOma ";
-return PUNTOYCOMA;
-}
-:=           {//cout<<"Asignacion ";
- return ASIGNACION;
-}
-=            {//cout<<"Igual ";
-return IGUAL;
-}
+;           { 
+                return PUNTOYCOMA;
+        }
+:=           {
+                return ASIGNACION;
+        }
+=            {
+                return IGUAL;
+        }
 {identificadorMayuscula}     {
                     strcpy(yylval.var, yytext); 
-                  //  cout << "IDENTIFICADOR ";
                     return IDENTIFICADORMAYUSCULA;
                     }
 {identificadorMinuscula} {
                     strcpy(yylval.var, yytext); 
-                    //  cout << "IDENTIFICADOR ";
                     return IDENTIFICADORMINUSCULA;
                     }   
 . 		     return (yytext[0]);
 
 %%
-// int main(int argc , char ** argv){
-	 
-// 	n_lineas = 0;
-//   yylex();
-//   	return 0;  
-// }
