@@ -1,3 +1,6 @@
+# Fichero de ejemplo de la versión básica sin errores
+# No incluye la estructura de control Si ni expresiones
+
 VARIABLES
 
 Real tiempoPausa := 1.5;

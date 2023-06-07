@@ -3,42 +3,30 @@
 using namespace std; 
 int main(int argc, char **argv){ 
  
+	// Se inicia el entorno gráfico
 	iniciarM();
 	 nuevoCuadroM("Homenaje a Mondrian"); 
- 	 rectanguloM(0, 0, 32, 100, 6); 
-	 rectanguloM(87, 8, 32, 100, 6); 
+ 	 pausaM(1.50); 
+	 // "Se pintan las líneas horizontales y verticales" 
+	 lineaM(0, 4, true, 1); 
+	 lineaM(50, 4, true, 1); 
+	 lineaM(81, 4, true, 1); 
+	 lineaM(46, 4, false, 1); 
 	 lineaM(80, 4, false, 1); 
-	 pausaM(2.30); 
-	 pausaM(1.89); 
-	 // "Se pintan los recuadros de""Se pintan los recuadros de"tiempoPausa 
-	 // "Hola que tal" 
+	 pausaM(1.00); 
+	 // "Se pintan los recuadros de color" 
+	 rectanguloM(4, 0, 46, 46, 4); 
+	 rectanguloM(54, 0, 46, 46, 4); 
+	 rectanguloM(4, 84, 46, 16, 3); 
+	 rectanguloM(54, 50, 27, 50, 2); 
+	 rectanguloM(85, 50, 15, 30, 5); 
+	 pausaM(1.50); 
 	 nuevoCuadroM("Bandera"); 
  	 rectanguloM(0, 0, 32, 100, 6); 
+	 lineaM(32, 1, true, 2); 
+	 lineaM(67, 1, true, 2); 
 	 rectanguloM(68, 0, 32, 100, 1); 
-	 lineaM(90, 4, false, 1); 
+	// Se liberan los recursos del entorno gráfico
 	terminarM();
 
 }
-
- // Tabla de Simbolos
-/* 
-	 Nombre: grosor , Tipo: Entero, Valor: 4 
-	 Nombre: tiempoPausa , Tipo: Real, Valor: 1.890000 
-*/
-
- // Tabla de Simbolos Recuadros 
-/* 
-	 Nombre: CuadroAzul , Tipo: Recuadro, Alto: 46 , Ancho: 46 , Color: 4 
-	 Nombre: FranjaNegra , Tipo: Recuadro, Alto: 32 , Ancho: 100 , Color: 1 
-	 Nombre: FranjaVerde , Tipo: Recuadro, Alto: 32 , Ancho: 100 , Color: 6 
-	 Nombre: RectanguloGris , Tipo: Recuadro, Alto: 27 , Ancho: 50 , Color: 2 
-	 Nombre: RectanguloRojo , Tipo: Recuadro, Alto: 46 , Ancho: 16 , Color: 3 
-	 Nombre: ZonaAmarilla , Tipo: Recuadro, Alto: 15 , Ancho: 30 , Color: 5 
-*/
-
- // Tabla de Simbolo de Lineas 
-/* 
-	 Nombre: LineaFina , Tipo: Linea, Grosor: 1  esHorizontal: True , Color: 2 
-	 Nombre: LineaH , Tipo: Linea, Grosor: 4  esHorizontal: True , Color: 1 
-	 Nombre: LineaV , Tipo: Linea, Grosor: 4  esHorizontal: False , Color: 1 
-*/
