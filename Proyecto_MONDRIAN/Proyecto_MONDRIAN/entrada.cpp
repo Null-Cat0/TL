@@ -5,6 +5,7 @@ int main(int argc, char **argv){
  
 	// Se inicia el entorno gráfico
 	iniciarM();
+<<<<<<< HEAD
 	 nuevoCuadroM("Composición en rojo, amarillo, azul y negro - Mondrian"); 
  	 // "Se pintan las lineas horizontales y verticales" 
 	 lineaM(11, 4, true, 1); 
@@ -53,10 +54,34 @@ int main(int argc, char **argv){
 	 rectanguloM(75, 25, 25, 25, 1); 
 	 rectanguloM(25, 75, 25, 25, 1); 
 	 rectanguloM(75, 75, 25, 25, 1); 
+=======
+	 nuevoCuadroM("Homenaje a Mondrian"); 
+ 	 pausaM(1.50); 
+	 // "Se pintan las líneas horizontales y verticales" 
+	 lineaM(0, 4, true, 1); 
+	 lineaM(50, 4, true, 1); 
+	 lineaM(81, 4, true, 1); 
+	 lineaM(46, 4, false, 1); 
+	 lineaM(80, 4, false, 1); 
+	 pausaM(1.00); 
+	 // "Se pintan los recuadros de color" 
+	 rectanguloM(4, 0, 46, 46, 4); 
+	 rectanguloM(54, 0, 46, 46, 4); 
+	 rectanguloM(4, 84, 46, 16, 3); 
+	 rectanguloM(54, 50, 27, 50, 2); 
+	 rectanguloM(85, 50, 15, 30, 5); 
+	 pausaM(1.50); 
+	 nuevoCuadroM("Bandera"); 
+ 	 rectanguloM(0, 0, 32, 100, 6); 
+	 lineaM(32, 1, true, 2); 
+	 lineaM(67, 1, true, 2); 
+	 rectanguloM(68, 0, 32, 100, 1); 
+>>>>>>> 28b5a137ccc334f4d7eb8d802818681a38a1e8f7
 	// Se liberan los recursos del entorno gráfico
 	terminarM();
 
 }
+<<<<<<< HEAD
 
  // Tabla de Simbolos
 /* 
@@ -94,3 +119,5 @@ int main(int argc, char **argv){
 	 Nombre: LineaH , Tipo: Linea, Grosor: 4  esHorizontal: True , Color: 1 
 	 Nombre: LineaV , Tipo: Linea, Grosor: 4  esHorizontal: False , Color: 1 
 */
+=======
+>>>>>>> 28b5a137ccc334f4d7eb8d802818681a38a1e8f7

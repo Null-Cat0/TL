@@ -1,6 +1,10 @@
 # Fichero de ejemplo de la versión básica sin errores
+<<<<<<< HEAD
 # Incluye la estructura de control Si y expresiones
 # También más o menos espacios en blanco, saltos de línea, tabulaciones, etc.
+=======
+# No incluye la estructura de control Si ni expresiones
+>>>>>>> 28b5a137ccc334f4d7eb8d802818681a38a1e8f7
 
 VARIABLES
 

@@ -100,7 +100,11 @@ string enteroOreal(bool enteroOreal)
 
 
 //-------------------------------------------BLOQUE VARIABLES------------------------------------
+<<<<<<< HEAD
 all : saltoOpcional zona_variables saltoOpcional zona_recuadros saltoOpcional zona_lineas saltoOpcional inic_creacion_cuadros_nombre  {;}
+=======
+all : saltoOpcional zona_variables zona_recuadros zona_lineas inic_creacion_cuadros_nombre  {;}
+>>>>>>> 28b5a137ccc334f4d7eb8d802818681a38a1e8f7
     ;
 
 zona_variables : 
