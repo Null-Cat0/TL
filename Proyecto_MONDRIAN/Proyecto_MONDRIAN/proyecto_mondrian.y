@@ -100,11 +100,7 @@ string enteroOreal(bool enteroOreal)
 
 
 //-------------------------------------------BLOQUE VARIABLES------------------------------------
-<<<<<<< HEAD
-all : saltoOpcional zona_variables saltoOpcional zona_recuadros saltoOpcional zona_lineas saltoOpcional inic_creacion_cuadros_nombre  {;}
-=======
-all : saltoOpcional zona_variables zona_recuadros zona_lineas inic_creacion_cuadros_nombre  {;}
->>>>>>> 28b5a137ccc334f4d7eb8d802818681a38a1e8f7
+all : saltoOpcional zona_variables saltoOpcional zona_recuadros saltoOpcional zona_lineas saltoOpcional inic_creacion_cuadros_nombre saltoOpcional  {;}
     ;
 
 zona_variables : 
@@ -207,6 +203,7 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                         //cout<<"Tipo Identificador";
                                                                          errorS = false;
                                                                   } saltoOpcional
+            | error {}
            ;
 
 secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA {
@@ -255,6 +252,7 @@ definicion_recuadro : IDENTIFICADORMAYUSCULA IGUAL '<' expr  COMA  expr  COMA CO
                                                                                           //fprintf(yyout,"\t %s = <%d, %d, %s>",$1,(int)$4.valor,(int)$6.valor,$8);  
                                                                                           //cout << "Identificador_mayuscula = < Entero, Entero, Color>"<<endl;
                                                                                           } salto
+                  | error {}
                   ;
 
 //------------------------------------------------------------------------------------------------
@@ -290,6 +288,7 @@ definicion_linea : IDENTIFICADORMAYUSCULA IGUAL  '<' expr  COMA  ORIENTACION  CO
                                                                                                 //cout << "\t Identificador_mayuscula = < Entero, Orientacion, Color>"<<endl;
                                                                                                                               
                                                                                                 } //preferimos que haya salto
+            | error {}
             ; 
 //------------------------------------------------------------------------------------------------
 //----------------------------------BLOQUE CUADROS CREADOS----------------------------------------
@@ -401,6 +400,7 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                           } salto
                 | MENSAJE  '('CADENA ')' {fprintf(yyout,"\t // %s \n",$3); } salto
                 | condicional saltoOpcional
+                | error {}
                 ;
 
 condicional : SI '(' logica ')' '{' acciones_cuadros '}' %prec IF {}

@@ -28,7 +28,7 @@ fincuadro FINCUADRO
 %%
 
 
-#.*\n { } 
+#.*\n { n_lineas++;} 
 {cadena} { strcpy(yylval.var, yytext); return CADENA;}
 [\t ]			        ;	
 true  {
