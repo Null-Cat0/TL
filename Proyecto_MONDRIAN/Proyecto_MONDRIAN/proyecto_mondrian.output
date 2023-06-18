@@ -3,6 +3,13 @@ Terminales no usados en la gramática
     MENOS
 
 
+Estado 1 conflictos: 1 desplazamiento/reducción
+Estado 141 conflictos: 1 desplazamiento/reducción
+Estado 158 conflictos: 1 desplazamiento/reducción
+Estado 177 conflictos: 1 desplazamiento/reducción
+Estado 179 conflictos: 1 desplazamiento/reducción
+
+
 Gramática
 
     0 $accept: all $end
@@ -26,7 +33,7 @@ Gramática
    10 $@3: ε
 
    11 definicion: IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA $@3 saltoOpcional
-   12           | error
+   12           | error '\n'
 
    13 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA
    14                             | IDENTIFICADORMINUSCULA COMA secuencia_de_Identificadores
@@ -41,7 +48,7 @@ Gramática
    19 $@5: ε
 
    20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR '>' $@5 salto
-   21                    | error
+   21                    | error '\n'
 
    22 zona_lineas: LINEAS salto inic_definicion_linea
 
@@ -49,7 +56,7 @@ Gramática
    24                      | inic_definicion_linea definicion_linea
 
    25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' salto
-   26                 | error
+   26                 | error '\n'
 
    27 inic_creacion_cuadros_nombre: ε
    28                             | inic_creacion_cuadros_nombre creacion_cuadros_nombre
@@ -80,196 +87,205 @@ Gramática
    41 $@11: ε
 
    42 acciones_cuadros: MENSAJE '(' CADENA ')' $@11 salto
-   43                 | condicional saltoOpcional
-   44                 | error
+   43                 | condicional
+   44                 | error '\n'
 
-   45 condicional: SI '(' logica ')' '{' acciones_cuadros '}'
-   46            | SI '(' logica ')' '{' acciones_cuadros '}' SINO '{' acciones_cuadros '}'
+   45 condicional: parteSi parteSiNo
 
-   47 salto: SALTOLINEA
-   48      | salto SALTOLINEA
+   46 parteSi: SI '(' logica ')' '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
 
-   49 saltoOpcional: ε
-   50              | salto
+   47 parteSiNo: ε
+   48          | SINO saltoOpcional '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
 
-   51 expr: ENTERO
-   52     | REAL
-   53     | IDENTIFICADORMINUSCULA
-   54     | expr '+' expr
-   55     | expr '-' expr
-   56     | expr '*' expr
-   57     | expr '/' expr
-   58     | expr DIV expr
-   59     | expr '%' expr
-   60     | '-' expr
-   61     | '(' expr ')'
+   49 salto: SALTOLINEA
+   50      | SALTOLINEA salto
 
-   62 logica: BOOL
-   63       | logica AND logica
-   64       | logica OR logica
-   65       | NOT logica
-   66       | expr DISTINTO expr
-   67       | logica DISTINTO logica
-   68       | expr IGUAL expr
-   69       | logica IGUAL logica
-   70       | expr MENORIGUAL expr
-   71       | expr MAYOR expr
-   72       | expr MAYORIGUAL expr
-   73       | expr MENOR expr
-   74       | '(' logica ')'
+   51 saltoOpcional: ε
+   52              | salto
+
+   53 expr: ENTERO
+   54     | REAL
+   55     | IDENTIFICADORMINUSCULA
+   56     | expr '+' expr
+   57     | expr '-' expr
+   58     | expr '*' expr
+   59     | expr '/' expr
+   60     | expr DIV expr
+   61     | expr '%' expr
+   62     | '-' expr
+   63     | '(' expr ')'
+
+   64 logica: BOOL
+   65       | logica AND logica
+   66       | logica OR logica
+   67       | NOT logica
+   68       | expr DISTINTO expr
+   69       | logica DISTINTO logica
+   70       | expr IGUAL expr
+   71       | logica IGUAL logica
+   72       | expr MENORIGUAL expr
+   73       | expr '>' expr
+   74       | expr MAYORIGUAL expr
+   75       | expr '<' expr
+   76       | '(' logica ')'
 
 
 Terminales con las reglas donde aparecen
 
     $end (0) 0
-    '%' (37) 59
-    '(' (40) 34 36 38 42 45 46 61 74
-    ')' (41) 34 36 38 42 45 46 61 74
-    '*' (42) 56
-    '+' (43) 54
-    '-' (45) 55 60
-    '/' (47) 57
+    '\n' (10) 12 21 26 44
+    '%' (37) 61
+    '(' (40) 34 36 38 42 46 63 76
+    ')' (41) 34 36 38 42 46 63 76
+    '*' (42) 58
+    '+' (43) 56
+    '-' (45) 57 62
+    '/' (47) 59
     ':' (58) 30
-    '<' (60) 20 25
-    '>' (62) 20 25
-    '{' (123) 45 46
-    '}' (125) 45 46
+    '<' (60) 20 25 75
+    '>' (62) 20 25 73
+    '{' (123) 46 48
+    '}' (125) 46 48
     error (256) 12 21 26 44
     PINTAR (258) 34 36
     MENSAJE (259) 42
     PAUSA (260) 38
     ASIGNACION (261) 7 11 40
-    IGUAL (262) 20 25 68 69
+    IGUAL (262) 20 25 70 71
     VARIABLES (263) 3
     RECUADROS (264) 16
     LINEAS (265) 22
-    DIV (266) 58
+    DIV (266) 60
     MENOS (267)
-    SALTOLINEA (268) 47 48
+    SALTOLINEA (268) 49 50
     PUNTOYCOMA (269) 7 9 11
     COMA (270) 14 20 25 34 36
     CUADRO (271) 30
     FINCUADRO (272) 30
-    SI (273) 45 46
-    SINO (274) 46
-    IDENTIFICADORMINUSCULA <var> (275) 7 11 13 14 40 53
+    SI (273) 46
+    SINO (274) 48
+    IDENTIFICADORMINUSCULA <var> (275) 7 11 13 14 40 55
     IDENTIFICADORMAYUSCULA <var> (276) 20 25 34 36
     TIPO <var> (277) 7 9
     COLOR <var> (278) 20 25
     ORIENTACION <var> (279) 25
     CADENA <text> (280) 30 42
-    ENTERO <c_entero> (281) 51
-    REAL <c_real> (282) 52
-    BOOL <c_bool> (283) 62
-    OR (284) 64
-    AND (285) 63
-    DISTINTO (286) 66 67
-    MENOR (287) 73
-    MENORIGUAL (288) 70
-    MAYORIGUAL (289) 72
-    MAYOR (290) 71
-    menos (291)
-    NOT (292) 65
-    IF (293)
+    ENTERO <c_entero> (281) 53
+    REAL <c_real> (282) 54
+    BOOL <c_bool> (283) 64
+    OR (284) 66
+    AND (285) 65
+    DISTINTO (286) 68 69
+    MENORIGUAL (287) 72
+    MAYORIGUAL (288) 74
+    menos (289)
+    NOT (290) 67
+    si_simple (291)
 
 
 No terminales con las reglas donde aparecen
 
-    $accept (51)
+    $accept (50)
         on left: 0
-    all (52)
+    all (51)
         on left: 1
         on right: 0
-    zona_variables (53)
+    zona_variables (52)
         on left: 2 3
         on right: 1
-    inic_definicion (54)
+    inic_definicion (53)
         on left: 4 5
         on right: 3 5
-    definicion (55)
+    definicion (54)
         on left: 7 9 11 12
         on right: 5
-    $@1 (56)
+    $@1 (55)
         on left: 6
         on right: 7
-    $@2 (57)
+    $@2 (56)
         on left: 8
         on right: 9
-    $@3 (58)
+    $@3 (57)
         on left: 10
         on right: 11
-    secuencia_de_Identificadores (59)
+    secuencia_de_Identificadores (58)
         on left: 13 14
         on right: 9 14
-    zona_recuadros (60)
+    zona_recuadros (59)
         on left: 16
         on right: 1
-    $@4 (61)
+    $@4 (60)
         on left: 15
         on right: 16
-    inic_definicion_recuadro (62)
+    inic_definicion_recuadro (61)
         on left: 17 18
         on right: 16 18
-    definicion_recuadro (63)
+    definicion_recuadro (62)
         on left: 20 21
         on right: 18
-    $@5 (64)
+    $@5 (63)
         on left: 19
         on right: 20
-    zona_lineas (65)
+    zona_lineas (64)
         on left: 22
         on right: 1
-    inic_definicion_linea (66)
+    inic_definicion_linea (65)
         on left: 23 24
         on right: 22 24
-    definicion_linea (67)
+    definicion_linea (66)
         on left: 25 26
         on right: 24
-    inic_creacion_cuadros_nombre (68)
+    inic_creacion_cuadros_nombre (67)
         on left: 27 28
         on right: 1 28
-    creacion_cuadros_nombre (69)
+    creacion_cuadros_nombre (68)
         on left: 30
         on right: 28
-    $@6 (70)
+    $@6 (69)
         on left: 29
         on right: 30
-    inic_acciones_cuadros (71)
+    inic_acciones_cuadros (70)
         on left: 31 32
-        on right: 30 32
-    acciones_cuadros (72)
+        on right: 30 32 46 48
+    acciones_cuadros (71)
         on left: 34 36 38 40 42 43 44
-        on right: 32 45 46
-    $@7 (73)
+        on right: 32
+    $@7 (72)
         on left: 33
         on right: 34
-    $@8 (74)
+    $@8 (73)
         on left: 35
         on right: 36
-    $@9 (75)
+    $@9 (74)
         on left: 37
         on right: 38
-    $@10 (76)
+    $@10 (75)
         on left: 39
         on right: 40
-    $@11 (77)
+    $@11 (76)
         on left: 41
         on right: 42
-    condicional (78)
-        on left: 45 46
+    condicional (77)
+        on left: 45
         on right: 43
-    salto (79)
+    parteSi (78)
+        on left: 46
+        on right: 45
+    parteSiNo (79)
         on left: 47 48
-        on right: 3 16 20 22 25 30 34 36 38 40 42 48 50
-    saltoOpcional (80)
+        on right: 45
+    salto (80)
         on left: 49 50
-        on right: 1 7 9 11 30 43
-    expr <c_expresion> (81)
-        on left: 51 52 53 54 55 56 57 58 59 60 61
-        on right: 7 11 20 25 34 36 38 40 54 55 56 57 58 59 60 61 66 68 70 71 72 73
-    logica <c_bool> (82)
-        on left: 62 63 64 65 66 67 68 69 70 71 72 73 74
-        on right: 45 46 63 64 65 67 69 74
+        on right: 3 16 20 22 25 30 34 36 38 40 42 50 52
+    saltoOpcional (81)
+        on left: 51 52
+        on right: 1 7 9 11 30 46 48
+    expr <c_expresion> (82)
+        on left: 53 54 55 56 57 58 59 60 61 62 63
+        on right: 7 11 20 25 34 36 38 40 56 57 58 59 60 61 62 63 68 70 72 73 74 75
+    logica <c_bool> (83)
+        on left: 64 65 66 67 68 69 70 71 72 73 74 75 76
+        on right: 46 65 66 67 69 71 76
 
 
 Estado 0
@@ -278,7 +294,7 @@ Estado 0
 
     SALTOLINEA  desplazar e ir al estado 1
 
-    $default  reduce usando la regla 49 (saltoOpcional)
+    $default  reduce usando la regla 51 (saltoOpcional)
 
     all            ir al estado 2
     salto          ir al estado 3
@@ -287,26 +303,29 @@ Estado 0
 
 Estado 1
 
-   47 salto: SALTOLINEA •
+   49 salto: SALTOLINEA •
+   50      | SALTOLINEA • salto
 
-    $default  reduce usando la regla 47 (salto)
+    SALTOLINEA  desplazar e ir al estado 1
+
+    SALTOLINEA  [reduce usando la regla 49 (salto)]
+    $default    reduce usando la regla 49 (salto)
+
+    salto  ir al estado 5
 
 
 Estado 2
 
     0 $accept: all • $end
 
-    $end  desplazar e ir al estado 5
+    $end  desplazar e ir al estado 6
 
 
 Estado 3
 
-   48 salto: salto • SALTOLINEA
-   50 saltoOpcional: salto •
+   52 saltoOpcional: salto •
 
-    SALTOLINEA  desplazar e ir al estado 6
-
-    $default  reduce usando la regla 50 (saltoOpcional)
+    $default  reduce usando la regla 52 (saltoOpcional)
 
 
 Estado 4
@@ -322,16 +341,16 @@ Estado 4
 
 Estado 5
 
-    0 $accept: all $end •
+   50 salto: SALTOLINEA salto •
 
-    $default  aceptar
+    $default  reduce usando la regla 50 (salto)
 
 
 Estado 6
 
-   48 salto: salto SALTOLINEA •
+    0 $accept: all $end •
 
-    $default  reduce usando la regla 48 (salto)
+    $default  aceptar
 
 
 Estado 7
@@ -355,9 +374,6 @@ Estado 8
 Estado 9
 
     3 zona_variables: VARIABLES salto • inic_definicion
-   48 salto: salto • SALTOLINEA
-
-    SALTOLINEA  desplazar e ir al estado 6
 
     $default  reduce usando la regla 4 (inic_definicion)
 
@@ -425,16 +441,16 @@ Estado 15
 
 Estado 16
 
-   12 definicion: error •
+   12 definicion: error • '\n'
 
-    $default  reduce usando la regla 12 (definicion)
+    '\n'  desplazar e ir al estado 23
 
 
 Estado 17
 
    11 definicion: IDENTIFICADORMINUSCULA • ASIGNACION expr PUNTOYCOMA $@3 saltoOpcional
 
-    ASIGNACION  desplazar e ir al estado 23
+    ASIGNACION  desplazar e ir al estado 24
 
 
 Estado 18
@@ -442,9 +458,9 @@ Estado 18
     7 definicion: TIPO • IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA $@1 saltoOpcional
     9           | TIPO • secuencia_de_Identificadores PUNTOYCOMA $@2 saltoOpcional
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 24
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 25
 
-    secuencia_de_Identificadores  ir al estado 25
+    secuencia_de_Identificadores  ir al estado 26
 
 
 Estado 19
@@ -457,25 +473,19 @@ Estado 19
 Estado 20
 
    16 zona_recuadros: RECUADROS $@4 salto • inic_definicion_recuadro
-   48 salto: salto • SALTOLINEA
-
-    SALTOLINEA  desplazar e ir al estado 6
 
     $default  reduce usando la regla 17 (inic_definicion_recuadro)
 
-    inic_definicion_recuadro  ir al estado 26
+    inic_definicion_recuadro  ir al estado 27
 
 
 Estado 21
 
    22 zona_lineas: LINEAS salto • inic_definicion_linea
-   48 salto: salto • SALTOLINEA
-
-    SALTOLINEA  desplazar e ir al estado 6
 
     $default  reduce usando la regla 23 (inic_definicion_linea)
 
-    inic_definicion_linea  ir al estado 27
+    inic_definicion_linea  ir al estado 28
 
 
 Estado 22
@@ -483,1746 +493,1850 @@ Estado 22
     1 all: saltoOpcional zona_variables zona_recuadros zona_lineas inic_creacion_cuadros_nombre •
    28 inic_creacion_cuadros_nombre: inic_creacion_cuadros_nombre • creacion_cuadros_nombre
 
-    CUADRO  desplazar e ir al estado 28
+    CUADRO  desplazar e ir al estado 29
 
     $default  reduce usando la regla 1 (all)
 
-    creacion_cuadros_nombre  ir al estado 29
+    creacion_cuadros_nombre  ir al estado 30
 
 
 Estado 23
 
-   11 definicion: IDENTIFICADORMINUSCULA ASIGNACION • expr PUNTOYCOMA $@3 saltoOpcional
+   12 definicion: error '\n' •
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 35
+    $default  reduce usando la regla 12 (definicion)
 
 
 Estado 24
+
+   11 definicion: IDENTIFICADORMINUSCULA ASIGNACION • expr PUNTOYCOMA $@3 saltoOpcional
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 36
+
+
+Estado 25
 
     7 definicion: TIPO IDENTIFICADORMINUSCULA • ASIGNACION expr PUNTOYCOMA $@1 saltoOpcional
    13 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA •
    14                             | IDENTIFICADORMINUSCULA • COMA secuencia_de_Identificadores
 
-    ASIGNACION  desplazar e ir al estado 36
-    COMA        desplazar e ir al estado 37
+    ASIGNACION  desplazar e ir al estado 37
+    COMA        desplazar e ir al estado 38
 
     $default  reduce usando la regla 13 (secuencia_de_Identificadores)
 
 
-Estado 25
+Estado 26
 
     9 definicion: TIPO secuencia_de_Identificadores • PUNTOYCOMA $@2 saltoOpcional
 
-    PUNTOYCOMA  desplazar e ir al estado 38
-
-
-Estado 26
-
-   16 zona_recuadros: RECUADROS $@4 salto inic_definicion_recuadro •
-   18 inic_definicion_recuadro: inic_definicion_recuadro • definicion_recuadro
-
-    error                   desplazar e ir al estado 39
-    IDENTIFICADORMAYUSCULA  desplazar e ir al estado 40
-
-    LINEAS  reduce usando la regla 16 (zona_recuadros)
-
-    definicion_recuadro  ir al estado 41
+    PUNTOYCOMA  desplazar e ir al estado 39
 
 
 Estado 27
 
-   22 zona_lineas: LINEAS salto inic_definicion_linea •
-   24 inic_definicion_linea: inic_definicion_linea • definicion_linea
+   16 zona_recuadros: RECUADROS $@4 salto inic_definicion_recuadro •
+   18 inic_definicion_recuadro: inic_definicion_recuadro • definicion_recuadro
 
-    error                   desplazar e ir al estado 42
-    IDENTIFICADORMAYUSCULA  desplazar e ir al estado 43
+    error                   desplazar e ir al estado 40
+    IDENTIFICADORMAYUSCULA  desplazar e ir al estado 41
 
-    $end    reduce usando la regla 22 (zona_lineas)
-    CUADRO  reduce usando la regla 22 (zona_lineas)
+    LINEAS  reduce usando la regla 16 (zona_recuadros)
 
-    definicion_linea  ir al estado 44
+    definicion_recuadro  ir al estado 42
 
 
 Estado 28
 
-   30 creacion_cuadros_nombre: CUADRO • CADENA $@6 ':' salto inic_acciones_cuadros FINCUADRO saltoOpcional
+   22 zona_lineas: LINEAS salto inic_definicion_linea •
+   24 inic_definicion_linea: inic_definicion_linea • definicion_linea
 
-    CADENA  desplazar e ir al estado 45
+    error                   desplazar e ir al estado 43
+    IDENTIFICADORMAYUSCULA  desplazar e ir al estado 44
+
+    $end    reduce usando la regla 22 (zona_lineas)
+    CUADRO  reduce usando la regla 22 (zona_lineas)
+
+    definicion_linea  ir al estado 45
 
 
 Estado 29
+
+   30 creacion_cuadros_nombre: CUADRO • CADENA $@6 ':' salto inic_acciones_cuadros FINCUADRO saltoOpcional
+
+    CADENA  desplazar e ir al estado 46
+
+
+Estado 30
 
    28 inic_creacion_cuadros_nombre: inic_creacion_cuadros_nombre creacion_cuadros_nombre •
 
     $default  reduce usando la regla 28 (inic_creacion_cuadros_nombre)
 
 
-Estado 30
-
-   53 expr: IDENTIFICADORMINUSCULA •
-
-    $default  reduce usando la regla 53 (expr)
-
-
 Estado 31
 
-   51 expr: ENTERO •
+   55 expr: IDENTIFICADORMINUSCULA •
 
-    $default  reduce usando la regla 51 (expr)
+    $default  reduce usando la regla 55 (expr)
 
 
 Estado 32
 
-   52 expr: REAL •
+   53 expr: ENTERO •
 
-    $default  reduce usando la regla 52 (expr)
+    $default  reduce usando la regla 53 (expr)
 
 
 Estado 33
 
-   60 expr: '-' • expr
+   54 expr: REAL •
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 46
+    $default  reduce usando la regla 54 (expr)
 
 
 Estado 34
 
-   61 expr: '(' • expr ')'
+   62 expr: '-' • expr
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
 
     expr  ir al estado 47
 
 
 Estado 35
 
-   11 definicion: IDENTIFICADORMINUSCULA ASIGNACION expr • PUNTOYCOMA $@3 saltoOpcional
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
+   63 expr: '(' • expr ')'
 
-    DIV         desplazar e ir al estado 48
-    PUNTOYCOMA  desplazar e ir al estado 49
-    '+'         desplazar e ir al estado 50
-    '-'         desplazar e ir al estado 51
-    '*'         desplazar e ir al estado 52
-    '/'         desplazar e ir al estado 53
-    '%'         desplazar e ir al estado 54
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 48
 
 
 Estado 36
 
-    7 definicion: TIPO IDENTIFICADORMINUSCULA ASIGNACION • expr PUNTOYCOMA $@1 saltoOpcional
+   11 definicion: IDENTIFICADORMINUSCULA ASIGNACION expr • PUNTOYCOMA $@3 saltoOpcional
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 55
+    DIV         desplazar e ir al estado 49
+    PUNTOYCOMA  desplazar e ir al estado 50
+    '+'         desplazar e ir al estado 51
+    '-'         desplazar e ir al estado 52
+    '*'         desplazar e ir al estado 53
+    '/'         desplazar e ir al estado 54
+    '%'         desplazar e ir al estado 55
 
 
 Estado 37
 
-   14 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA COMA • secuencia_de_Identificadores
+    7 definicion: TIPO IDENTIFICADORMINUSCULA ASIGNACION • expr PUNTOYCOMA $@1 saltoOpcional
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 56
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
 
-    secuencia_de_Identificadores  ir al estado 57
+    expr  ir al estado 56
 
 
 Estado 38
+
+   14 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA COMA • secuencia_de_Identificadores
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 57
+
+    secuencia_de_Identificadores  ir al estado 58
+
+
+Estado 39
 
     9 definicion: TIPO secuencia_de_Identificadores PUNTOYCOMA • $@2 saltoOpcional
 
     $default  reduce usando la regla 8 ($@2)
 
-    $@2  ir al estado 58
-
-
-Estado 39
-
-   21 definicion_recuadro: error •
-
-    $default  reduce usando la regla 21 (definicion_recuadro)
+    $@2  ir al estado 59
 
 
 Estado 40
 
-   20 definicion_recuadro: IDENTIFICADORMAYUSCULA • IGUAL '<' expr COMA expr COMA COLOR '>' $@5 salto
+   21 definicion_recuadro: error • '\n'
 
-    IGUAL  desplazar e ir al estado 59
+    '\n'  desplazar e ir al estado 60
 
 
 Estado 41
+
+   20 definicion_recuadro: IDENTIFICADORMAYUSCULA • IGUAL '<' expr COMA expr COMA COLOR '>' $@5 salto
+
+    IGUAL  desplazar e ir al estado 61
+
+
+Estado 42
 
    18 inic_definicion_recuadro: inic_definicion_recuadro definicion_recuadro •
 
     $default  reduce usando la regla 18 (inic_definicion_recuadro)
 
 
-Estado 42
-
-   26 definicion_linea: error •
-
-    $default  reduce usando la regla 26 (definicion_linea)
-
-
 Estado 43
 
-   25 definicion_linea: IDENTIFICADORMAYUSCULA • IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' salto
+   26 definicion_linea: error • '\n'
 
-    IGUAL  desplazar e ir al estado 60
+    '\n'  desplazar e ir al estado 62
 
 
 Estado 44
+
+   25 definicion_linea: IDENTIFICADORMAYUSCULA • IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' salto
+
+    IGUAL  desplazar e ir al estado 63
+
+
+Estado 45
 
    24 inic_definicion_linea: inic_definicion_linea definicion_linea •
 
     $default  reduce usando la regla 24 (inic_definicion_linea)
 
 
-Estado 45
+Estado 46
 
    30 creacion_cuadros_nombre: CUADRO CADENA • $@6 ':' salto inic_acciones_cuadros FINCUADRO saltoOpcional
 
     $default  reduce usando la regla 29 ($@6)
 
-    $@6  ir al estado 61
-
-
-Estado 46
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   60     | '-' expr •
-
-    $default  reduce usando la regla 60 (expr)
+    $@6  ir al estado 64
 
 
 Estado 47
 
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   61     | '(' expr • ')'
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   62     | '-' expr •
 
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-    ')'  desplazar e ir al estado 62
+    $default  reduce usando la regla 62 (expr)
 
 
 Estado 48
 
-   58 expr: expr DIV • expr
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   63     | '(' expr • ')'
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 63
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+    ')'  desplazar e ir al estado 65
 
 
 Estado 49
+
+   60 expr: expr DIV • expr
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 66
+
+
+Estado 50
 
    11 definicion: IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA • $@3 saltoOpcional
 
     $default  reduce usando la regla 10 ($@3)
 
-    $@3  ir al estado 64
-
-
-Estado 50
-
-   54 expr: expr '+' • expr
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 65
+    $@3  ir al estado 67
 
 
 Estado 51
 
-   55 expr: expr '-' • expr
+   56 expr: expr '+' • expr
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 66
-
-
-Estado 52
-
-   56 expr: expr '*' • expr
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 67
-
-
-Estado 53
-
-   57 expr: expr '/' • expr
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
 
     expr  ir al estado 68
 
 
-Estado 54
+Estado 52
 
-   59 expr: expr '%' • expr
+   57 expr: expr '-' • expr
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
 
     expr  ir al estado 69
 
 
+Estado 53
+
+   58 expr: expr '*' • expr
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 70
+
+
+Estado 54
+
+   59 expr: expr '/' • expr
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 71
+
+
 Estado 55
 
-    7 definicion: TIPO IDENTIFICADORMINUSCULA ASIGNACION expr • PUNTOYCOMA $@1 saltoOpcional
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
+   61 expr: expr '%' • expr
 
-    DIV         desplazar e ir al estado 48
-    PUNTOYCOMA  desplazar e ir al estado 70
-    '+'         desplazar e ir al estado 50
-    '-'         desplazar e ir al estado 51
-    '*'         desplazar e ir al estado 52
-    '/'         desplazar e ir al estado 53
-    '%'         desplazar e ir al estado 54
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 72
 
 
 Estado 56
 
+    7 definicion: TIPO IDENTIFICADORMINUSCULA ASIGNACION expr • PUNTOYCOMA $@1 saltoOpcional
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+
+    DIV         desplazar e ir al estado 49
+    PUNTOYCOMA  desplazar e ir al estado 73
+    '+'         desplazar e ir al estado 51
+    '-'         desplazar e ir al estado 52
+    '*'         desplazar e ir al estado 53
+    '/'         desplazar e ir al estado 54
+    '%'         desplazar e ir al estado 55
+
+
+Estado 57
+
    13 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA •
    14                             | IDENTIFICADORMINUSCULA • COMA secuencia_de_Identificadores
 
-    COMA  desplazar e ir al estado 37
+    COMA  desplazar e ir al estado 38
 
     $default  reduce usando la regla 13 (secuencia_de_Identificadores)
 
 
-Estado 57
+Estado 58
 
    14 secuencia_de_Identificadores: IDENTIFICADORMINUSCULA COMA secuencia_de_Identificadores •
 
     $default  reduce usando la regla 14 (secuencia_de_Identificadores)
 
 
-Estado 58
+Estado 59
 
     9 definicion: TIPO secuencia_de_Identificadores PUNTOYCOMA $@2 • saltoOpcional
 
     SALTOLINEA  desplazar e ir al estado 1
 
-    $default  reduce usando la regla 49 (saltoOpcional)
+    $default  reduce usando la regla 51 (saltoOpcional)
 
     salto          ir al estado 3
-    saltoOpcional  ir al estado 71
-
-
-Estado 59
-
-   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL • '<' expr COMA expr COMA COLOR '>' $@5 salto
-
-    '<'  desplazar e ir al estado 72
+    saltoOpcional  ir al estado 74
 
 
 Estado 60
 
-   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL • '<' expr COMA ORIENTACION COMA COLOR '>' salto
+   21 definicion_recuadro: error '\n' •
 
-    '<'  desplazar e ir al estado 73
+    $default  reduce usando la regla 21 (definicion_recuadro)
 
 
 Estado 61
 
-   30 creacion_cuadros_nombre: CUADRO CADENA $@6 • ':' salto inic_acciones_cuadros FINCUADRO saltoOpcional
+   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL • '<' expr COMA expr COMA COLOR '>' $@5 salto
 
-    ':'  desplazar e ir al estado 74
+    '<'  desplazar e ir al estado 75
 
 
 Estado 62
 
-   61 expr: '(' expr ')' •
+   26 definicion_linea: error '\n' •
 
-    $default  reduce usando la regla 61 (expr)
+    $default  reduce usando la regla 26 (definicion_linea)
 
 
 Estado 63
 
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   58     | expr DIV expr •
-   59     | expr • '%' expr
+   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL • '<' expr COMA ORIENTACION COMA COLOR '>' salto
 
-    $default  reduce usando la regla 58 (expr)
+    '<'  desplazar e ir al estado 76
 
 
 Estado 64
+
+   30 creacion_cuadros_nombre: CUADRO CADENA $@6 • ':' salto inic_acciones_cuadros FINCUADRO saltoOpcional
+
+    ':'  desplazar e ir al estado 77
+
+
+Estado 65
+
+   63 expr: '(' expr ')' •
+
+    $default  reduce usando la regla 63 (expr)
+
+
+Estado 66
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   60     | expr DIV expr •
+   61     | expr • '%' expr
+
+    $default  reduce usando la regla 60 (expr)
+
+
+Estado 67
 
    11 definicion: IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA $@3 • saltoOpcional
 
     SALTOLINEA  desplazar e ir al estado 1
 
-    $default  reduce usando la regla 49 (saltoOpcional)
+    $default  reduce usando la regla 51 (saltoOpcional)
 
     salto          ir al estado 3
-    saltoOpcional  ir al estado 75
-
-
-Estado 65
-
-   54 expr: expr • '+' expr
-   54     | expr '+' expr •
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-
-    DIV  desplazar e ir al estado 48
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-
-    $default  reduce usando la regla 54 (expr)
-
-
-Estado 66
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   55     | expr '-' expr •
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-
-    DIV  desplazar e ir al estado 48
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-
-    $default  reduce usando la regla 55 (expr)
-
-
-Estado 67
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   56     | expr '*' expr •
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-
-    $default  reduce usando la regla 56 (expr)
+    saltoOpcional  ir al estado 78
 
 
 Estado 68
 
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   57     | expr '/' expr •
-   58     | expr • DIV expr
-   59     | expr • '%' expr
+   56 expr: expr • '+' expr
+   56     | expr '+' expr •
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
 
-    $default  reduce usando la regla 57 (expr)
+    DIV  desplazar e ir al estado 49
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+
+    $default  reduce usando la regla 56 (expr)
 
 
 Estado 69
 
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   59     | expr '%' expr •
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   57     | expr '-' expr •
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+
+    DIV  desplazar e ir al estado 49
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+
+    $default  reduce usando la regla 57 (expr)
+
+
+Estado 70
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   58     | expr '*' expr •
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+
+    $default  reduce usando la regla 58 (expr)
+
+
+Estado 71
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   59     | expr '/' expr •
+   60     | expr • DIV expr
+   61     | expr • '%' expr
 
     $default  reduce usando la regla 59 (expr)
 
 
-Estado 70
+Estado 72
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   61     | expr '%' expr •
+
+    $default  reduce usando la regla 61 (expr)
+
+
+Estado 73
 
     7 definicion: TIPO IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA • $@1 saltoOpcional
 
     $default  reduce usando la regla 6 ($@1)
 
-    $@1  ir al estado 76
+    $@1  ir al estado 79
 
 
-Estado 71
+Estado 74
 
     9 definicion: TIPO secuencia_de_Identificadores PUNTOYCOMA $@2 saltoOpcional •
 
     $default  reduce usando la regla 9 (definicion)
 
 
-Estado 72
+Estado 75
 
    20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' • expr COMA expr COMA COLOR '>' $@5 salto
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
 
-    expr  ir al estado 77
+    expr  ir al estado 80
 
 
-Estado 73
+Estado 76
 
    25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' • expr COMA ORIENTACION COMA COLOR '>' salto
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
 
-    expr  ir al estado 78
+    expr  ir al estado 81
 
 
-Estado 74
+Estado 77
 
    30 creacion_cuadros_nombre: CUADRO CADENA $@6 ':' • salto inic_acciones_cuadros FINCUADRO saltoOpcional
 
     SALTOLINEA  desplazar e ir al estado 1
 
-    salto  ir al estado 79
+    salto  ir al estado 82
 
 
-Estado 75
+Estado 78
 
    11 definicion: IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA $@3 saltoOpcional •
 
     $default  reduce usando la regla 11 (definicion)
 
 
-Estado 76
+Estado 79
 
     7 definicion: TIPO IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA $@1 • saltoOpcional
 
     SALTOLINEA  desplazar e ir al estado 1
 
-    $default  reduce usando la regla 49 (saltoOpcional)
+    $default  reduce usando la regla 51 (saltoOpcional)
 
     salto          ir al estado 3
-    saltoOpcional  ir al estado 80
-
-
-Estado 77
-
-   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr • COMA expr COMA COLOR '>' $@5 salto
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-
-    DIV   desplazar e ir al estado 48
-    COMA  desplazar e ir al estado 81
-    '+'   desplazar e ir al estado 50
-    '-'   desplazar e ir al estado 51
-    '*'   desplazar e ir al estado 52
-    '/'   desplazar e ir al estado 53
-    '%'   desplazar e ir al estado 54
-
-
-Estado 78
-
-   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr • COMA ORIENTACION COMA COLOR '>' salto
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-
-    DIV   desplazar e ir al estado 48
-    COMA  desplazar e ir al estado 82
-    '+'   desplazar e ir al estado 50
-    '-'   desplazar e ir al estado 51
-    '*'   desplazar e ir al estado 52
-    '/'   desplazar e ir al estado 53
-    '%'   desplazar e ir al estado 54
-
-
-Estado 79
-
-   30 creacion_cuadros_nombre: CUADRO CADENA $@6 ':' salto • inic_acciones_cuadros FINCUADRO saltoOpcional
-   48 salto: salto • SALTOLINEA
-
-    error                   desplazar e ir al estado 83
-    PINTAR                  desplazar e ir al estado 84
-    MENSAJE                 desplazar e ir al estado 85
-    PAUSA                   desplazar e ir al estado 86
-    SALTOLINEA              desplazar e ir al estado 6
-    SI                      desplazar e ir al estado 87
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 88
-
-    FINCUADRO  reduce usando la regla 31 (inic_acciones_cuadros)
-
-    inic_acciones_cuadros  ir al estado 89
-    acciones_cuadros       ir al estado 90
-    condicional            ir al estado 91
+    saltoOpcional  ir al estado 83
 
 
 Estado 80
+
+   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr • COMA expr COMA COLOR '>' $@5 salto
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+
+    DIV   desplazar e ir al estado 49
+    COMA  desplazar e ir al estado 84
+    '+'   desplazar e ir al estado 51
+    '-'   desplazar e ir al estado 52
+    '*'   desplazar e ir al estado 53
+    '/'   desplazar e ir al estado 54
+    '%'   desplazar e ir al estado 55
+
+
+Estado 81
+
+   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr • COMA ORIENTACION COMA COLOR '>' salto
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+
+    DIV   desplazar e ir al estado 49
+    COMA  desplazar e ir al estado 85
+    '+'   desplazar e ir al estado 51
+    '-'   desplazar e ir al estado 52
+    '*'   desplazar e ir al estado 53
+    '/'   desplazar e ir al estado 54
+    '%'   desplazar e ir al estado 55
+
+
+Estado 82
+
+   30 creacion_cuadros_nombre: CUADRO CADENA $@6 ':' salto • inic_acciones_cuadros FINCUADRO saltoOpcional
+
+    error                   desplazar e ir al estado 86
+    PINTAR                  desplazar e ir al estado 87
+    MENSAJE                 desplazar e ir al estado 88
+    PAUSA                   desplazar e ir al estado 89
+    SI                      desplazar e ir al estado 90
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 91
+
+    FINCUADRO  reduce usando la regla 31 (inic_acciones_cuadros)
+
+    inic_acciones_cuadros  ir al estado 92
+    acciones_cuadros       ir al estado 93
+    condicional            ir al estado 94
+    parteSi                ir al estado 95
+
+
+Estado 83
 
     7 definicion: TIPO IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA $@1 saltoOpcional •
 
     $default  reduce usando la regla 7 (definicion)
 
 
-Estado 81
+Estado 84
 
    20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA • expr COMA COLOR '>' $@5 salto
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
 
-    expr  ir al estado 92
-
-
-Estado 82
-
-   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA • ORIENTACION COMA COLOR '>' salto
-
-    ORIENTACION  desplazar e ir al estado 93
-
-
-Estado 83
-
-   44 acciones_cuadros: error •
-
-    $default  reduce usando la regla 44 (acciones_cuadros)
-
-
-Estado 84
-
-   34 acciones_cuadros: PINTAR • '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' $@7 salto
-   36                 | PINTAR • '(' IDENTIFICADORMAYUSCULA COMA expr ')' $@8 salto
-
-    '('  desplazar e ir al estado 94
+    expr  ir al estado 96
 
 
 Estado 85
 
-   42 acciones_cuadros: MENSAJE • '(' CADENA ')' $@11 salto
+   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA • ORIENTACION COMA COLOR '>' salto
 
-    '('  desplazar e ir al estado 95
+    ORIENTACION  desplazar e ir al estado 97
 
 
 Estado 86
 
-   38 acciones_cuadros: PAUSA • '(' expr ')' $@9 salto
+   44 acciones_cuadros: error • '\n'
 
-    '('  desplazar e ir al estado 96
+    '\n'  desplazar e ir al estado 98
 
 
 Estado 87
 
-   45 condicional: SI • '(' logica ')' '{' acciones_cuadros '}'
-   46            | SI • '(' logica ')' '{' acciones_cuadros '}' SINO '{' acciones_cuadros '}'
+   34 acciones_cuadros: PINTAR • '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' $@7 salto
+   36                 | PINTAR • '(' IDENTIFICADORMAYUSCULA COMA expr ')' $@8 salto
 
-    '('  desplazar e ir al estado 97
+    '('  desplazar e ir al estado 99
 
 
 Estado 88
 
-   40 acciones_cuadros: IDENTIFICADORMINUSCULA • ASIGNACION expr $@10 salto
+   42 acciones_cuadros: MENSAJE • '(' CADENA ')' $@11 salto
 
-    ASIGNACION  desplazar e ir al estado 98
+    '('  desplazar e ir al estado 100
 
 
 Estado 89
 
-   30 creacion_cuadros_nombre: CUADRO CADENA $@6 ':' salto inic_acciones_cuadros • FINCUADRO saltoOpcional
+   38 acciones_cuadros: PAUSA • '(' expr ')' $@9 salto
 
-    FINCUADRO  desplazar e ir al estado 99
+    '('  desplazar e ir al estado 101
 
 
 Estado 90
 
-   32 inic_acciones_cuadros: acciones_cuadros • inic_acciones_cuadros
+   46 parteSi: SI • '(' logica ')' '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
 
-    error                   desplazar e ir al estado 83
-    PINTAR                  desplazar e ir al estado 84
-    MENSAJE                 desplazar e ir al estado 85
-    PAUSA                   desplazar e ir al estado 86
-    SI                      desplazar e ir al estado 87
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 88
-
-    FINCUADRO  reduce usando la regla 31 (inic_acciones_cuadros)
-
-    inic_acciones_cuadros  ir al estado 100
-    acciones_cuadros       ir al estado 90
-    condicional            ir al estado 91
+    '('  desplazar e ir al estado 102
 
 
 Estado 91
 
-   43 acciones_cuadros: condicional • saltoOpcional
+   40 acciones_cuadros: IDENTIFICADORMINUSCULA • ASIGNACION expr $@10 salto
 
-    SALTOLINEA  desplazar e ir al estado 1
-
-    $default  reduce usando la regla 49 (saltoOpcional)
-
-    salto          ir al estado 3
-    saltoOpcional  ir al estado 101
+    ASIGNACION  desplazar e ir al estado 103
 
 
 Estado 92
 
-   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr • COMA COLOR '>' $@5 salto
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
+   30 creacion_cuadros_nombre: CUADRO CADENA $@6 ':' salto inic_acciones_cuadros • FINCUADRO saltoOpcional
 
-    DIV   desplazar e ir al estado 48
-    COMA  desplazar e ir al estado 102
-    '+'   desplazar e ir al estado 50
-    '-'   desplazar e ir al estado 51
-    '*'   desplazar e ir al estado 52
-    '/'   desplazar e ir al estado 53
-    '%'   desplazar e ir al estado 54
+    FINCUADRO  desplazar e ir al estado 104
 
 
 Estado 93
 
-   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION • COMA COLOR '>' salto
+   32 inic_acciones_cuadros: acciones_cuadros • inic_acciones_cuadros
 
-    COMA  desplazar e ir al estado 103
+    error                   desplazar e ir al estado 86
+    PINTAR                  desplazar e ir al estado 87
+    MENSAJE                 desplazar e ir al estado 88
+    PAUSA                   desplazar e ir al estado 89
+    SI                      desplazar e ir al estado 90
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 91
+
+    SALTOLINEA  reduce usando la regla 31 (inic_acciones_cuadros)
+    FINCUADRO   reduce usando la regla 31 (inic_acciones_cuadros)
+    '}'         reduce usando la regla 31 (inic_acciones_cuadros)
+
+    inic_acciones_cuadros  ir al estado 105
+    acciones_cuadros       ir al estado 93
+    condicional            ir al estado 94
+    parteSi                ir al estado 95
 
 
 Estado 94
 
-   34 acciones_cuadros: PINTAR '(' • IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' $@7 salto
-   36                 | PINTAR '(' • IDENTIFICADORMAYUSCULA COMA expr ')' $@8 salto
+   43 acciones_cuadros: condicional •
 
-    IDENTIFICADORMAYUSCULA  desplazar e ir al estado 104
+    $default  reduce usando la regla 43 (acciones_cuadros)
 
 
 Estado 95
 
-   42 acciones_cuadros: MENSAJE '(' • CADENA ')' $@11 salto
+   45 condicional: parteSi • parteSiNo
 
-    CADENA  desplazar e ir al estado 105
+    SINO  desplazar e ir al estado 106
+
+    $default  reduce usando la regla 47 (parteSiNo)
+
+    parteSiNo  ir al estado 107
 
 
 Estado 96
 
-   38 acciones_cuadros: PAUSA '(' • expr ')' $@9 salto
+   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr • COMA COLOR '>' $@5 salto
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 106
+    DIV   desplazar e ir al estado 49
+    COMA  desplazar e ir al estado 108
+    '+'   desplazar e ir al estado 51
+    '-'   desplazar e ir al estado 52
+    '*'   desplazar e ir al estado 53
+    '/'   desplazar e ir al estado 54
+    '%'   desplazar e ir al estado 55
 
 
 Estado 97
 
-   45 condicional: SI '(' • logica ')' '{' acciones_cuadros '}'
-   46            | SI '(' • logica ')' '{' acciones_cuadros '}' SINO '{' acciones_cuadros '}'
+   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION • COMA COLOR '>' salto
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    BOOL                    desplazar e ir al estado 107
-    '-'                     desplazar e ir al estado 33
-    NOT                     desplazar e ir al estado 108
-    '('                     desplazar e ir al estado 109
-
-    expr    ir al estado 110
-    logica  ir al estado 111
+    COMA  desplazar e ir al estado 109
 
 
 Estado 98
 
-   40 acciones_cuadros: IDENTIFICADORMINUSCULA ASIGNACION • expr $@10 salto
+   44 acciones_cuadros: error '\n' •
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+    $default  reduce usando la regla 44 (acciones_cuadros)
+
+
+Estado 99
+
+   34 acciones_cuadros: PINTAR '(' • IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' $@7 salto
+   36                 | PINTAR '(' • IDENTIFICADORMAYUSCULA COMA expr ')' $@8 salto
+
+    IDENTIFICADORMAYUSCULA  desplazar e ir al estado 110
+
+
+Estado 100
+
+   42 acciones_cuadros: MENSAJE '(' • CADENA ')' $@11 salto
+
+    CADENA  desplazar e ir al estado 111
+
+
+Estado 101
+
+   38 acciones_cuadros: PAUSA '(' • expr ')' $@9 salto
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
 
     expr  ir al estado 112
 
 
-Estado 99
+Estado 102
+
+   46 parteSi: SI '(' • logica ')' '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    BOOL                    desplazar e ir al estado 113
+    '-'                     desplazar e ir al estado 34
+    NOT                     desplazar e ir al estado 114
+    '('                     desplazar e ir al estado 115
+
+    expr    ir al estado 116
+    logica  ir al estado 117
+
+
+Estado 103
+
+   40 acciones_cuadros: IDENTIFICADORMINUSCULA ASIGNACION • expr $@10 salto
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 118
+
+
+Estado 104
 
    30 creacion_cuadros_nombre: CUADRO CADENA $@6 ':' salto inic_acciones_cuadros FINCUADRO • saltoOpcional
 
     SALTOLINEA  desplazar e ir al estado 1
 
-    $default  reduce usando la regla 49 (saltoOpcional)
+    $default  reduce usando la regla 51 (saltoOpcional)
 
     salto          ir al estado 3
-    saltoOpcional  ir al estado 113
+    saltoOpcional  ir al estado 119
 
 
-Estado 100
+Estado 105
 
    32 inic_acciones_cuadros: acciones_cuadros inic_acciones_cuadros •
 
     $default  reduce usando la regla 32 (inic_acciones_cuadros)
 
 
-Estado 101
-
-   43 acciones_cuadros: condicional saltoOpcional •
-
-    $default  reduce usando la regla 43 (acciones_cuadros)
-
-
-Estado 102
-
-   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA • COLOR '>' $@5 salto
-
-    COLOR  desplazar e ir al estado 114
-
-
-Estado 103
-
-   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA • COLOR '>' salto
-
-    COLOR  desplazar e ir al estado 115
-
-
-Estado 104
-
-   34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA • COMA expr COMA expr ')' $@7 salto
-   36                 | PINTAR '(' IDENTIFICADORMAYUSCULA • COMA expr ')' $@8 salto
-
-    COMA  desplazar e ir al estado 116
-
-
-Estado 105
-
-   42 acciones_cuadros: MENSAJE '(' CADENA • ')' $@11 salto
-
-    ')'  desplazar e ir al estado 117
-
-
 Estado 106
 
-   38 acciones_cuadros: PAUSA '(' expr • ')' $@9 salto
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
+   48 parteSiNo: SINO • saltoOpcional '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
 
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-    ')'  desplazar e ir al estado 118
+    SALTOLINEA  desplazar e ir al estado 1
+
+    $default  reduce usando la regla 51 (saltoOpcional)
+
+    salto          ir al estado 3
+    saltoOpcional  ir al estado 120
 
 
 Estado 107
 
-   62 logica: BOOL •
+   45 condicional: parteSi parteSiNo •
 
-    $default  reduce usando la regla 62 (logica)
+    $default  reduce usando la regla 45 (condicional)
 
 
 Estado 108
 
-   65 logica: NOT • logica
+   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA • COLOR '>' $@5 salto
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    BOOL                    desplazar e ir al estado 107
-    '-'                     desplazar e ir al estado 33
-    NOT                     desplazar e ir al estado 108
-    '('                     desplazar e ir al estado 109
-
-    expr    ir al estado 110
-    logica  ir al estado 119
+    COLOR  desplazar e ir al estado 121
 
 
 Estado 109
 
-   61 expr: '(' • expr ')'
-   74 logica: '(' • logica ')'
+   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA • COLOR '>' salto
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    BOOL                    desplazar e ir al estado 107
-    '-'                     desplazar e ir al estado 33
-    NOT                     desplazar e ir al estado 108
-    '('                     desplazar e ir al estado 109
-
-    expr    ir al estado 120
-    logica  ir al estado 121
+    COLOR  desplazar e ir al estado 122
 
 
 Estado 110
 
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   66 logica: expr • DISTINTO expr
-   68       | expr • IGUAL expr
-   70       | expr • MENORIGUAL expr
-   71       | expr • MAYOR expr
-   72       | expr • MAYORIGUAL expr
-   73       | expr • MENOR expr
+   34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA • COMA expr COMA expr ')' $@7 salto
+   36                 | PINTAR '(' IDENTIFICADORMAYUSCULA • COMA expr ')' $@8 salto
 
-    IGUAL       desplazar e ir al estado 122
-    DIV         desplazar e ir al estado 48
-    DISTINTO    desplazar e ir al estado 123
-    MENOR       desplazar e ir al estado 124
-    MENORIGUAL  desplazar e ir al estado 125
-    MAYORIGUAL  desplazar e ir al estado 126
-    MAYOR       desplazar e ir al estado 127
-    '+'         desplazar e ir al estado 50
-    '-'         desplazar e ir al estado 51
-    '*'         desplazar e ir al estado 52
-    '/'         desplazar e ir al estado 53
-    '%'         desplazar e ir al estado 54
+    COMA  desplazar e ir al estado 123
 
 
 Estado 111
 
-   45 condicional: SI '(' logica • ')' '{' acciones_cuadros '}'
-   46            | SI '(' logica • ')' '{' acciones_cuadros '}' SINO '{' acciones_cuadros '}'
-   63 logica: logica • AND logica
-   64       | logica • OR logica
-   67       | logica • DISTINTO logica
-   69       | logica • IGUAL logica
+   42 acciones_cuadros: MENSAJE '(' CADENA • ')' $@11 salto
 
-    IGUAL     desplazar e ir al estado 128
-    OR        desplazar e ir al estado 129
-    AND       desplazar e ir al estado 130
-    DISTINTO  desplazar e ir al estado 131
-    ')'       desplazar e ir al estado 132
+    ')'  desplazar e ir al estado 124
 
 
 Estado 112
 
-   40 acciones_cuadros: IDENTIFICADORMINUSCULA ASIGNACION expr • $@10 salto
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
+   38 acciones_cuadros: PAUSA '(' expr • ')' $@9 salto
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-
-    $default  reduce usando la regla 39 ($@10)
-
-    $@10  ir al estado 133
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+    ')'  desplazar e ir al estado 125
 
 
 Estado 113
+
+   64 logica: BOOL •
+
+    $default  reduce usando la regla 64 (logica)
+
+
+Estado 114
+
+   67 logica: NOT • logica
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    BOOL                    desplazar e ir al estado 113
+    '-'                     desplazar e ir al estado 34
+    NOT                     desplazar e ir al estado 114
+    '('                     desplazar e ir al estado 115
+
+    expr    ir al estado 116
+    logica  ir al estado 126
+
+
+Estado 115
+
+   63 expr: '(' • expr ')'
+   76 logica: '(' • logica ')'
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    BOOL                    desplazar e ir al estado 113
+    '-'                     desplazar e ir al estado 34
+    NOT                     desplazar e ir al estado 114
+    '('                     desplazar e ir al estado 115
+
+    expr    ir al estado 127
+    logica  ir al estado 128
+
+
+Estado 116
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   68 logica: expr • DISTINTO expr
+   70       | expr • IGUAL expr
+   72       | expr • MENORIGUAL expr
+   73       | expr • '>' expr
+   74       | expr • MAYORIGUAL expr
+   75       | expr • '<' expr
+
+    IGUAL       desplazar e ir al estado 129
+    DIV         desplazar e ir al estado 49
+    DISTINTO    desplazar e ir al estado 130
+    MENORIGUAL  desplazar e ir al estado 131
+    MAYORIGUAL  desplazar e ir al estado 132
+    '+'         desplazar e ir al estado 51
+    '-'         desplazar e ir al estado 52
+    '*'         desplazar e ir al estado 53
+    '/'         desplazar e ir al estado 54
+    '%'         desplazar e ir al estado 55
+    '<'         desplazar e ir al estado 133
+    '>'         desplazar e ir al estado 134
+
+
+Estado 117
+
+   46 parteSi: SI '(' logica • ')' '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
+   65 logica: logica • AND logica
+   66       | logica • OR logica
+   69       | logica • DISTINTO logica
+   71       | logica • IGUAL logica
+
+    IGUAL     desplazar e ir al estado 135
+    OR        desplazar e ir al estado 136
+    AND       desplazar e ir al estado 137
+    DISTINTO  desplazar e ir al estado 138
+    ')'       desplazar e ir al estado 139
+
+
+Estado 118
+
+   40 acciones_cuadros: IDENTIFICADORMINUSCULA ASIGNACION expr • $@10 salto
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+
+    $default  reduce usando la regla 39 ($@10)
+
+    $@10  ir al estado 140
+
+
+Estado 119
 
    30 creacion_cuadros_nombre: CUADRO CADENA $@6 ':' salto inic_acciones_cuadros FINCUADRO saltoOpcional •
 
     $default  reduce usando la regla 30 (creacion_cuadros_nombre)
 
 
-Estado 114
+Estado 120
+
+   48 parteSiNo: SINO saltoOpcional • '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
+
+    '{'  desplazar e ir al estado 141
+
+
+Estado 121
 
    20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR • '>' $@5 salto
 
-    '>'  desplazar e ir al estado 134
+    '>'  desplazar e ir al estado 142
 
 
-Estado 115
+Estado 122
 
    25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR • '>' salto
 
-    '>'  desplazar e ir al estado 135
+    '>'  desplazar e ir al estado 143
 
 
-Estado 116
+Estado 123
 
    34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA • expr COMA expr ')' $@7 salto
    36                 | PINTAR '(' IDENTIFICADORMAYUSCULA COMA • expr ')' $@8 salto
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
 
-    expr  ir al estado 136
+    expr  ir al estado 144
 
 
-Estado 117
+Estado 124
 
    42 acciones_cuadros: MENSAJE '(' CADENA ')' • $@11 salto
 
     $default  reduce usando la regla 41 ($@11)
 
-    $@11  ir al estado 137
+    $@11  ir al estado 145
 
 
-Estado 118
+Estado 125
 
    38 acciones_cuadros: PAUSA '(' expr ')' • $@9 salto
 
     $default  reduce usando la regla 37 ($@9)
 
-    $@9  ir al estado 138
-
-
-Estado 119
-
-   63 logica: logica • AND logica
-   64       | logica • OR logica
-   65       | NOT logica •
-   67       | logica • DISTINTO logica
-   69       | logica • IGUAL logica
-
-    $default  reduce usando la regla 65 (logica)
-
-
-Estado 120
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   61     | '(' expr • ')'
-   66 logica: expr • DISTINTO expr
-   68       | expr • IGUAL expr
-   70       | expr • MENORIGUAL expr
-   71       | expr • MAYOR expr
-   72       | expr • MAYORIGUAL expr
-   73       | expr • MENOR expr
-
-    IGUAL       desplazar e ir al estado 122
-    DIV         desplazar e ir al estado 48
-    DISTINTO    desplazar e ir al estado 123
-    MENOR       desplazar e ir al estado 124
-    MENORIGUAL  desplazar e ir al estado 125
-    MAYORIGUAL  desplazar e ir al estado 126
-    MAYOR       desplazar e ir al estado 127
-    '+'         desplazar e ir al estado 50
-    '-'         desplazar e ir al estado 51
-    '*'         desplazar e ir al estado 52
-    '/'         desplazar e ir al estado 53
-    '%'         desplazar e ir al estado 54
-    ')'         desplazar e ir al estado 62
-
-
-Estado 121
-
-   63 logica: logica • AND logica
-   64       | logica • OR logica
-   67       | logica • DISTINTO logica
-   69       | logica • IGUAL logica
-   74       | '(' logica • ')'
-
-    IGUAL     desplazar e ir al estado 128
-    OR        desplazar e ir al estado 129
-    AND       desplazar e ir al estado 130
-    DISTINTO  desplazar e ir al estado 131
-    ')'       desplazar e ir al estado 139
-
-
-Estado 122
-
-   68 logica: expr IGUAL • expr
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 140
-
-
-Estado 123
-
-   66 logica: expr DISTINTO • expr
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 141
-
-
-Estado 124
-
-   73 logica: expr MENOR • expr
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 142
-
-
-Estado 125
-
-   70 logica: expr MENORIGUAL • expr
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 143
+    $@9  ir al estado 146
 
 
 Estado 126
 
-   72 logica: expr MAYORIGUAL • expr
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 144
-
-
-Estado 127
-
-   71 logica: expr MAYOR • expr
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 145
-
-
-Estado 128
-
-   69 logica: logica IGUAL • logica
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    BOOL                    desplazar e ir al estado 107
-    '-'                     desplazar e ir al estado 33
-    NOT                     desplazar e ir al estado 108
-    '('                     desplazar e ir al estado 109
-
-    expr    ir al estado 110
-    logica  ir al estado 146
-
-
-Estado 129
-
-   64 logica: logica OR • logica
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    BOOL                    desplazar e ir al estado 107
-    '-'                     desplazar e ir al estado 33
-    NOT                     desplazar e ir al estado 108
-    '('                     desplazar e ir al estado 109
-
-    expr    ir al estado 110
-    logica  ir al estado 147
-
-
-Estado 130
-
-   63 logica: logica AND • logica
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    BOOL                    desplazar e ir al estado 107
-    '-'                     desplazar e ir al estado 33
-    NOT                     desplazar e ir al estado 108
-    '('                     desplazar e ir al estado 109
-
-    expr    ir al estado 110
-    logica  ir al estado 148
-
-
-Estado 131
-
-   67 logica: logica DISTINTO • logica
-
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    BOOL                    desplazar e ir al estado 107
-    '-'                     desplazar e ir al estado 33
-    NOT                     desplazar e ir al estado 108
-    '('                     desplazar e ir al estado 109
-
-    expr    ir al estado 110
-    logica  ir al estado 149
-
-
-Estado 132
-
-   45 condicional: SI '(' logica ')' • '{' acciones_cuadros '}'
-   46            | SI '(' logica ')' • '{' acciones_cuadros '}' SINO '{' acciones_cuadros '}'
-
-    '{'  desplazar e ir al estado 150
-
-
-Estado 133
-
-   40 acciones_cuadros: IDENTIFICADORMINUSCULA ASIGNACION expr $@10 • salto
-
-    SALTOLINEA  desplazar e ir al estado 1
-
-    salto  ir al estado 151
-
-
-Estado 134
-
-   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR '>' • $@5 salto
-
-    $default  reduce usando la regla 19 ($@5)
-
-    $@5  ir al estado 152
-
-
-Estado 135
-
-   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' • salto
-
-    SALTOLINEA  desplazar e ir al estado 1
-
-    salto  ir al estado 153
-
-
-Estado 136
-
-   34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr • COMA expr ')' $@7 salto
-   36                 | PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr • ')' $@8 salto
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-
-    DIV   desplazar e ir al estado 48
-    COMA  desplazar e ir al estado 154
-    '+'   desplazar e ir al estado 50
-    '-'   desplazar e ir al estado 51
-    '*'   desplazar e ir al estado 52
-    '/'   desplazar e ir al estado 53
-    '%'   desplazar e ir al estado 54
-    ')'   desplazar e ir al estado 155
-
-
-Estado 137
-
-   42 acciones_cuadros: MENSAJE '(' CADENA ')' $@11 • salto
-
-    SALTOLINEA  desplazar e ir al estado 1
-
-    salto  ir al estado 156
-
-
-Estado 138
-
-   38 acciones_cuadros: PAUSA '(' expr ')' $@9 • salto
-
-    SALTOLINEA  desplazar e ir al estado 1
-
-    salto  ir al estado 157
-
-
-Estado 139
-
-   74 logica: '(' logica ')' •
-
-    $default  reduce usando la regla 74 (logica)
-
-
-Estado 140
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   68 logica: expr IGUAL expr •
-
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-
-    $default  reduce usando la regla 68 (logica)
-
-
-Estado 141
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   66 logica: expr DISTINTO expr •
-
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-
-    $default  reduce usando la regla 66 (logica)
-
-
-Estado 142
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   73 logica: expr MENOR expr •
-
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-
-    $default  reduce usando la regla 73 (logica)
-
-
-Estado 143
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   70 logica: expr MENORIGUAL expr •
-
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-
-    $default  reduce usando la regla 70 (logica)
-
-
-Estado 144
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   72 logica: expr MAYORIGUAL expr •
-
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-
-    $default  reduce usando la regla 72 (logica)
-
-
-Estado 145
-
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
-   71 logica: expr MAYOR expr •
-
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-
-    $default  reduce usando la regla 71 (logica)
-
-
-Estado 146
-
-   63 logica: logica • AND logica
-   64       | logica • OR logica
-   67       | logica • DISTINTO logica
-   69       | logica • IGUAL logica
-   69       | logica IGUAL logica •
-
-    $default  reduce usando la regla 69 (logica)
-
-
-Estado 147
-
-   63 logica: logica • AND logica
-   64       | logica • OR logica
-   64       | logica OR logica •
-   67       | logica • DISTINTO logica
-   69       | logica • IGUAL logica
-
-    IGUAL     desplazar e ir al estado 128
-    AND       desplazar e ir al estado 130
-    DISTINTO  desplazar e ir al estado 131
-
-    $default  reduce usando la regla 64 (logica)
-
-
-Estado 148
-
-   63 logica: logica • AND logica
-   63       | logica AND logica •
-   64       | logica • OR logica
-   67       | logica • DISTINTO logica
-   69       | logica • IGUAL logica
-
-    IGUAL     desplazar e ir al estado 128
-    DISTINTO  desplazar e ir al estado 131
-
-    $default  reduce usando la regla 63 (logica)
-
-
-Estado 149
-
-   63 logica: logica • AND logica
-   64       | logica • OR logica
-   67       | logica • DISTINTO logica
-   67       | logica DISTINTO logica •
-   69       | logica • IGUAL logica
+   65 logica: logica • AND logica
+   66       | logica • OR logica
+   67       | NOT logica •
+   69       | logica • DISTINTO logica
+   71       | logica • IGUAL logica
 
     $default  reduce usando la regla 67 (logica)
 
 
-Estado 150
+Estado 127
 
-   45 condicional: SI '(' logica ')' '{' • acciones_cuadros '}'
-   46            | SI '(' logica ')' '{' • acciones_cuadros '}' SINO '{' acciones_cuadros '}'
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   63     | '(' expr • ')'
+   68 logica: expr • DISTINTO expr
+   70       | expr • IGUAL expr
+   72       | expr • MENORIGUAL expr
+   73       | expr • '>' expr
+   74       | expr • MAYORIGUAL expr
+   75       | expr • '<' expr
 
-    error                   desplazar e ir al estado 83
-    PINTAR                  desplazar e ir al estado 84
-    MENSAJE                 desplazar e ir al estado 85
-    PAUSA                   desplazar e ir al estado 86
-    SI                      desplazar e ir al estado 87
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 88
-
-    acciones_cuadros  ir al estado 158
-    condicional       ir al estado 91
-
-
-Estado 151
-
-   40 acciones_cuadros: IDENTIFICADORMINUSCULA ASIGNACION expr $@10 salto •
-   48 salto: salto • SALTOLINEA
-
-    SALTOLINEA  desplazar e ir al estado 6
-
-    $default  reduce usando la regla 40 (acciones_cuadros)
+    IGUAL       desplazar e ir al estado 129
+    DIV         desplazar e ir al estado 49
+    DISTINTO    desplazar e ir al estado 130
+    MENORIGUAL  desplazar e ir al estado 131
+    MAYORIGUAL  desplazar e ir al estado 132
+    '+'         desplazar e ir al estado 51
+    '-'         desplazar e ir al estado 52
+    '*'         desplazar e ir al estado 53
+    '/'         desplazar e ir al estado 54
+    '%'         desplazar e ir al estado 55
+    '<'         desplazar e ir al estado 133
+    '>'         desplazar e ir al estado 134
+    ')'         desplazar e ir al estado 65
 
 
-Estado 152
+Estado 128
 
-   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR '>' $@5 • salto
+   65 logica: logica • AND logica
+   66       | logica • OR logica
+   69       | logica • DISTINTO logica
+   71       | logica • IGUAL logica
+   76       | '(' logica • ')'
+
+    IGUAL     desplazar e ir al estado 135
+    OR        desplazar e ir al estado 136
+    AND       desplazar e ir al estado 137
+    DISTINTO  desplazar e ir al estado 138
+    ')'       desplazar e ir al estado 147
+
+
+Estado 129
+
+   70 logica: expr IGUAL • expr
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 148
+
+
+Estado 130
+
+   68 logica: expr DISTINTO • expr
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 149
+
+
+Estado 131
+
+   72 logica: expr MENORIGUAL • expr
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 150
+
+
+Estado 132
+
+   74 logica: expr MAYORIGUAL • expr
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 151
+
+
+Estado 133
+
+   75 logica: expr '<' • expr
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 152
+
+
+Estado 134
+
+   73 logica: expr '>' • expr
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 153
+
+
+Estado 135
+
+   71 logica: logica IGUAL • logica
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    BOOL                    desplazar e ir al estado 113
+    '-'                     desplazar e ir al estado 34
+    NOT                     desplazar e ir al estado 114
+    '('                     desplazar e ir al estado 115
+
+    expr    ir al estado 116
+    logica  ir al estado 154
+
+
+Estado 136
+
+   66 logica: logica OR • logica
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    BOOL                    desplazar e ir al estado 113
+    '-'                     desplazar e ir al estado 34
+    NOT                     desplazar e ir al estado 114
+    '('                     desplazar e ir al estado 115
+
+    expr    ir al estado 116
+    logica  ir al estado 155
+
+
+Estado 137
+
+   65 logica: logica AND • logica
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    BOOL                    desplazar e ir al estado 113
+    '-'                     desplazar e ir al estado 34
+    NOT                     desplazar e ir al estado 114
+    '('                     desplazar e ir al estado 115
+
+    expr    ir al estado 116
+    logica  ir al estado 156
+
+
+Estado 138
+
+   69 logica: logica DISTINTO • logica
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    BOOL                    desplazar e ir al estado 113
+    '-'                     desplazar e ir al estado 34
+    NOT                     desplazar e ir al estado 114
+    '('                     desplazar e ir al estado 115
+
+    expr    ir al estado 116
+    logica  ir al estado 157
+
+
+Estado 139
+
+   46 parteSi: SI '(' logica ')' • '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
+
+    '{'  desplazar e ir al estado 158
+
+
+Estado 140
+
+   40 acciones_cuadros: IDENTIFICADORMINUSCULA ASIGNACION expr $@10 • salto
 
     SALTOLINEA  desplazar e ir al estado 1
 
     salto  ir al estado 159
 
 
+Estado 141
+
+   48 parteSiNo: SINO saltoOpcional '{' • saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
+
+    SALTOLINEA  desplazar e ir al estado 1
+
+    SALTOLINEA  [reduce usando la regla 51 (saltoOpcional)]
+    $default    reduce usando la regla 51 (saltoOpcional)
+
+    salto          ir al estado 3
+    saltoOpcional  ir al estado 160
+
+
+Estado 142
+
+   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR '>' • $@5 salto
+
+    $default  reduce usando la regla 19 ($@5)
+
+    $@5  ir al estado 161
+
+
+Estado 143
+
+   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' • salto
+
+    SALTOLINEA  desplazar e ir al estado 1
+
+    salto  ir al estado 162
+
+
+Estado 144
+
+   34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr • COMA expr ')' $@7 salto
+   36                 | PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr • ')' $@8 salto
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+
+    DIV   desplazar e ir al estado 49
+    COMA  desplazar e ir al estado 163
+    '+'   desplazar e ir al estado 51
+    '-'   desplazar e ir al estado 52
+    '*'   desplazar e ir al estado 53
+    '/'   desplazar e ir al estado 54
+    '%'   desplazar e ir al estado 55
+    ')'   desplazar e ir al estado 164
+
+
+Estado 145
+
+   42 acciones_cuadros: MENSAJE '(' CADENA ')' $@11 • salto
+
+    SALTOLINEA  desplazar e ir al estado 1
+
+    salto  ir al estado 165
+
+
+Estado 146
+
+   38 acciones_cuadros: PAUSA '(' expr ')' $@9 • salto
+
+    SALTOLINEA  desplazar e ir al estado 1
+
+    salto  ir al estado 166
+
+
+Estado 147
+
+   76 logica: '(' logica ')' •
+
+    $default  reduce usando la regla 76 (logica)
+
+
+Estado 148
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   70 logica: expr IGUAL expr •
+
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+
+    $default  reduce usando la regla 70 (logica)
+
+
+Estado 149
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   68 logica: expr DISTINTO expr •
+
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+
+    $default  reduce usando la regla 68 (logica)
+
+
+Estado 150
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   72 logica: expr MENORIGUAL expr •
+
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+
+    $default  reduce usando la regla 72 (logica)
+
+
+Estado 151
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   74 logica: expr MAYORIGUAL expr •
+
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+
+    $default  reduce usando la regla 74 (logica)
+
+
+Estado 152
+
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   75 logica: expr '<' expr •
+
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+
+    $default  reduce usando la regla 75 (logica)
+
+
 Estado 153
 
-   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' salto •
-   48 salto: salto • SALTOLINEA
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
+   73 logica: expr '>' expr •
 
-    SALTOLINEA  desplazar e ir al estado 6
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
 
-    $default  reduce usando la regla 25 (definicion_linea)
+    $default  reduce usando la regla 73 (logica)
 
 
 Estado 154
 
-   34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA • expr ')' $@7 salto
+   65 logica: logica • AND logica
+   66       | logica • OR logica
+   69       | logica • DISTINTO logica
+   71       | logica • IGUAL logica
+   71       | logica IGUAL logica •
 
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 30
-    ENTERO                  desplazar e ir al estado 31
-    REAL                    desplazar e ir al estado 32
-    '-'                     desplazar e ir al estado 33
-    '('                     desplazar e ir al estado 34
-
-    expr  ir al estado 160
+    $default  reduce usando la regla 71 (logica)
 
 
 Estado 155
+
+   65 logica: logica • AND logica
+   66       | logica • OR logica
+   66       | logica OR logica •
+   69       | logica • DISTINTO logica
+   71       | logica • IGUAL logica
+
+    IGUAL     desplazar e ir al estado 135
+    AND       desplazar e ir al estado 137
+    DISTINTO  desplazar e ir al estado 138
+
+    $default  reduce usando la regla 66 (logica)
+
+
+Estado 156
+
+   65 logica: logica • AND logica
+   65       | logica AND logica •
+   66       | logica • OR logica
+   69       | logica • DISTINTO logica
+   71       | logica • IGUAL logica
+
+    IGUAL     desplazar e ir al estado 135
+    DISTINTO  desplazar e ir al estado 138
+
+    $default  reduce usando la regla 65 (logica)
+
+
+Estado 157
+
+   65 logica: logica • AND logica
+   66       | logica • OR logica
+   69       | logica • DISTINTO logica
+   69       | logica DISTINTO logica •
+   71       | logica • IGUAL logica
+
+    $default  reduce usando la regla 69 (logica)
+
+
+Estado 158
+
+   46 parteSi: SI '(' logica ')' '{' • saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional
+
+    SALTOLINEA  desplazar e ir al estado 1
+
+    SALTOLINEA  [reduce usando la regla 51 (saltoOpcional)]
+    $default    reduce usando la regla 51 (saltoOpcional)
+
+    salto          ir al estado 3
+    saltoOpcional  ir al estado 167
+
+
+Estado 159
+
+   40 acciones_cuadros: IDENTIFICADORMINUSCULA ASIGNACION expr $@10 salto •
+
+    $default  reduce usando la regla 40 (acciones_cuadros)
+
+
+Estado 160
+
+   48 parteSiNo: SINO saltoOpcional '{' saltoOpcional • inic_acciones_cuadros saltoOpcional '}' saltoOpcional
+
+    error                   desplazar e ir al estado 86
+    PINTAR                  desplazar e ir al estado 87
+    MENSAJE                 desplazar e ir al estado 88
+    PAUSA                   desplazar e ir al estado 89
+    SI                      desplazar e ir al estado 90
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 91
+
+    SALTOLINEA  reduce usando la regla 31 (inic_acciones_cuadros)
+    '}'         reduce usando la regla 31 (inic_acciones_cuadros)
+
+    inic_acciones_cuadros  ir al estado 168
+    acciones_cuadros       ir al estado 93
+    condicional            ir al estado 94
+    parteSi                ir al estado 95
+
+
+Estado 161
+
+   20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR '>' $@5 • salto
+
+    SALTOLINEA  desplazar e ir al estado 1
+
+    salto  ir al estado 169
+
+
+Estado 162
+
+   25 definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' salto •
+
+    $default  reduce usando la regla 25 (definicion_linea)
+
+
+Estado 163
+
+   34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA • expr ')' $@7 salto
+
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 31
+    ENTERO                  desplazar e ir al estado 32
+    REAL                    desplazar e ir al estado 33
+    '-'                     desplazar e ir al estado 34
+    '('                     desplazar e ir al estado 35
+
+    expr  ir al estado 170
+
+
+Estado 164
 
    36 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')' • $@8 salto
 
     $default  reduce usando la regla 35 ($@8)
 
-    $@8  ir al estado 161
+    $@8  ir al estado 171
 
 
-Estado 156
+Estado 165
 
    42 acciones_cuadros: MENSAJE '(' CADENA ')' $@11 salto •
-   48 salto: salto • SALTOLINEA
-
-    SALTOLINEA  desplazar e ir al estado 6
 
     $default  reduce usando la regla 42 (acciones_cuadros)
 
 
-Estado 157
+Estado 166
 
    38 acciones_cuadros: PAUSA '(' expr ')' $@9 salto •
-   48 salto: salto • SALTOLINEA
-
-    SALTOLINEA  desplazar e ir al estado 6
 
     $default  reduce usando la regla 38 (acciones_cuadros)
 
 
-Estado 158
+Estado 167
 
-   45 condicional: SI '(' logica ')' '{' acciones_cuadros • '}'
-   46            | SI '(' logica ')' '{' acciones_cuadros • '}' SINO '{' acciones_cuadros '}'
+   46 parteSi: SI '(' logica ')' '{' saltoOpcional • inic_acciones_cuadros saltoOpcional '}' saltoOpcional
 
-    '}'  desplazar e ir al estado 162
+    error                   desplazar e ir al estado 86
+    PINTAR                  desplazar e ir al estado 87
+    MENSAJE                 desplazar e ir al estado 88
+    PAUSA                   desplazar e ir al estado 89
+    SI                      desplazar e ir al estado 90
+    IDENTIFICADORMINUSCULA  desplazar e ir al estado 91
+
+    SALTOLINEA  reduce usando la regla 31 (inic_acciones_cuadros)
+    '}'         reduce usando la regla 31 (inic_acciones_cuadros)
+
+    inic_acciones_cuadros  ir al estado 172
+    acciones_cuadros       ir al estado 93
+    condicional            ir al estado 94
+    parteSi                ir al estado 95
 
 
-Estado 159
+Estado 168
+
+   48 parteSiNo: SINO saltoOpcional '{' saltoOpcional inic_acciones_cuadros • saltoOpcional '}' saltoOpcional
+
+    SALTOLINEA  desplazar e ir al estado 1
+
+    $default  reduce usando la regla 51 (saltoOpcional)
+
+    salto          ir al estado 3
+    saltoOpcional  ir al estado 173
+
+
+Estado 169
 
    20 definicion_recuadro: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA expr COMA COLOR '>' $@5 salto •
-   48 salto: salto • SALTOLINEA
-
-    SALTOLINEA  desplazar e ir al estado 6
 
     $default  reduce usando la regla 20 (definicion_recuadro)
 
 
-Estado 160
+Estado 170
 
    34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr • ')' $@7 salto
-   54 expr: expr • '+' expr
-   55     | expr • '-' expr
-   56     | expr • '*' expr
-   57     | expr • '/' expr
-   58     | expr • DIV expr
-   59     | expr • '%' expr
+   56 expr: expr • '+' expr
+   57     | expr • '-' expr
+   58     | expr • '*' expr
+   59     | expr • '/' expr
+   60     | expr • DIV expr
+   61     | expr • '%' expr
 
-    DIV  desplazar e ir al estado 48
-    '+'  desplazar e ir al estado 50
-    '-'  desplazar e ir al estado 51
-    '*'  desplazar e ir al estado 52
-    '/'  desplazar e ir al estado 53
-    '%'  desplazar e ir al estado 54
-    ')'  desplazar e ir al estado 163
+    DIV  desplazar e ir al estado 49
+    '+'  desplazar e ir al estado 51
+    '-'  desplazar e ir al estado 52
+    '*'  desplazar e ir al estado 53
+    '/'  desplazar e ir al estado 54
+    '%'  desplazar e ir al estado 55
+    ')'  desplazar e ir al estado 174
 
 
-Estado 161
+Estado 171
 
    36 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')' $@8 • salto
 
     SALTOLINEA  desplazar e ir al estado 1
 
-    salto  ir al estado 164
+    salto  ir al estado 175
 
 
-Estado 162
+Estado 172
 
-   45 condicional: SI '(' logica ')' '{' acciones_cuadros '}' •
-   46            | SI '(' logica ')' '{' acciones_cuadros '}' • SINO '{' acciones_cuadros '}'
+   46 parteSi: SI '(' logica ')' '{' saltoOpcional inic_acciones_cuadros • saltoOpcional '}' saltoOpcional
 
-    SINO  desplazar e ir al estado 165
+    SALTOLINEA  desplazar e ir al estado 1
 
-    $default  reduce usando la regla 45 (condicional)
+    $default  reduce usando la regla 51 (saltoOpcional)
+
+    salto          ir al estado 3
+    saltoOpcional  ir al estado 176
 
 
-Estado 163
+Estado 173
+
+   48 parteSiNo: SINO saltoOpcional '{' saltoOpcional inic_acciones_cuadros saltoOpcional • '}' saltoOpcional
+
+    '}'  desplazar e ir al estado 177
+
+
+Estado 174
 
    34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' • $@7 salto
 
     $default  reduce usando la regla 33 ($@7)
 
-    $@7  ir al estado 166
+    $@7  ir al estado 178
 
 
-Estado 164
+Estado 175
 
    36 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr ')' $@8 salto •
-   48 salto: salto • SALTOLINEA
-
-    SALTOLINEA  desplazar e ir al estado 6
 
     $default  reduce usando la regla 36 (acciones_cuadros)
 
 
-Estado 165
+Estado 176
 
-   46 condicional: SI '(' logica ')' '{' acciones_cuadros '}' SINO • '{' acciones_cuadros '}'
+   46 parteSi: SI '(' logica ')' '{' saltoOpcional inic_acciones_cuadros saltoOpcional • '}' saltoOpcional
 
-    '{'  desplazar e ir al estado 167
+    '}'  desplazar e ir al estado 179
 
 
-Estado 166
+Estado 177
+
+   48 parteSiNo: SINO saltoOpcional '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' • saltoOpcional
+
+    SALTOLINEA  desplazar e ir al estado 1
+
+    SALTOLINEA  [reduce usando la regla 51 (saltoOpcional)]
+    $default    reduce usando la regla 51 (saltoOpcional)
+
+    salto          ir al estado 3
+    saltoOpcional  ir al estado 180
+
+
+Estado 178
 
    34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' $@7 • salto
 
     SALTOLINEA  desplazar e ir al estado 1
 
-    salto  ir al estado 168
+    salto  ir al estado 181
 
 
-Estado 167
+Estado 179
 
-   46 condicional: SI '(' logica ')' '{' acciones_cuadros '}' SINO '{' • acciones_cuadros '}'
+   46 parteSi: SI '(' logica ')' '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' • saltoOpcional
 
-    error                   desplazar e ir al estado 83
-    PINTAR                  desplazar e ir al estado 84
-    MENSAJE                 desplazar e ir al estado 85
-    PAUSA                   desplazar e ir al estado 86
-    SI                      desplazar e ir al estado 87
-    IDENTIFICADORMINUSCULA  desplazar e ir al estado 88
+    SALTOLINEA  desplazar e ir al estado 1
 
-    acciones_cuadros  ir al estado 169
-    condicional       ir al estado 91
+    SALTOLINEA  [reduce usando la regla 51 (saltoOpcional)]
+    $default    reduce usando la regla 51 (saltoOpcional)
+
+    salto          ir al estado 3
+    saltoOpcional  ir al estado 182
 
 
-Estado 168
+Estado 180
+
+   48 parteSiNo: SINO saltoOpcional '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional •
+
+    $default  reduce usando la regla 48 (parteSiNo)
+
+
+Estado 181
 
    34 acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')' $@7 salto •
-   48 salto: salto • SALTOLINEA
-
-    SALTOLINEA  desplazar e ir al estado 6
 
     $default  reduce usando la regla 34 (acciones_cuadros)
 
 
-Estado 169
+Estado 182
 
-   46 condicional: SI '(' logica ')' '{' acciones_cuadros '}' SINO '{' acciones_cuadros • '}'
+   46 parteSi: SI '(' logica ')' '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional •
 
-    '}'  desplazar e ir al estado 170
-
-
-Estado 170
-
-   46 condicional: SI '(' logica ')' '{' acciones_cuadros '}' SINO '{' acciones_cuadros '}' •
-
-    $default  reduce usando la regla 46 (condicional)
+    $default  reduce usando la regla 46 (parteSi)

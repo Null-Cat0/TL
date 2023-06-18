@@ -88,6 +88,7 @@ extern FILE* yyin ;
 extern FILE* yyout ;
 
 bool errorS = false;
+bool condicionalVerdadero = true;
 char Tipo_Secuencia[25];
 void yyerror(const char* s){      
       // errorS = true;
@@ -129,7 +130,7 @@ string enteroOreal(bool enteroOreal)
       return (enteroOreal==true) ? "real" : "entero";
 }
 
-#line 133 "proyecto_mondrian.c"
+#line 134 "proyecto_mondrian.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -189,57 +190,58 @@ enum yysymbol_kind_t
   YYSYMBOL_OR = 29,                        /* OR  */
   YYSYMBOL_AND = 30,                       /* AND  */
   YYSYMBOL_DISTINTO = 31,                  /* DISTINTO  */
-  YYSYMBOL_MENOR = 32,                     /* MENOR  */
-  YYSYMBOL_MENORIGUAL = 33,                /* MENORIGUAL  */
-  YYSYMBOL_MAYORIGUAL = 34,                /* MAYORIGUAL  */
-  YYSYMBOL_MAYOR = 35,                     /* MAYOR  */
-  YYSYMBOL_36_ = 36,                       /* '+'  */
-  YYSYMBOL_37_ = 37,                       /* '-'  */
-  YYSYMBOL_38_ = 38,                       /* '*'  */
-  YYSYMBOL_39_ = 39,                       /* '/'  */
-  YYSYMBOL_40_ = 40,                       /* '%'  */
-  YYSYMBOL_menos = 41,                     /* menos  */
-  YYSYMBOL_NOT = 42,                       /* NOT  */
-  YYSYMBOL_IF = 43,                        /* IF  */
-  YYSYMBOL_44_ = 44,                       /* '<'  */
-  YYSYMBOL_45_ = 45,                       /* '>'  */
-  YYSYMBOL_46_ = 46,                       /* ':'  */
-  YYSYMBOL_47_ = 47,                       /* '('  */
-  YYSYMBOL_48_ = 48,                       /* ')'  */
-  YYSYMBOL_49_ = 49,                       /* '{'  */
-  YYSYMBOL_50_ = 50,                       /* '}'  */
-  YYSYMBOL_YYACCEPT = 51,                  /* $accept  */
-  YYSYMBOL_all = 52,                       /* all  */
-  YYSYMBOL_zona_variables = 53,            /* zona_variables  */
-  YYSYMBOL_inic_definicion = 54,           /* inic_definicion  */
-  YYSYMBOL_definicion = 55,                /* definicion  */
-  YYSYMBOL_56_1 = 56,                      /* $@1  */
-  YYSYMBOL_57_2 = 57,                      /* $@2  */
-  YYSYMBOL_58_3 = 58,                      /* $@3  */
-  YYSYMBOL_secuencia_de_Identificadores = 59, /* secuencia_de_Identificadores  */
-  YYSYMBOL_zona_recuadros = 60,            /* zona_recuadros  */
-  YYSYMBOL_61_4 = 61,                      /* $@4  */
-  YYSYMBOL_inic_definicion_recuadro = 62,  /* inic_definicion_recuadro  */
-  YYSYMBOL_definicion_recuadro = 63,       /* definicion_recuadro  */
-  YYSYMBOL_64_5 = 64,                      /* $@5  */
-  YYSYMBOL_zona_lineas = 65,               /* zona_lineas  */
-  YYSYMBOL_inic_definicion_linea = 66,     /* inic_definicion_linea  */
-  YYSYMBOL_definicion_linea = 67,          /* definicion_linea  */
-  YYSYMBOL_inic_creacion_cuadros_nombre = 68, /* inic_creacion_cuadros_nombre  */
-  YYSYMBOL_creacion_cuadros_nombre = 69,   /* creacion_cuadros_nombre  */
-  YYSYMBOL_70_6 = 70,                      /* $@6  */
-  YYSYMBOL_inic_acciones_cuadros = 71,     /* inic_acciones_cuadros  */
-  YYSYMBOL_acciones_cuadros = 72,          /* acciones_cuadros  */
-  YYSYMBOL_73_7 = 73,                      /* $@7  */
-  YYSYMBOL_74_8 = 74,                      /* $@8  */
-  YYSYMBOL_75_9 = 75,                      /* $@9  */
-  YYSYMBOL_76_10 = 76,                     /* $@10  */
-  YYSYMBOL_77_11 = 77,                     /* $@11  */
-  YYSYMBOL_condicional = 78,               /* condicional  */
-  YYSYMBOL_salto = 79,                     /* salto  */
-  YYSYMBOL_saltoOpcional = 80,             /* saltoOpcional  */
-  YYSYMBOL_expr = 81,                      /* expr  */
-  YYSYMBOL_logica = 82                     /* logica  */
+  YYSYMBOL_MENORIGUAL = 32,                /* MENORIGUAL  */
+  YYSYMBOL_MAYORIGUAL = 33,                /* MAYORIGUAL  */
+  YYSYMBOL_34_ = 34,                       /* '+'  */
+  YYSYMBOL_35_ = 35,                       /* '-'  */
+  YYSYMBOL_36_ = 36,                       /* '*'  */
+  YYSYMBOL_37_ = 37,                       /* '/'  */
+  YYSYMBOL_38_ = 38,                       /* '%'  */
+  YYSYMBOL_menos = 39,                     /* menos  */
+  YYSYMBOL_NOT = 40,                       /* NOT  */
+  YYSYMBOL_si_simple = 41,                 /* si_simple  */
+  YYSYMBOL_42_n_ = 42,                     /* '\n'  */
+  YYSYMBOL_43_ = 43,                       /* '<'  */
+  YYSYMBOL_44_ = 44,                       /* '>'  */
+  YYSYMBOL_45_ = 45,                       /* ':'  */
+  YYSYMBOL_46_ = 46,                       /* '('  */
+  YYSYMBOL_47_ = 47,                       /* ')'  */
+  YYSYMBOL_48_ = 48,                       /* '{'  */
+  YYSYMBOL_49_ = 49,                       /* '}'  */
+  YYSYMBOL_YYACCEPT = 50,                  /* $accept  */
+  YYSYMBOL_all = 51,                       /* all  */
+  YYSYMBOL_zona_variables = 52,            /* zona_variables  */
+  YYSYMBOL_inic_definicion = 53,           /* inic_definicion  */
+  YYSYMBOL_definicion = 54,                /* definicion  */
+  YYSYMBOL_55_1 = 55,                      /* $@1  */
+  YYSYMBOL_56_2 = 56,                      /* $@2  */
+  YYSYMBOL_57_3 = 57,                      /* $@3  */
+  YYSYMBOL_secuencia_de_Identificadores = 58, /* secuencia_de_Identificadores  */
+  YYSYMBOL_zona_recuadros = 59,            /* zona_recuadros  */
+  YYSYMBOL_60_4 = 60,                      /* $@4  */
+  YYSYMBOL_inic_definicion_recuadro = 61,  /* inic_definicion_recuadro  */
+  YYSYMBOL_definicion_recuadro = 62,       /* definicion_recuadro  */
+  YYSYMBOL_63_5 = 63,                      /* $@5  */
+  YYSYMBOL_zona_lineas = 64,               /* zona_lineas  */
+  YYSYMBOL_inic_definicion_linea = 65,     /* inic_definicion_linea  */
+  YYSYMBOL_definicion_linea = 66,          /* definicion_linea  */
+  YYSYMBOL_inic_creacion_cuadros_nombre = 67, /* inic_creacion_cuadros_nombre  */
+  YYSYMBOL_creacion_cuadros_nombre = 68,   /* creacion_cuadros_nombre  */
+  YYSYMBOL_69_6 = 69,                      /* $@6  */
+  YYSYMBOL_inic_acciones_cuadros = 70,     /* inic_acciones_cuadros  */
+  YYSYMBOL_acciones_cuadros = 71,          /* acciones_cuadros  */
+  YYSYMBOL_72_7 = 72,                      /* $@7  */
+  YYSYMBOL_73_8 = 73,                      /* $@8  */
+  YYSYMBOL_74_9 = 74,                      /* $@9  */
+  YYSYMBOL_75_10 = 75,                     /* $@10  */
+  YYSYMBOL_76_11 = 76,                     /* $@11  */
+  YYSYMBOL_condicional = 77,               /* condicional  */
+  YYSYMBOL_parteSi = 78,                   /* parteSi  */
+  YYSYMBOL_parteSiNo = 79,                 /* parteSiNo  */
+  YYSYMBOL_salto = 80,                     /* salto  */
+  YYSYMBOL_saltoOpcional = 81,             /* saltoOpcional  */
+  YYSYMBOL_expr = 82,                      /* expr  */
+  YYSYMBOL_logica = 83                     /* logica  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -565,21 +567,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  5
+#define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   271
+#define YYLAST   310
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  51
+#define YYNTOKENS  50
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  32
+#define YYNNTS  34
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  75
+#define YYNRULES  77
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  171
+#define YYNSTATES  183
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   293
+#define YYMAXUTOK   291
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -594,18 +596,18 @@ union yyalloc
 static const yytype_int8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      42,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,    38,     2,     2,
+      46,    47,    36,    34,     2,    35,     2,    37,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,    45,     2,
+      43,     2,    44,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,    40,     2,     2,
-      47,    48,    38,    36,     2,    37,     2,    39,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,    46,     2,
-      44,     2,    45,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    49,     2,    50,     2,     2,     2,     2,
+       2,     2,     2,    48,     2,    49,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -621,22 +623,22 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    41,    42,    43
+      25,    26,    27,    28,    29,    30,    31,    32,    33,    39,
+      40,    41
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   103,   103,   106,   107,   110,   111,   114,   114,   146,
-     146,   169,   169,   206,   209,   216,   227,   227,   229,   230,
-     232,   232,   255,   261,   264,   265,   270,   291,   296,   297,
-     299,   299,   301,   302,   305,   305,   332,   332,   359,   359,
-     363,   363,   401,   401,   402,   403,   406,   407,   410,   411,
-     414,   415,   418,   419,   420,   438,   439,   440,   441,   451,
-     466,   479,   480,   483,   484,   485,   486,   487,   488,   489,
-     490,   491,   492,   493,   494,   495
+       0,   105,   105,   108,   109,   112,   113,   116,   116,   148,
+     148,   171,   171,   208,   211,   218,   229,   229,   231,   232,
+     234,   234,   257,   263,   266,   267,   272,   293,   298,   299,
+     301,   301,   303,   304,   307,   307,   334,   334,   362,   362,
+     370,   370,   410,   410,   416,   417,   419,   422,   425,   426,
+     428,   429,   432,   433,   436,   437,   438,   459,   460,   461,
+     462,   472,   487,   500,   501,   504,   505,   506,   507,   508,
+     509,   510,   511,   512,   513,   514,   515,   516
 };
 #endif
 
@@ -657,16 +659,17 @@ static const char *const yytname[] =
   "DIV", "MENOS", "SALTOLINEA", "PUNTOYCOMA", "COMA", "CUADRO",
   "FINCUADRO", "SI", "SINO", "IDENTIFICADORMINUSCULA",
   "IDENTIFICADORMAYUSCULA", "TIPO", "COLOR", "ORIENTACION", "CADENA",
-  "ENTERO", "REAL", "BOOL", "OR", "AND", "DISTINTO", "MENOR", "MENORIGUAL",
-  "MAYORIGUAL", "MAYOR", "'+'", "'-'", "'*'", "'/'", "'%'", "menos", "NOT",
-  "IF", "'<'", "'>'", "':'", "'('", "')'", "'{'", "'}'", "$accept", "all",
-  "zona_variables", "inic_definicion", "definicion", "$@1", "$@2", "$@3",
-  "secuencia_de_Identificadores", "zona_recuadros", "$@4",
-  "inic_definicion_recuadro", "definicion_recuadro", "$@5", "zona_lineas",
-  "inic_definicion_linea", "definicion_linea",
+  "ENTERO", "REAL", "BOOL", "OR", "AND", "DISTINTO", "MENORIGUAL",
+  "MAYORIGUAL", "'+'", "'-'", "'*'", "'/'", "'%'", "menos", "NOT",
+  "si_simple", "'\\n'", "'<'", "'>'", "':'", "'('", "')'", "'{'", "'}'",
+  "$accept", "all", "zona_variables", "inic_definicion", "definicion",
+  "$@1", "$@2", "$@3", "secuencia_de_Identificadores", "zona_recuadros",
+  "$@4", "inic_definicion_recuadro", "definicion_recuadro", "$@5",
+  "zona_lineas", "inic_definicion_linea", "definicion_linea",
   "inic_creacion_cuadros_nombre", "creacion_cuadros_nombre", "$@6",
   "inic_acciones_cuadros", "acciones_cuadros", "$@7", "$@8", "$@9", "$@10",
-  "$@11", "condicional", "salto", "saltoOpcional", "expr", "logica", YY_NULLPTR
+  "$@11", "condicional", "parteSi", "parteSiNo", "salto", "saltoOpcional",
+  "expr", "logica", YY_NULLPTR
 };
 
 static const char *
@@ -676,7 +679,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-146)
+#define YYPACT_NINF (-93)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -690,24 +693,25 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-      -9,  -146,    16,    -5,    11,  -146,  -146,    -9,    24,    -5,
-    -146,    10,     1,    -9,    -9,  -146,  -146,    30,    32,  -146,
-      -5,    -5,    37,   213,     3,    46,    14,    62,    40,  -146,
-    -146,  -146,  -146,   213,   213,   129,   213,    49,  -146,  -146,
-      64,  -146,  -146,    65,  -146,  -146,  -146,    75,   213,  -146,
-     213,   213,   213,   213,   213,   159,    67,  -146,    -9,    33,
-      35,    34,  -146,  -146,    -9,    59,    59,  -146,  -146,  -146,
-    -146,  -146,   213,   213,    -9,  -146,    -9,    53,   174,   244,
-    -146,   213,    60,  -146,    48,    72,    73,    77,   116,   108,
-     203,    -9,   179,   112,   113,   117,   213,   204,   213,    -9,
-    -146,  -146,   118,   121,   141,    85,   110,  -146,   204,   204,
-     144,    18,   189,  -146,   126,   142,   213,  -146,  -146,  -146,
-       6,    27,   213,   213,   213,   213,   213,   213,   204,   204,
-     204,   204,   125,    -9,  -146,    -9,    70,    -9,    -9,  -146,
-     189,   189,   189,   189,   189,   189,  -146,   122,    -4,  -146,
-     251,    -5,    -9,    -5,   213,  -146,    -5,    -5,   107,    -5,
-     124,    -9,   167,  -146,    -5,   139,    -9,   251,    -5,   143,
-    -146
+      -8,    -8,     7,   -93,     0,   -93,   -93,    -8,    10,   -93,
+     -93,    12,     1,    -8,    -8,   -93,   -33,    22,    17,   -93,
+     -93,   -93,    14,   -93,   255,     5,    26,    70,    38,    21,
+     -93,   -93,   -93,   -93,   255,   255,    82,   255,    31,   -93,
+      20,    59,   -93,    25,    62,   -93,   -93,   -93,   167,   255,
+     -93,   255,   255,   255,   255,   255,   195,    55,   -93,    -8,
+     -93,    44,   -93,    45,    47,   -93,   -93,    -8,    41,    41,
+     -93,   -93,   -93,   -93,   -93,   255,   255,    -8,   -93,    -8,
+     223,   228,   290,   -93,   255,    73,    58,    56,    60,    61,
+      77,    98,    88,    40,   -93,    89,   233,   106,   -93,   103,
+     102,   255,   252,   255,    -8,   -93,    -8,   -93,   105,   108,
+     117,    86,   181,   -93,   252,   252,   150,    18,   129,   -93,
+      87,    93,    94,   255,   -93,   -93,   -93,   115,    43,   255,
+     255,   255,   255,   255,   255,   252,   252,   252,   252,   107,
+      -8,    -8,   -93,    -8,   161,    -8,    -8,   -93,   129,   129,
+     129,   129,   129,   129,   -93,    -4,    11,   -93,    -8,   -93,
+      81,    -8,   -93,   255,   -93,   -93,   -93,    81,    -8,   -93,
+     189,    -8,    -8,    92,   -93,   -93,   119,    -8,    -8,    -8,
+     -93,   -93,   -93
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -715,42 +719,43 @@ static const yytype_int16 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-      50,    48,     0,    51,     3,     1,    49,     0,     0,     5,
-      16,     0,     0,     0,     0,    28,    13,     0,     0,     6,
-      18,    24,     2,     0,    14,     0,     0,     0,     0,    29,
-      54,    52,    53,     0,     0,     0,     0,     0,     9,    22,
-       0,    19,    27,     0,    25,    30,    61,     0,     0,    11,
-       0,     0,     0,     0,     0,     0,    14,    15,    50,     0,
-       0,     0,    62,    59,    50,    55,    56,    57,    58,    60,
-       7,    10,     0,     0,     0,    12,    50,     0,     0,     0,
-       8,     0,     0,    45,     0,     0,     0,     0,     0,     0,
-       0,    50,     0,     0,     0,     0,     0,     0,     0,    50,
-      33,    44,     0,     0,     0,     0,     0,    63,     0,     0,
-       0,     0,    40,    31,     0,     0,     0,    42,    38,    66,
+      52,    50,     0,    53,     3,    51,     1,     0,     0,     5,
+      16,     0,     0,     0,     0,    28,     0,     0,     0,     6,
+      18,    24,     2,    13,     0,    14,     0,     0,     0,     0,
+      29,    56,    54,    55,     0,     0,     0,     0,     0,     9,
+       0,     0,    19,     0,     0,    25,    30,    63,     0,     0,
+      11,     0,     0,     0,     0,     0,     0,    14,    15,    52,
+      22,     0,    27,     0,     0,    64,    61,    52,    57,    58,
+      59,    60,    62,     7,    10,     0,     0,     0,    12,    52,
+       0,     0,     0,     8,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,    44,    48,     0,     0,    45,     0,
+       0,     0,     0,     0,    52,    33,    52,    46,     0,     0,
+       0,     0,     0,    65,     0,     0,     0,     0,    40,    31,
+       0,     0,     0,     0,    42,    38,    68,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    20,     0,     0,     0,     0,    75,
-      69,    67,    74,    71,    73,    72,    70,    65,    64,    68,
-       0,    41,     0,    26,     0,    36,    43,    39,     0,    21,
-       0,     0,    46,    34,    37,     0,     0,     0,    35,     0,
-      47
+       0,    52,    20,     0,     0,     0,     0,    77,    71,    69,
+      73,    75,    76,    74,    72,    67,    66,    70,    52,    41,
+       0,     0,    26,     0,    36,    43,    39,     0,    52,    21,
+       0,     0,    52,     0,    34,    37,     0,    52,     0,    52,
+      49,    35,    47
 };
 
 /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int16 yypgoto[] =
+static const yytype_int8 yypgoto[] =
 {
-    -146,  -146,  -146,  -146,  -146,  -146,  -146,  -146,   154,  -146,
-    -146,  -146,  -146,  -146,  -146,  -146,  -146,  -146,  -146,  -146,
-     102,  -145,  -146,  -146,  -146,  -146,  -146,  -146,    -7,    -3,
-     -22,     8
+     -93,   -93,   -93,   -93,   -93,   -93,   -93,   -93,   116,   -93,
+     -93,   -93,   -93,   -93,   -93,   -93,   -93,   -93,   -93,   -93,
+     -92,   -93,   -93,   -93,   -93,   -93,   -93,   -93,   -93,   -93,
+      -1,   -43,   -20,    75
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_uint8 yydefgoto[] =
 {
-       0,     2,     8,    12,    19,    76,    58,    64,    25,    11,
-      13,    26,    41,   152,    15,    27,    44,    22,    29,    61,
-      89,    90,   166,   161,   138,   133,   137,    91,     3,     4,
-     110,   111
+       0,     2,     8,    12,    19,    79,    59,    67,    26,    11,
+      13,    27,    42,   161,    15,    28,    45,    22,    30,    64,
+      92,    93,   178,   171,   146,   140,   145,    94,    95,   107,
+       3,     4,   116,   117
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -758,116 +763,125 @@ static const yytype_uint8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-       9,    35,    16,   128,     1,   158,    20,    21,     6,    36,
-      -4,    46,    47,   122,    55,    39,     5,    48,    37,     7,
-      14,    17,   169,    18,   -17,   128,    63,   131,    65,    66,
-      67,    68,    69,    10,   128,    40,    23,   123,   124,   125,
-     126,   127,    50,    51,    52,    53,    54,   129,   130,   131,
-      77,    78,    24,    28,    62,    71,   129,   130,   131,    92,
-      38,    75,   -23,    42,    48,    45,   132,    79,    81,    56,
-      48,    59,    60,    80,   106,   139,   112,    72,   -23,    73,
-      74,    48,    37,    43,    93,   154,    48,   120,   101,    50,
-      51,    52,    53,    54,   136,    94,   113,    52,    53,    54,
-     140,   141,   142,   143,   144,   145,    50,    51,    52,    53,
-      54,    50,    51,    52,    53,    54,   119,   121,   155,    95,
-      96,    48,    98,    62,    97,    99,   151,   103,   153,   128,
-     156,   157,   160,   117,   104,    48,   146,   147,   148,   149,
-      48,   114,   105,    49,   115,   159,    50,    51,    52,    53,
-      54,   122,   130,   131,   164,    48,   116,   162,   118,   168,
-      50,    51,    52,    53,    54,    50,    51,    52,    53,    54,
-      48,   134,   163,    70,   150,   123,   124,   125,   126,   127,
-      50,    51,    52,    53,    54,    48,   165,   135,   167,    82,
-      48,    57,   100,   170,   102,    50,    51,    52,    53,    54,
-      48,     0,     0,     0,    83,     0,    84,    85,    86,     0,
-      50,    51,    52,    53,    54,    50,    51,    52,    53,    54,
-     -32,    87,     0,    88,    30,    50,    51,    52,    53,    54,
-      31,    32,   107,    30,     0,     0,     0,     0,     0,    31,
-      32,    33,     0,     0,     0,    83,   108,    84,    85,    86,
-      33,   109,    83,     0,    84,    85,    86,     6,     0,     0,
-      34,   -32,    87,     0,    88,     0,     0,     0,     0,    87,
-       0,    88
+       5,   105,    16,   135,    36,     1,     9,     6,     7,    23,
+      -4,    37,    20,    21,    47,    48,    74,    56,   135,    10,
+      38,    17,    14,    18,    78,   135,   137,   138,    24,    66,
+      29,    68,    69,    70,    71,    72,    83,    25,   -23,    43,
+      39,    86,   138,    87,    88,    89,    46,   136,   137,   138,
+     135,    57,    49,   -32,   -23,    80,    81,   -32,    90,    44,
+      91,   119,    60,   120,    96,   139,    61,    62,   168,    63,
+      38,    40,   136,   137,   138,   172,    82,    53,    54,    55,
+     -17,   112,    86,   118,    87,    88,    89,    75,    76,   -32,
+     147,    41,    77,    49,   -32,   127,    50,    97,   160,    90,
+      98,    91,    99,   144,   103,   104,   100,   101,   106,   148,
+     149,   150,   151,   152,   153,   167,    51,    52,    53,    54,
+      55,   109,   129,   102,   110,   173,    49,   111,   121,   176,
+     -32,   122,   123,   124,   180,   141,   182,   142,   143,   159,
+      49,   177,   162,   170,   165,   166,   130,   131,   132,    51,
+      52,    53,    54,    55,    58,   158,     0,   129,   133,   134,
+     169,    49,    65,    51,    52,    53,    54,    55,   179,     0,
+     175,     0,    49,     0,     0,     0,   163,   181,    49,     0,
+       0,   130,   131,   132,    51,    52,    53,    54,    55,   126,
+     128,     0,    49,   133,   134,    51,    52,    53,    54,    55,
+      49,    51,    52,    53,    54,    55,    49,     0,   164,    73,
+     154,   155,   156,   157,    65,    51,    52,    53,    54,    55,
+       0,     0,     0,    51,    52,    53,    54,    55,   125,    51,
+      52,    53,    54,    55,    49,     0,   174,     0,    84,    49,
+       0,     0,     0,    85,    49,     0,     0,     0,   108,     0,
+       0,     0,     0,     0,     0,     0,     0,    51,    52,    53,
+      54,    55,    51,    52,    53,    54,    55,    51,    52,    53,
+      54,    55,    31,     0,     0,    31,     0,     0,    32,    33,
+     113,    32,    33,     0,     0,     0,     0,    34,     0,     0,
+      34,    86,   114,    87,    88,    89,     0,     0,   115,     0,
+       0,    35,     0,     0,     0,     0,     0,   -32,    90,     0,
+      91
 };
 
 static const yytype_int16 yycheck[] =
 {
-       7,    23,     1,     7,    13,   150,    13,    14,    13,     6,
-       9,    33,    34,     7,    36,     1,     0,    11,    15,     8,
-      10,    20,   167,    22,    10,     7,    48,    31,    50,    51,
-      52,    53,    54,     9,     7,    21,     6,    31,    32,    33,
-      34,    35,    36,    37,    38,    39,    40,    29,    30,    31,
-      72,    73,    20,    16,    48,    58,    29,    30,    31,    81,
-      14,    64,     0,     1,    11,    25,    48,    74,    15,    20,
-      11,     7,     7,    76,    96,    48,    98,    44,    16,    44,
-      46,    11,    15,    21,    24,    15,    11,   109,    91,    36,
-      37,    38,    39,    40,   116,    47,    99,    38,    39,    40,
-     122,   123,   124,   125,   126,   127,    36,    37,    38,    39,
-      40,    36,    37,    38,    39,    40,   108,   109,    48,    47,
-      47,    11,     6,    48,    47,    17,   133,    15,   135,     7,
-     137,   138,   154,    48,    21,    11,   128,   129,   130,   131,
-      11,    23,    25,    14,    23,   152,    36,    37,    38,    39,
-      40,     7,    30,    31,   161,    11,    15,    50,    48,   166,
-      36,    37,    38,    39,    40,    36,    37,    38,    39,    40,
-      11,    45,    48,    14,    49,    31,    32,    33,    34,    35,
-      36,    37,    38,    39,    40,    11,    19,    45,    49,    15,
-      11,    37,    90,    50,    15,    36,    37,    38,    39,    40,
-      11,    -1,    -1,    -1,     1,    -1,     3,     4,     5,    -1,
-      36,    37,    38,    39,    40,    36,    37,    38,    39,    40,
-      17,    18,    -1,    20,    20,    36,    37,    38,    39,    40,
-      26,    27,    28,    20,    -1,    -1,    -1,    -1,    -1,    26,
-      27,    37,    -1,    -1,    -1,     1,    42,     3,     4,     5,
-      37,    47,     1,    -1,     3,     4,     5,    13,    -1,    -1,
-      47,    17,    18,    -1,    20,    -1,    -1,    -1,    -1,    18,
-      -1,    20
+       1,    93,     1,     7,    24,    13,     7,     0,     8,    42,
+       9,     6,    13,    14,    34,    35,    59,    37,     7,     9,
+      15,    20,    10,    22,    67,     7,    30,    31,     6,    49,
+      16,    51,    52,    53,    54,    55,    79,    20,     0,     1,
+      14,     1,    31,     3,     4,     5,    25,    29,    30,    31,
+       7,    20,    11,    13,    16,    75,    76,    17,    18,    21,
+      20,   104,    42,   106,    84,    47,     7,    42,   160,     7,
+      15,     1,    29,    30,    31,   167,    77,    36,    37,    38,
+      10,   101,     1,   103,     3,     4,     5,    43,    43,    49,
+      47,    21,    45,    11,    13,   115,    14,    24,   141,    18,
+      42,    20,    46,   123,     6,    17,    46,    46,    19,   129,
+     130,   131,   132,   133,   134,   158,    34,    35,    36,    37,
+      38,    15,     7,    46,    21,   168,    11,    25,    23,   172,
+      49,    23,    15,    47,   177,    48,   179,    44,    44,   140,
+      11,    49,   143,   163,   145,   146,    31,    32,    33,    34,
+      35,    36,    37,    38,    38,    48,    -1,     7,    43,    44,
+     161,    11,    47,    34,    35,    36,    37,    38,    49,    -1,
+     171,    -1,    11,    -1,    -1,    -1,    15,   178,    11,    -1,
+      -1,    31,    32,    33,    34,    35,    36,    37,    38,   114,
+     115,    -1,    11,    43,    44,    34,    35,    36,    37,    38,
+      11,    34,    35,    36,    37,    38,    11,    -1,    47,    14,
+     135,   136,   137,   138,    47,    34,    35,    36,    37,    38,
+      -1,    -1,    -1,    34,    35,    36,    37,    38,    47,    34,
+      35,    36,    37,    38,    11,    -1,    47,    -1,    15,    11,
+      -1,    -1,    -1,    15,    11,    -1,    -1,    -1,    15,    -1,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    34,    35,    36,
+      37,    38,    34,    35,    36,    37,    38,    34,    35,    36,
+      37,    38,    20,    -1,    -1,    20,    -1,    -1,    26,    27,
+      28,    26,    27,    -1,    -1,    -1,    -1,    35,    -1,    -1,
+      35,     1,    40,     3,     4,     5,    -1,    -1,    46,    -1,
+      -1,    46,    -1,    -1,    -1,    -1,    -1,    17,    18,    -1,
+      20
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    13,    52,    79,    80,     0,    13,     8,    53,    79,
-       9,    60,    54,    61,    10,    65,     1,    20,    22,    55,
-      79,    79,    68,     6,    20,    59,    62,    66,    16,    69,
-      20,    26,    27,    37,    47,    81,     6,    15,    14,     1,
-      21,    63,     1,    21,    67,    25,    81,    81,    11,    14,
-      36,    37,    38,    39,    40,    81,    20,    59,    57,     7,
-       7,    70,    48,    81,    58,    81,    81,    81,    81,    81,
-      14,    80,    44,    44,    46,    80,    56,    81,    81,    79,
-      80,    15,    15,     1,     3,     4,     5,    18,    20,    71,
-      72,    78,    81,    24,    47,    47,    47,    47,     6,    17,
-      71,    80,    15,    15,    21,    25,    81,    28,    42,    47,
-      81,    82,    81,    80,    23,    23,    15,    48,    48,    82,
-      81,    82,     7,    31,    32,    33,    34,    35,     7,    29,
-      30,    31,    48,    76,    45,    45,    81,    77,    75,    48,
-      81,    81,    81,    81,    81,    81,    82,    82,    82,    82,
-      49,    79,    64,    79,    15,    48,    79,    79,    72,    79,
-      81,    74,    50,    48,    79,    19,    73,    49,    79,    72,
-      50
+       0,    13,    51,    80,    81,    80,     0,     8,    52,    80,
+       9,    59,    53,    60,    10,    64,     1,    20,    22,    54,
+      80,    80,    67,    42,     6,    20,    58,    61,    65,    16,
+      68,    20,    26,    27,    35,    46,    82,     6,    15,    14,
+       1,    21,    62,     1,    21,    66,    25,    82,    82,    11,
+      14,    34,    35,    36,    37,    38,    82,    20,    58,    56,
+      42,     7,    42,     7,    69,    47,    82,    57,    82,    82,
+      82,    82,    82,    14,    81,    43,    43,    45,    81,    55,
+      82,    82,    80,    81,    15,    15,     1,     3,     4,     5,
+      18,    20,    70,    71,    77,    78,    82,    24,    42,    46,
+      46,    46,    46,     6,    17,    70,    19,    79,    15,    15,
+      21,    25,    82,    28,    40,    46,    82,    83,    82,    81,
+      81,    23,    23,    15,    47,    47,    83,    82,    83,     7,
+      31,    32,    33,    43,    44,     7,    29,    30,    31,    47,
+      75,    48,    44,    44,    82,    76,    74,    47,    82,    82,
+      82,    82,    82,    82,    83,    83,    83,    83,    48,    80,
+      81,    63,    80,    15,    47,    80,    80,    81,    70,    80,
+      82,    73,    70,    81,    47,    80,    81,    49,    72,    49,
+      81,    80,    81
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    51,    52,    53,    53,    54,    54,    56,    55,    57,
-      55,    58,    55,    55,    59,    59,    61,    60,    62,    62,
-      64,    63,    63,    65,    66,    66,    67,    67,    68,    68,
-      70,    69,    71,    71,    73,    72,    74,    72,    75,    72,
-      76,    72,    77,    72,    72,    72,    78,    78,    79,    79,
-      80,    80,    81,    81,    81,    81,    81,    81,    81,    81,
-      81,    81,    81,    82,    82,    82,    82,    82,    82,    82,
-      82,    82,    82,    82,    82,    82
+       0,    50,    51,    52,    52,    53,    53,    55,    54,    56,
+      54,    57,    54,    54,    58,    58,    60,    59,    61,    61,
+      63,    62,    62,    64,    65,    65,    66,    66,    67,    67,
+      69,    68,    70,    70,    72,    71,    73,    71,    74,    71,
+      75,    71,    76,    71,    71,    71,    77,    78,    79,    79,
+      80,    80,    81,    81,    82,    82,    82,    82,    82,    82,
+      82,    82,    82,    82,    82,    83,    83,    83,    83,    83,
+      83,    83,    83,    83,    83,    83,    83,    83
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     5,     0,     3,     0,     2,     0,     7,     0,
-       5,     0,     6,     1,     1,     3,     0,     4,     0,     2,
-       0,    11,     1,     3,     0,     2,    10,     1,     0,     2,
+       5,     0,     6,     2,     1,     3,     0,     4,     0,     2,
+       0,    11,     2,     3,     0,     2,    10,     2,     0,     2,
        0,     8,     0,     2,     0,    10,     0,     8,     0,     6,
-       0,     5,     0,     6,     2,     1,     7,    11,     1,     2,
-       0,     1,     1,     1,     1,     3,     3,     3,     3,     3,
-       3,     2,     3,     1,     3,     3,     2,     3,     3,     3,
-       3,     3,     3,     3,     3,     3
+       0,     5,     0,     6,     1,     2,     2,    10,     0,     8,
+       1,     2,     0,     1,     1,     1,     1,     3,     3,     3,
+       3,     3,     3,     2,     3,     1,     3,     3,     2,     3,
+       3,     3,     3,     3,     3,     3,     3,     3
 };
 
 
@@ -1331,19 +1345,19 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* all: saltoOpcional zona_variables zona_recuadros zona_lineas inic_creacion_cuadros_nombre  */
-#line 103 "proyecto_mondrian.y"
-                                                                                            {;}
-#line 1337 "proyecto_mondrian.c"
+#line 105 "proyecto_mondrian.y"
+                                                                                                 {;}
+#line 1351 "proyecto_mondrian.c"
     break;
 
   case 4: /* zona_variables: VARIABLES salto inic_definicion  */
-#line 107 "proyecto_mondrian.y"
+#line 109 "proyecto_mondrian.y"
                                                 { /*cout << "VARIABLES"<<endl;*/}
-#line 1343 "proyecto_mondrian.c"
+#line 1357 "proyecto_mondrian.c"
     break;
 
   case 7: /* $@1: %empty  */
-#line 114 "proyecto_mondrian.y"
+#line 116 "proyecto_mondrian.y"
                                                                       { 
                                                                         InformacionSimbolo info, auxComprobacion;
                                                                         if(buscarSimbolo(tablaSimbolos, (yyvsp[-3].var), auxComprobacion))
@@ -1376,11 +1390,11 @@ yyreduce:
                                                                         //cout<<"Tipo Identificador";
                                                                         errorS = false;
                                                                   }
-#line 1380 "proyecto_mondrian.c"
+#line 1394 "proyecto_mondrian.c"
     break;
 
   case 9: /* $@2: %empty  */
-#line 146 "proyecto_mondrian.y"
+#line 148 "proyecto_mondrian.y"
                                                              {
                                                                   
                                                                   InformacionSimbolo info, tipoSec;
@@ -1404,11 +1418,11 @@ yyreduce:
                                                                   
                                                                  // cout<<"Tipo secuencia_Identificadores ";
                                                             }
-#line 1408 "proyecto_mondrian.c"
+#line 1422 "proyecto_mondrian.c"
     break;
 
   case 11: /* $@3: %empty  */
-#line 169 "proyecto_mondrian.y"
+#line 171 "proyecto_mondrian.y"
                                                                 {
 
                                                                   InformacionSimbolo info, auxComprobacion;
@@ -1446,17 +1460,17 @@ yyreduce:
                                                                         //cout<<"Tipo Identificador";
                                                                          errorS = false;
                                                                   }
-#line 1450 "proyecto_mondrian.c"
+#line 1464 "proyecto_mondrian.c"
     break;
 
-  case 13: /* definicion: error  */
-#line 206 "proyecto_mondrian.y"
-                    {}
-#line 1456 "proyecto_mondrian.c"
+  case 13: /* definicion: error '\n'  */
+#line 208 "proyecto_mondrian.y"
+                         {}
+#line 1470 "proyecto_mondrian.c"
     break;
 
   case 14: /* secuencia_de_Identificadores: IDENTIFICADORMINUSCULA  */
-#line 209 "proyecto_mondrian.y"
+#line 211 "proyecto_mondrian.y"
                                                        {
 
                                                                   InformacionSimbolo info;
@@ -1464,34 +1478,34 @@ yyreduce:
                                                                   insertarSimbolo(tablaSimbolos, (yyvsp[0].var), info);
                                                                   //cout<<"Identificador PuntYComa ";
                                                       }
-#line 1468 "proyecto_mondrian.c"
+#line 1482 "proyecto_mondrian.c"
     break;
 
   case 15: /* secuencia_de_Identificadores: IDENTIFICADORMINUSCULA COMA secuencia_de_Identificadores  */
-#line 216 "proyecto_mondrian.y"
+#line 218 "proyecto_mondrian.y"
                                                                                          {
                                                                                           InformacionSimbolo info;
                                                                                           info.d=NoIdentificado;
                                                                                           insertarSimbolo(tablaSimbolos, (yyvsp[-2].var), info);
                                                                                           //cout<<"Identificador  ";
                                                                                           }
-#line 1479 "proyecto_mondrian.c"
+#line 1493 "proyecto_mondrian.c"
     break;
 
   case 16: /* $@4: %empty  */
-#line 227 "proyecto_mondrian.y"
+#line 229 "proyecto_mondrian.y"
                            {}
-#line 1485 "proyecto_mondrian.c"
+#line 1499 "proyecto_mondrian.c"
     break;
 
   case 17: /* zona_recuadros: RECUADROS $@4 salto inic_definicion_recuadro  */
-#line 227 "proyecto_mondrian.y"
+#line 229 "proyecto_mondrian.y"
                                                                {/*cout<<"RECUADROS"<<endl;*/}
-#line 1491 "proyecto_mondrian.c"
+#line 1505 "proyecto_mondrian.c"
     break;
 
   case 20: /* $@5: %empty  */
-#line 232 "proyecto_mondrian.y"
+#line 234 "proyecto_mondrian.y"
                                                                                           { 
                                                                                           errorS = false;
                                                                                           InformacionSimbolo info, auxComprobacion; 
@@ -1515,29 +1529,29 @@ yyreduce:
                                                                                           //fprintf(yyout,"\t %s = <%d, %d, %s>",$1,(int)$4.valor,(int)$6.valor,$8);  
                                                                                           //cout << "Identificador_mayuscula = < Entero, Entero, Color>"<<endl;
                                                                                           }
-#line 1519 "proyecto_mondrian.c"
+#line 1533 "proyecto_mondrian.c"
     break;
 
-  case 22: /* definicion_recuadro: error  */
-#line 255 "proyecto_mondrian.y"
-                          {}
-#line 1525 "proyecto_mondrian.c"
+  case 22: /* definicion_recuadro: error '\n'  */
+#line 257 "proyecto_mondrian.y"
+                               {}
+#line 1539 "proyecto_mondrian.c"
     break;
 
   case 23: /* zona_lineas: LINEAS salto inic_definicion_linea  */
-#line 261 "proyecto_mondrian.y"
+#line 263 "proyecto_mondrian.y"
                                                   {/*cout << "LINEAS"<<endl;*/}
-#line 1531 "proyecto_mondrian.c"
+#line 1545 "proyecto_mondrian.c"
     break;
 
   case 25: /* inic_definicion_linea: inic_definicion_linea definicion_linea  */
-#line 265 "proyecto_mondrian.y"
+#line 267 "proyecto_mondrian.y"
                                                                 {}
-#line 1537 "proyecto_mondrian.c"
+#line 1551 "proyecto_mondrian.c"
     break;
 
   case 26: /* definicion_linea: IDENTIFICADORMAYUSCULA IGUAL '<' expr COMA ORIENTACION COMA COLOR '>' salto  */
-#line 270 "proyecto_mondrian.y"
+#line 272 "proyecto_mondrian.y"
                                                                                                    {
                                                                                                                                                                                                                        errorS = false;
                                                                                                 InformacionSimbolo info, auxComprobacion; 
@@ -1559,43 +1573,43 @@ yyreduce:
                                                                                                 //cout << "\t Identificador_mayuscula = < Entero, Orientacion, Color>"<<endl;
                                                                                                                               
                                                                                                 }
-#line 1563 "proyecto_mondrian.c"
+#line 1577 "proyecto_mondrian.c"
     break;
 
-  case 27: /* definicion_linea: error  */
-#line 291 "proyecto_mondrian.y"
-                    {}
-#line 1569 "proyecto_mondrian.c"
+  case 27: /* definicion_linea: error '\n'  */
+#line 293 "proyecto_mondrian.y"
+                         {}
+#line 1583 "proyecto_mondrian.c"
     break;
 
   case 29: /* inic_creacion_cuadros_nombre: inic_creacion_cuadros_nombre creacion_cuadros_nombre  */
-#line 297 "proyecto_mondrian.y"
+#line 299 "proyecto_mondrian.y"
                                                                                 {}
-#line 1575 "proyecto_mondrian.c"
+#line 1589 "proyecto_mondrian.c"
     break;
 
   case 30: /* $@6: %empty  */
-#line 299 "proyecto_mondrian.y"
+#line 301 "proyecto_mondrian.y"
                                          {fprintf(yyout,"\t nuevoCuadroM(%s); \n ",(yyvsp[0].text));}
-#line 1581 "proyecto_mondrian.c"
+#line 1595 "proyecto_mondrian.c"
     break;
 
   case 31: /* creacion_cuadros_nombre: CUADRO CADENA $@6 ':' salto inic_acciones_cuadros FINCUADRO saltoOpcional  */
-#line 299 "proyecto_mondrian.y"
+#line 301 "proyecto_mondrian.y"
                                                                                                                                                    { /* cout<<"Cuadro NombreCuadro :"<<endl; */ }
-#line 1587 "proyecto_mondrian.c"
+#line 1601 "proyecto_mondrian.c"
     break;
 
   case 33: /* inic_acciones_cuadros: acciones_cuadros inic_acciones_cuadros  */
-#line 302 "proyecto_mondrian.y"
+#line 304 "proyecto_mondrian.y"
                                                                   {}
-#line 1593 "proyecto_mondrian.c"
+#line 1607 "proyecto_mondrian.c"
     break;
 
   case 34: /* $@7: %empty  */
-#line 305 "proyecto_mondrian.y"
+#line 307 "proyecto_mondrian.y"
                                                                              {
-
+                                                                         if(condicionalVerdadero){
                                                                               if(!(yyvsp[-3].c_expresion).esReal && !(yyvsp[-1].c_expresion).esReal){  
                                                                                     InformacionSimbolo info;
                                                                                     int filaRecuadro =(yyvsp[-3].c_expresion).valor ,columnaRecuadro=(yyvsp[-1].c_expresion).valor,altoRecuadro=0,anchoRecuadro=0, color=0;
@@ -1609,8 +1623,8 @@ yyreduce:
                                                                                           errorS = true;
                                                                                           cout<<"El recuadro indicado no ha sido creado con anterioridad"<<endl;
                                                                                     }
-                                                                                    
-                                                                                    fprintf(yyout,"\t rectanguloM(%d, %d, %d, %d, %d); \n",filaRecuadro,columnaRecuadro,altoRecuadro,anchoRecuadro,color); 
+                                                                                    if(!errorS)
+                                                                                          fprintf(yyout,"\t rectanguloM(%d, %d, %d, %d, %d); \n",filaRecuadro,columnaRecuadro,altoRecuadro,anchoRecuadro,color); 
                                                                               }else
                                                                               {
                                                                                     cout<<"El valor introducido es real y la funcion pintar precisa de dos valores enteros"<<endl;
@@ -1619,14 +1633,15 @@ yyreduce:
                                                                               //cout<<"Pintar (Identificador_mayuscula, Expr,Expr)"<<endl;
                                                                         
                                                                         
-                                                                        
                                                                         }
-#line 1625 "proyecto_mondrian.c"
+                                                                        }
+#line 1639 "proyecto_mondrian.c"
     break;
 
   case 36: /* $@8: %empty  */
-#line 332 "proyecto_mondrian.y"
+#line 334 "proyecto_mondrian.y"
                                                                     {
+                                                                  if(condicionalVerdadero){
                                                                         if(!(yyvsp[-1].c_expresion).esReal){  
                                                                               InformacionSimbolo info;
                                                                               int origen=(yyvsp[-1].c_expresion).valor,grosor=0, color;
@@ -1638,7 +1653,7 @@ yyreduce:
                                                                                     esHorizontal = info.valores_linea.esHorizontal;
                                                                                     color = info.valores_linea.color; 
                                                                                     fprintf(yyout,"\t lineaM(%d, %d, %s, %d); \n",origen,info.valores_linea.grosor,(esHorizontal)? "true" : "false",color); 
-                                                                                    }else{
+                                                                              }else{
                                                                                                 errorS = true;
                                                                                                 cout<<"El recuadro indicado no ha sido creado con anterioridad"<<endl;
                                                                               }
@@ -1649,114 +1664,119 @@ yyreduce:
                                                                               cout<<"El valor introducido es real y la funcion pintar precisa de un valor entero"<<endl;
                                                                         }                                                                             
                                                                               
-                                                                       
+                                                                  }     
                                                                         //cout<<"Pintar (Identificador_mayuscula, Expr)"<<endl;
                                                                   }
-#line 1656 "proyecto_mondrian.c"
+#line 1671 "proyecto_mondrian.c"
     break;
 
   case 38: /* $@9: %empty  */
-#line 359 "proyecto_mondrian.y"
+#line 362 "proyecto_mondrian.y"
                                       {
-                                          fprintf(yyout,"\t pausaM(%.2f); \n",(yyvsp[-1].c_expresion).valor); 
+                                    if(condicionalVerdadero && !errorS){
+                                         
+                                                fprintf(yyout,"\t pausaM(%.2f); \n",(yyvsp[-1].c_expresion).valor); 
                                          // cout<<"Pausa (expr)"<<endl;
                                     }
-#line 1665 "proyecto_mondrian.c"
+                                    errorS = false;
+                                    }
+#line 1684 "proyecto_mondrian.c"
     break;
 
   case 40: /* $@10: %empty  */
-#line 363 "proyecto_mondrian.y"
+#line 370 "proyecto_mondrian.y"
                                                           { 
-                                                            errorS = false;
-                                                            
-                                                            InformacionSimbolo info, auxComprobacion;
-                                                            if(buscarSimbolo(tablaSimbolos, (yyvsp[-2].var), auxComprobacion))
-                                                            {    
-                                                                            
-                                                                 if((auxComprobacion.d == Real) &&(!(yyvsp[0].c_expresion).esReal)){
-                                                                      
-                                                                               errorS = true;
-                                                                              //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
-                                                                  }else if((auxComprobacion.d == Entero) &&((yyvsp[0].c_expresion).esReal))
-                                                                  {
-                                                                          
-                                                                        errorS = true;
-                                                                        //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
-                                                                  }
-                                                                  }else // EL simbolo no se encuentra en la tabla de simbolos
-                                                                  {
-                                                                        errorS = true;
-                                                            }
 
-                                                            if (!errorS){ 
-                                                                  //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
-                                                            
-                                                                  InformacionSimbolo info, aux;
-                                                                  if((yyvsp[0].c_expresion).esReal){
-                                                                        info.d = Real;
-                                                                        info.valor_float = (yyvsp[0].c_expresion).valor;
-                                                                  }else{
-                                                                        info.d = Entero;
-                                                                        info.valor_int = (yyvsp[0].c_expresion).valor;
+                                                            if(condicionalVerdadero){
+                                                                  errorS = false;
+                                                                  
+                                                                  InformacionSimbolo info, auxComprobacion;
+                                                                  if(buscarSimbolo(tablaSimbolos, (yyvsp[-2].var), auxComprobacion))
+                                                                  {    
+                                                                              
+                                                                  if((auxComprobacion.d == Real) &&(!(yyvsp[0].c_expresion).esReal)){
+                                                                        
+                                                                                    errorS = true;
+                                                                                    //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
+                                                                        }else if((auxComprobacion.d == Entero) &&((yyvsp[0].c_expresion).esReal))
+                                                                        {
+                                                                              
+                                                                              errorS = true;
+                                                                              //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
+                                                                        }
+                                                                        }else // EL simbolo no se encuentra en la tabla de simbolos
+                                                                        {
+                                                                              errorS = true;
                                                                   }
-                                                                  insertarSimbolo(tablaSimbolos, (yyvsp[-2].var), info);
-                                                            }    
-                                                            errorS = false;
-                                                          
+
+                                                                  if (!errorS){ 
+                                                                        //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
+                                                                  
+                                                                        InformacionSimbolo info, aux;
+                                                                        if((yyvsp[0].c_expresion).esReal){
+                                                                              info.d = Real;
+                                                                              info.valor_float = (yyvsp[0].c_expresion).valor;
+                                                                        }else{
+                                                                              info.d = Entero;
+                                                                              info.valor_int = (yyvsp[0].c_expresion).valor;
+                                                                        }
+                                                                        insertarSimbolo(tablaSimbolos, (yyvsp[-2].var), info);
+                                                                  }    
+                                                                  errorS = false;
+                                                            }
                                                           }
-#line 1708 "proyecto_mondrian.c"
+#line 1729 "proyecto_mondrian.c"
     break;
 
   case 42: /* $@11: %empty  */
-#line 401 "proyecto_mondrian.y"
-                                         {fprintf(yyout,"\t // %s \n",(yyvsp[-1].text)); }
-#line 1714 "proyecto_mondrian.c"
-    break;
-
-  case 45: /* acciones_cuadros: error  */
-#line 403 "proyecto_mondrian.y"
-                        {}
-#line 1720 "proyecto_mondrian.c"
-    break;
-
-  case 46: /* condicional: SI '(' logica ')' '{' acciones_cuadros '}'  */
-#line 406 "proyecto_mondrian.y"
-                                                                  {}
-#line 1726 "proyecto_mondrian.c"
-    break;
-
-  case 47: /* condicional: SI '(' logica ')' '{' acciones_cuadros '}' SINO '{' acciones_cuadros '}'  */
-#line 407 "proyecto_mondrian.y"
-                                                                                      {}
-#line 1732 "proyecto_mondrian.c"
-    break;
-
-  case 48: /* salto: SALTOLINEA  */
 #line 410 "proyecto_mondrian.y"
+                                         { 
+                                           if(condicionalVerdadero && !errorS){
+                                                fprintf(yyout,"\t // %s \n",(yyvsp[-1].text)); 
+                                           }
+                                          errorS = false;
+                                          }
+#line 1740 "proyecto_mondrian.c"
+    break;
+
+  case 45: /* acciones_cuadros: error '\n'  */
+#line 417 "proyecto_mondrian.y"
+                             {}
+#line 1746 "proyecto_mondrian.c"
+    break;
+
+  case 49: /* parteSiNo: SINO saltoOpcional '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}' saltoOpcional  */
+#line 426 "proyecto_mondrian.y"
+                                                                                                 {condicionalVerdadero=true;}
+#line 1752 "proyecto_mondrian.c"
+    break;
+
+  case 50: /* salto: SALTOLINEA  */
+#line 428 "proyecto_mondrian.y"
                    {}
-#line 1738 "proyecto_mondrian.c"
+#line 1758 "proyecto_mondrian.c"
     break;
 
-  case 49: /* salto: salto SALTOLINEA  */
-#line 411 "proyecto_mondrian.y"
-                         {}
-#line 1744 "proyecto_mondrian.c"
+  case 51: /* salto: SALTOLINEA salto  */
+#line 429 "proyecto_mondrian.y"
+                          {}
+#line 1764 "proyecto_mondrian.c"
     break;
 
-  case 52: /* expr: ENTERO  */
-#line 418 "proyecto_mondrian.y"
+  case 54: /* expr: ENTERO  */
+#line 436 "proyecto_mondrian.y"
                            {(yyval.c_expresion).valor= (yyvsp[0].c_entero); (yyval.c_expresion).esReal = false;}
-#line 1750 "proyecto_mondrian.c"
+#line 1770 "proyecto_mondrian.c"
     break;
 
-  case 53: /* expr: REAL  */
-#line 419 "proyecto_mondrian.y"
+  case 55: /* expr: REAL  */
+#line 437 "proyecto_mondrian.y"
                                  {(yyval.c_expresion).esReal = true ; (yyval.c_expresion).valor = (yyvsp[0].c_real);}
-#line 1756 "proyecto_mondrian.c"
+#line 1776 "proyecto_mondrian.c"
     break;
 
-  case 54: /* expr: IDENTIFICADORMINUSCULA  */
-#line 420 "proyecto_mondrian.y"
+  case 56: /* expr: IDENTIFICADORMINUSCULA  */
+#line 438 "proyecto_mondrian.y"
                              {
                               InformacionSimbolo info;
                               if(buscarSimbolo(tablaSimbolos, (yyvsp[0].var), info)){
@@ -1766,53 +1786,56 @@ yyreduce:
                                     } else if(info.d == 1){ // es entero
                                           (yyval.c_expresion).valor = info.valor_int;
                                           (yyval.c_expresion).esReal = false;
-                                    } else{
+                                    } else if (info.d = NoIdentificado){
                                           errorS = true;
-                                      cout << "errorS semantico en la instruccion "<< n_lineas+1 << ", no se pueden usar variables de tipo logico a la derecha de una asignacion"<<endl;
+                                          cout << "Error semantico en la instruccion "<< n_lineas+1 << ", no se pueden utilizar variables sin valor asignado"<<endl;
+                                    }  else{
+                                          errorS = true;
+                                          cout << "Error semantico en la instruccion "<< n_lineas+1 << ", no se pueden usar variables de tipo logico a la derecha de una asignacion"<<endl;
                                     }      
                               }else{
                                     errorS = true;
-                                    cout << "errorS en la instruccion "<< n_lineas+1 << ", la variable utilizada '"<< (yyvsp[0].var) << "' no existe"<<endl;
+                                    cout << "Error en la instruccion "<< n_lineas+1 << ", la variable utilizada '"<< (yyvsp[0].var) << "' no existe"<<endl;
                               }
                               }
-#line 1779 "proyecto_mondrian.c"
+#line 1802 "proyecto_mondrian.c"
     break;
 
-  case 55: /* expr: expr '+' expr  */
-#line 438 "proyecto_mondrian.y"
+  case 57: /* expr: expr '+' expr  */
+#line 459 "proyecto_mondrian.y"
                            {(yyval.c_expresion).valor = (yyvsp[-2].c_expresion).valor + (yyvsp[0].c_expresion).valor;  (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal ;}
-#line 1785 "proyecto_mondrian.c"
+#line 1808 "proyecto_mondrian.c"
     break;
 
-  case 56: /* expr: expr '-' expr  */
-#line 439 "proyecto_mondrian.y"
+  case 58: /* expr: expr '-' expr  */
+#line 460 "proyecto_mondrian.y"
                            {(yyval.c_expresion).valor = (yyvsp[-2].c_expresion).valor - (yyvsp[0].c_expresion).valor; (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal ;}
-#line 1791 "proyecto_mondrian.c"
+#line 1814 "proyecto_mondrian.c"
     break;
 
-  case 57: /* expr: expr '*' expr  */
-#line 440 "proyecto_mondrian.y"
+  case 59: /* expr: expr '*' expr  */
+#line 461 "proyecto_mondrian.y"
                            {(yyval.c_expresion).valor = (float) (yyvsp[-2].c_expresion).valor * (float) (yyvsp[0].c_expresion).valor; (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal ;}
-#line 1797 "proyecto_mondrian.c"
+#line 1820 "proyecto_mondrian.c"
     break;
 
-  case 58: /* expr: expr '/' expr  */
-#line 441 "proyecto_mondrian.y"
+  case 60: /* expr: expr '/' expr  */
+#line 462 "proyecto_mondrian.y"
                            { 
                               (yyval.c_expresion).esReal = true;
                               if((yyvsp[0].c_expresion).valor != 0){
                                     (yyval.c_expresion).valor =  (float)(yyvsp[-2].c_expresion).valor / (float)(yyvsp[0].c_expresion).valor;
                               }else{
                                     errorS = true;
-                                    cout << "errorS semantico en la instruccion " << n_lineas+1 << ", division por cero"<< endl;
+                                    cout << "Error semantico en la instruccion " << n_lineas+1 << ", division por cero"<< endl;
                               }
                               
                         }
-#line 1812 "proyecto_mondrian.c"
+#line 1835 "proyecto_mondrian.c"
     break;
 
-  case 59: /* expr: expr DIV expr  */
-#line 451 "proyecto_mondrian.y"
+  case 61: /* expr: expr DIV expr  */
+#line 472 "proyecto_mondrian.y"
                             { 
                               (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal;
                               if((yyvsp[0].c_expresion).valor != 0){
@@ -1827,11 +1850,11 @@ yyreduce:
                               }
                               
                         }
-#line 1831 "proyecto_mondrian.c"
+#line 1854 "proyecto_mondrian.c"
     break;
 
-  case 60: /* expr: expr '%' expr  */
-#line 466 "proyecto_mondrian.y"
+  case 62: /* expr: expr '%' expr  */
+#line 487 "proyecto_mondrian.y"
                         {
                         (yyval.c_expresion).esReal = (yyvsp[-2].c_expresion).esReal || (yyvsp[0].c_expresion).esReal;
                               if((yyvsp[0].c_expresion).valor != 0){
@@ -1845,101 +1868,101 @@ yyreduce:
                                     cout << "errorS semantico en la instruccion " << n_lineas+1 << ", division por cero"<< endl;
                               }
     }
-#line 1849 "proyecto_mondrian.c"
+#line 1872 "proyecto_mondrian.c"
     break;
 
-  case 61: /* expr: '-' expr  */
-#line 479 "proyecto_mondrian.y"
+  case 63: /* expr: '-' expr  */
+#line 500 "proyecto_mondrian.y"
                            {(yyval.c_expresion).valor = - ((yyvsp[0].c_expresion).valor);  (yyval.c_expresion).esReal = (yyvsp[0].c_expresion).esReal;}
-#line 1855 "proyecto_mondrian.c"
+#line 1878 "proyecto_mondrian.c"
     break;
 
-  case 62: /* expr: '(' expr ')'  */
-#line 480 "proyecto_mondrian.y"
+  case 64: /* expr: '(' expr ')'  */
+#line 501 "proyecto_mondrian.y"
                            {(yyval.c_expresion).valor = (yyvsp[-1].c_expresion).valor; (yyval.c_expresion).esReal = (yyvsp[-1].c_expresion).esReal;}
-#line 1861 "proyecto_mondrian.c"
+#line 1884 "proyecto_mondrian.c"
     break;
 
-  case 63: /* logica: BOOL  */
-#line 483 "proyecto_mondrian.y"
+  case 65: /* logica: BOOL  */
+#line 504 "proyecto_mondrian.y"
              {(yyval.c_bool) = (yyvsp[0].c_bool);}
-#line 1867 "proyecto_mondrian.c"
+#line 1890 "proyecto_mondrian.c"
     break;
 
-  case 64: /* logica: logica AND logica  */
-#line 484 "proyecto_mondrian.y"
+  case 66: /* logica: logica AND logica  */
+#line 505 "proyecto_mondrian.y"
                           {(yyval.c_bool) = (yyvsp[-2].c_bool) && (yyvsp[0].c_bool);}
-#line 1873 "proyecto_mondrian.c"
+#line 1896 "proyecto_mondrian.c"
     break;
 
-  case 65: /* logica: logica OR logica  */
-#line 485 "proyecto_mondrian.y"
+  case 67: /* logica: logica OR logica  */
+#line 506 "proyecto_mondrian.y"
                          {(yyval.c_bool) = (yyvsp[-2].c_bool) || (yyvsp[0].c_bool);}
-#line 1879 "proyecto_mondrian.c"
+#line 1902 "proyecto_mondrian.c"
     break;
 
-  case 66: /* logica: NOT logica  */
-#line 486 "proyecto_mondrian.y"
+  case 68: /* logica: NOT logica  */
+#line 507 "proyecto_mondrian.y"
                    {(yyval.c_bool) = ! ((yyvsp[0].c_bool));}
-#line 1885 "proyecto_mondrian.c"
+#line 1908 "proyecto_mondrian.c"
     break;
 
-  case 67: /* logica: expr DISTINTO expr  */
-#line 487 "proyecto_mondrian.y"
+  case 69: /* logica: expr DISTINTO expr  */
+#line 508 "proyecto_mondrian.y"
                            {(yyval.c_bool) = ((yyvsp[-2].c_expresion).valor != (yyvsp[0].c_expresion).valor);}
-#line 1891 "proyecto_mondrian.c"
+#line 1914 "proyecto_mondrian.c"
     break;
 
-  case 68: /* logica: logica DISTINTO logica  */
-#line 488 "proyecto_mondrian.y"
+  case 70: /* logica: logica DISTINTO logica  */
+#line 509 "proyecto_mondrian.y"
                                {(yyval.c_bool) = ((yyvsp[-2].c_bool) != (yyvsp[0].c_bool));}
-#line 1897 "proyecto_mondrian.c"
+#line 1920 "proyecto_mondrian.c"
     break;
 
-  case 69: /* logica: expr IGUAL expr  */
-#line 489 "proyecto_mondrian.y"
+  case 71: /* logica: expr IGUAL expr  */
+#line 510 "proyecto_mondrian.y"
                         {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor == (yyvsp[0].c_expresion).valor);}
-#line 1903 "proyecto_mondrian.c"
+#line 1926 "proyecto_mondrian.c"
     break;
 
-  case 70: /* logica: logica IGUAL logica  */
-#line 490 "proyecto_mondrian.y"
+  case 72: /* logica: logica IGUAL logica  */
+#line 511 "proyecto_mondrian.y"
                             {(yyval.c_bool) =  ((yyvsp[-2].c_bool) == (yyvsp[0].c_bool));}
-#line 1909 "proyecto_mondrian.c"
+#line 1932 "proyecto_mondrian.c"
     break;
 
-  case 71: /* logica: expr MENORIGUAL expr  */
-#line 491 "proyecto_mondrian.y"
+  case 73: /* logica: expr MENORIGUAL expr  */
+#line 512 "proyecto_mondrian.y"
                              {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor <= (yyvsp[0].c_expresion).valor);}
-#line 1915 "proyecto_mondrian.c"
+#line 1938 "proyecto_mondrian.c"
     break;
 
-  case 72: /* logica: expr MAYOR expr  */
-#line 492 "proyecto_mondrian.y"
-                        {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor > (yyvsp[0].c_expresion).valor);}
-#line 1921 "proyecto_mondrian.c"
+  case 74: /* logica: expr '>' expr  */
+#line 513 "proyecto_mondrian.y"
+                      {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor > (yyvsp[0].c_expresion).valor);}
+#line 1944 "proyecto_mondrian.c"
     break;
 
-  case 73: /* logica: expr MAYORIGUAL expr  */
-#line 493 "proyecto_mondrian.y"
+  case 75: /* logica: expr MAYORIGUAL expr  */
+#line 514 "proyecto_mondrian.y"
                              {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor >= (yyvsp[0].c_expresion).valor);}
-#line 1927 "proyecto_mondrian.c"
+#line 1950 "proyecto_mondrian.c"
     break;
 
-  case 74: /* logica: expr MENOR expr  */
-#line 494 "proyecto_mondrian.y"
-                        {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor < (yyvsp[0].c_expresion).valor);}
-#line 1933 "proyecto_mondrian.c"
+  case 76: /* logica: expr '<' expr  */
+#line 515 "proyecto_mondrian.y"
+                      {(yyval.c_bool) =  ((yyvsp[-2].c_expresion).valor < (yyvsp[0].c_expresion).valor);}
+#line 1956 "proyecto_mondrian.c"
     break;
 
-  case 75: /* logica: '(' logica ')'  */
-#line 495 "proyecto_mondrian.y"
+  case 77: /* logica: '(' logica ')'  */
+#line 516 "proyecto_mondrian.y"
                         {(yyval.c_bool) =  (yyvsp[-1].c_bool);}
-#line 1939 "proyecto_mondrian.c"
+#line 1962 "proyecto_mondrian.c"
     break;
 
 
-#line 1943 "proyecto_mondrian.c"
+#line 1966 "proyecto_mondrian.c"
 
       default: break;
     }
@@ -2132,15 +2155,13 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 498 "proyecto_mondrian.y"
+#line 519 "proyecto_mondrian.y"
 
 
 int main(int argc, char **argv){
       
       n_lineas = 0;
       yyin = fopen(argv[1],"rt");
-
-
 
       char ficheroSalida[100];
       strcpy(ficheroSalida,argv[1]);

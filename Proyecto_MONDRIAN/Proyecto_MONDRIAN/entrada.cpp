@@ -27,7 +27,7 @@ int main(int argc, char **argv){
 	 rectanguloM(75, 0, 25, 11, 5); 
 	 rectanguloM(88, 42, 12, 16, 1); 
 	 rectanguloM(75, 62, 25, 24, 4); 
-	 rectanguloM(75, 90, 0, 0, 0); 
+	 rectanguloM(75, 90, 25, 11, 3); 
 	 pausaM(4.43); 
 	 // "Se pintan recuadros blancos para borrar parte de la rejilla" 
 	 rectanguloM(0, 11, 11, 4, 0); 
@@ -39,11 +39,17 @@ int main(int argc, char **argv){
 	 pausaM(8.85); 
 	 nuevoCuadroM("Homenaje a Rothko"); 
  	 rectanguloM(0, 0, 100, 100, 2); 
+	 // "Campo de color interior azul" 
+	 rectanguloM(25, 25, 50, 50, 4); 
+	 pausaM(2.50); 
+	 // "Campo de color interior verde" 
+	 pausaM(3.33); 
 	 nuevoCuadroM("Homenaje a Antrios"); 
  	 // "Antrios es un pintor ficticio de la obra de teatro Arte de Yasmina Reza" 
 	 lineaM(10, 1, true, 0); 
 	 lineaM(20, 1, true, 0); 
 	 lineaM(60, 1, true, 0); 
+	 pausaM(64.00); 
 	 nuevoCuadroM("Damero"); 
  	 rectanguloM(0, 0, 25, 25, 1); 
 	 rectanguloM(50, 0, 25, 25, 1); 
@@ -60,9 +66,10 @@ int main(int argc, char **argv){
 
  // Tabla de Simbolos
 /* 
+	 Nombre: aux , Tipo: Entero, Valor: -3 
 	 Nombre: grosor , Tipo: Entero, Valor: 4 
 	 Nombre: mitad , Tipo: Entero, Valor: 50 
-	 Nombre: p , Tipo: Real, Valor: 1.770000 
+	 Nombre: p , Tipo: Real, Valor: 3.333000 
 	 Nombre: x , Tipo: Entero, Valor: 25 
 	 Nombre: y , Tipo: Entero, Valor: 75 
 */
@@ -85,6 +92,7 @@ int main(int argc, char **argv){
 	 Nombre: Negro1 , Tipo: Recuadro, Alto: 22 , Ancho: 23 , Color: 1 
 	 Nombre: Negro2 , Tipo: Recuadro, Alto: 12 , Ancho: 16 , Color: 1 
 	 Nombre: Rojo1 , Tipo: Recuadro, Alto: 43 , Ancho: 43 , Color: 3 
+	 Nombre: Rojo2 , Tipo: Recuadro, Alto: 25 , Ancho: 11 , Color: 3 
 */
 
  // Tabla de Simbolo de Lineas 
