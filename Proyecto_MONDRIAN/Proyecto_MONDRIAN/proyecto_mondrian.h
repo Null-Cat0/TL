@@ -83,13 +83,11 @@ extern int yydebug;
     OR = 284,                      /* OR  */
     AND = 285,                     /* AND  */
     DISTINTO = 286,                /* DISTINTO  */
-    MENOR = 287,                   /* MENOR  */
-    MENORIGUAL = 288,              /* MENORIGUAL  */
-    MAYORIGUAL = 289,              /* MAYORIGUAL  */
-    MAYOR = 290,                   /* MAYOR  */
-    menos = 291,                   /* menos  */
-    NOT = 292,                     /* NOT  */
-    IF = 293                       /* IF  */
+    MENORIGUAL = 287,              /* MENORIGUAL  */
+    MAYORIGUAL = 288,              /* MAYORIGUAL  */
+    menos = 289,                   /* menos  */
+    NOT = 290,                     /* NOT  */
+    si_simple = 291                /* si_simple  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -98,7 +96,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 63 "proyecto_mondrian.y"
+#line 64 "proyecto_mondrian.y"
 
   int c_entero;
   char var[25];
@@ -111,7 +109,7 @@ union YYSTYPE
       bool esLogica;
       } c_expresion;
 
-#line 115 "proyecto_mondrian.h"
+#line 113 "proyecto_mondrian.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

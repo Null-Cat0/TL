@@ -28,6 +28,9 @@ fincuadro FINCUADRO
 %%
 
 
+
+Si { return SI;}
+Si_no { return SINO;}
 #.*\n { n_lineas++;} 
 {cadena} { strcpy(yylval.var, yytext); return CADENA;}
 [\t ]			        ;	
@@ -45,6 +48,7 @@ and           return AND;
 or              return OR;
 not           return NOT;
 div  return DIV;
+
 
 {colores}            {
                        strcpy(yylval.var, yytext);
@@ -91,7 +95,7 @@ div  return DIV;
 {fincuadro} {
         return FINCUADRO;
 }
-\n			  {
+\n {
                     n_lineas++; 
                    return SALTOLINEA;
             }
@@ -107,6 +111,10 @@ div  return DIV;
 =            {
                 return IGUAL;
         }
+\>=                return MAYORIGUAL;
+\<=                return MENORIGUAL;
+\==                return IGUAL;
+\!=                return DISTINTO;
 {identificadorMayuscula}     {
                     strcpy(yylval.var, yytext); 
                     return IDENTIFICADORMAYUSCULA;

@@ -29,11 +29,8 @@
     }
     // Actualiza la información de un símbolo existente en la tabla de símbolos
     void actualizarSimbolo(map<string, InformacionSimbolo> TablaSimbolos, string nombre, InformacionSimbolo info) {
-        if (TablaSimbolos.count(nombre) > 0) {
-            TablaSimbolos[nombre] = info;
-        } else {
-            // Manejo de error si el símbolo no existe
-        }
+  
+      TablaSimbolos[nombre] = info;
     }
 
     // Elimina un símbolo de la tabla de símbolos
@@ -61,7 +58,7 @@
                 break;
                 case Bool:
                 cout<<info.valor_bool;
-               fprintf(fp,"\t Nombre: %s , Tipo: Logico, Valor: %s \n",nombre.c_str(),(info.valor_bool==true)?"True":"False") ;
+                fprintf(fp,"\t Nombre: %s , Tipo: Logico, Valor: %s \n",nombre.c_str(),(info.valor_bool==true)?"True":"False") ;
                 break;
 
                 case Recuadro:
@@ -71,7 +68,9 @@
                 case Linea:
                 fprintf(fp,"\t Nombre: %s , Tipo: Linea, Grosor: %d  esHorizontal: %s , Color: %d \n",nombre.c_str(),info.valores_linea.grosor,(info.valores_linea.esHorizontal)?"True":"False", info.valores_linea.color) ;
                 break;
-
+                case NoIdentificado:
+                fprintf(fp,"\t Nombre: %s , Tipo: NoIdentificado \n",nombre.c_str()) ;
+                break;
             }
 
         }

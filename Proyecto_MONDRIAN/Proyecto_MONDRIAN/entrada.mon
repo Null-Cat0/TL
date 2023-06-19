@@ -8,15 +8,25 @@ VARIABLES
 # grosor para almacenar el grosor de las líneas
 # aux es un entero auxiliar
 
-Entero x, grosor, valor;
+Logico momo;
+Entero x, grosor, aux;
 
 	Real p; # Para almacenar el tiempo de pausa
-	Entero y;
 
 
 grosor := 4; Entero mitad := 50;  # La mitad del ancho o alto total es 50
 
+Logico h, g, ax;
 
+Real x := 1.1;
+
+Logico j := 5;
+Logico x;
+Real momo := 2;
+pene := 2;
+peneLOgico := false;
+h := true;
+h:=1;
 
 RECUADROS
 
@@ -26,7 +36,7 @@ CampoGris = <mitad*2, 2*mitad, gris>
 CampoAzul = <mitad, mitad, azul>
 CampoVerde = <mitad, mitad, verde>
 Rojo1 = <43, 43, rojo>
-Rojo2=<25, 11, 2>
+Rojo2=<25, 11, rojo>
 Negro1 =   < 22,23,negro>
 Negro2 =<12, 16, negro>
 Amarillo1=<19, 24, amarillo>
@@ -58,6 +68,7 @@ CUADRO "Composición en rojo, amarillo, azul y negro - Mondrian" :
 
 	Mensaje ("Se pintan las lineas horizontales y verticales")
 	x := 11
+	x:= true;
 	Pintar (LineaH, x)
 	Pintar (LineaH, x+23)
 	Pintar (LineaH, 50+8)
@@ -106,7 +117,17 @@ CUADRO "Homenaje a Rothko" :
 # si es positivo o 0, se pintará un recuadro verde con pausa 3.333
 aux := -3
 
-
+Si (aux < 0) {
+  Mensaje ("Campo de color interior azul")
+	Pintar (CampoAzul, x, x)
+	Pausa(2.5)
+}
+Si_no {
+Mensaje ("Campo de color interior verde")
+	Pintar (CampoVErde, x, x)
+p := 3.333
+			Pausa (p)
+}
 
 FINCUADRO
 
