@@ -8,8 +8,12 @@ VARIABLES
 # grosor para almacenar el grosor de las líneas
 # aux es un entero auxiliar
 
+<<<<<<< HEAD
 Logico momo;
 Entero x, grosor, aux;
+=======
+Entero x, grosor, aux, y;
+>>>>>>> cae1d6656cf1e5e6a572550f2fe86da689b88e6a
 
 	Real p; # Para almacenar el tiempo de pausa
 
@@ -142,7 +146,7 @@ x := x + x
 Pintar(LineaFinaBlanca, x)
 x :=3*x
 Pintar(LineaFinaBlanca, x)
-
+Pausa(x+4)
 
 FINCUADRO
 CUADRO "Damero" :
