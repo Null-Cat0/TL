@@ -269,7 +269,6 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                         //cout<<"Tipo Identificador";
                                                                          errorS = false;
                                                                   } saltoOpcional
-<<<<<<< HEAD
             |  IDENTIFICADORMINUSCULA ASIGNACION logica PUNTOYCOMA {
 
                                                                   InformacionSimbolo info, auxComprobacion;
@@ -303,9 +302,6 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                          errorS = false;
                                                                   } saltoOpcional           
             | error {}
-=======
-            | error '\n' {}
->>>>>>> cae1d6656cf1e5e6a572550f2fe86da689b88e6a
            ;
  
 secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA {
@@ -487,7 +483,6 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                   
                                                                   InformacionSimbolo info, auxComprobacion;
                                                                   if(buscarSimbolo(tablaSimbolos, $1, auxComprobacion))
-<<<<<<< HEAD
                                                                   {
                                                                           
                                                                         if((auxComprobacion.d == Real) &&(!$3.esReal)){
@@ -509,23 +504,6 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                         cout<<"La variable "<< $1<<" no ha sido definida con anterioridad"<<endl;
                                                                         //cout<<endl<<"ENTRA "<< $1 <<endl;
                                                                         errorS = true;
-=======
-                                                                  {    
-                                                                              
-                                                                  if((auxComprobacion.d == Real) &&(!$3.esReal)){
-                                                                        
-                                                                                    errorS = true;
-                                                                                    //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
-                                                                        }else if((auxComprobacion.d == Entero) &&($3.esReal))
-                                                                        {
-                                                                              
-                                                                              errorS = true;
-                                                                              //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
-                                                                        }
-                                                                        }else // EL simbolo no se encuentra en la tabla de simbolos
-                                                                        {
-                                                                              errorS = true;
->>>>>>> cae1d6656cf1e5e6a572550f2fe86da689b88e6a
                                                                   }
 
                                                                   if (!errorS){ 
@@ -544,7 +522,6 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                   errorS = false;
                                                             }
                                                           } salto
-<<<<<<< HEAD
 
                  |  IDENTIFICADORMINUSCULA ASIGNACION logica  {
                                                              if(condicionalVerdadero){
@@ -581,8 +558,6 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                          errorS = false;
                                                              }
                                                                   } saltoOpcional       
-=======
->>>>>>> cae1d6656cf1e5e6a572550f2fe86da689b88e6a
                 | MENSAJE  '('CADENA ')' { 
                                            if(condicionalVerdadero && !errorS){
                                                 fprintf(yyout,"\t // %s \n",$3); 
@@ -590,11 +565,7 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                           errorS = false;
                                           } salto
                 | condicional 
-<<<<<<< HEAD
                 | error {}
-=======
-                | error '\n' {}
->>>>>>> cae1d6656cf1e5e6a572550f2fe86da689b88e6a
                 ;
 condicional: parteSi  parteSiNo 
       ;
@@ -606,11 +577,7 @@ parteSiNo: %prec si_simple
       | SINO saltoOpcional {condicionalVerdadero = !condicionalVerdadero; }'{' saltoOpcional inic_acciones_cuadros saltoOpcional'}' saltoOpcional{condicionalVerdadero=true;} 
       ;
 salto : SALTOLINEA {}
-<<<<<<< HEAD
       | SALTOLINEA salto   {}
-=======
-      | SALTOLINEA salto  {}
->>>>>>> cae1d6656cf1e5e6a572550f2fe86da689b88e6a
       ;
 
 saltoOpcional : 

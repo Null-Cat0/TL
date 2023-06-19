@@ -42,11 +42,6 @@ int main(int argc, char **argv){
 	 // "Campo de color interior azul" 
 	 rectanguloM(25, 25, 50, 50, 4); 
 	 pausaM(2.50); 
-<<<<<<< HEAD
-=======
-	 // "Campo de color interior verde" 
-	 pausaM(3.33); 
->>>>>>> cae1d6656cf1e5e6a572550f2fe86da689b88e6a
 	 nuevoCuadroM("Homenaje a Antrios"); 
  	 // "Antrios es un pintor ficticio de la obra de teatro Arte de Yasmina Reza" 
 	 lineaM(10, 1, true, 0); 
@@ -62,20 +57,13 @@ int main(int argc, char **argv){
  // Tabla de Simbolos
 /* 
 	 Nombre: aux , Tipo: Entero, Valor: -3 
-<<<<<<< HEAD
 	 Nombre: ax , Tipo: Logico, Valor: False 
 	 Nombre: g , Tipo: Logico, Valor: False 
-=======
->>>>>>> cae1d6656cf1e5e6a572550f2fe86da689b88e6a
 	 Nombre: grosor , Tipo: Entero, Valor: 4 
 	 Nombre: h , Tipo: Logico, Valor: True 
 	 Nombre: mitad , Tipo: Entero, Valor: 50 
-<<<<<<< HEAD
 	 Nombre: momo , Tipo: Logico, Valor: False 
 	 Nombre: p , Tipo: Real, Valor: 1.770000 
-=======
-	 Nombre: p , Tipo: Real, Valor: 3.333000 
->>>>>>> cae1d6656cf1e5e6a572550f2fe86da689b88e6a
 	 Nombre: x , Tipo: Entero, Valor: 25 
 */
 
