@@ -57,7 +57,6 @@
                fprintf(fp,"\t Nombre: %s , Tipo: Entero, Valor: %d \n",nombre.c_str(),info.valor_int) ;
                 break;
                 case Bool:
-                cout<<info.valor_bool;
                 fprintf(fp,"\t Nombre: %s , Tipo: Logico, Valor: %s \n",nombre.c_str(),(info.valor_bool==true)?"True":"False") ;
                 break;
 

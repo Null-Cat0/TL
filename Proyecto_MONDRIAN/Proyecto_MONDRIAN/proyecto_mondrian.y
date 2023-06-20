@@ -100,8 +100,9 @@ string enteroOreal(bool enteroOreal)
 %nonassoc SINO
 %%
 
-
-//-------------------------------------------BLOQUE VARIABLES------------------------------------
+//------------------------------------------------------------------------------------------------
+//-------------------------------------------BLOQUE VARIABLES-------------------------------------
+//------------------------------------------------------------------------------------------------
 all : saltoOpcional zona_variables  zona_recuadros  zona_lineas  inic_creacion_cuadros_nombre    {;}
     ;
 
@@ -117,17 +118,17 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                         InformacionSimbolo info, auxComprobacion;
                                                                          if((strcmp($1,"Real") == 0) &&(!$4.esReal)){
                                                                                     errorS = true;
-                                                                                    cout<<"La variable "<< $2 <<" no es tipo real y no se le puede asignar un valor entero"<<endl;
+                                                                                    cout<<"La variable "<< $2 <<" no es tipo real y no se le puede asignar un valor entero, Linea: "<< n_lineas + 1 <<endl;
                                                                                     //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
                                                                               }else if((strcmp($1,"Entero") == 0) &&($4.esReal))
                                                                               {
                                                                                     errorS = true;
-                                                                                    cout<<"La variable "<< $2 <<" es de tipo entero y no se le puede asignar un valor real"<<endl;
+                                                                                    cout<<"La variable "<< $2 <<" es de tipo entero y no se le puede asignar un valor real, Linea: "<< n_lineas + 1 <<endl;
                                                                                     //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
                                                                               }else if((strcmp($1,"Logico") == 0))
                                                                               {
                                                                                     errorS = true;
-                                                                                    cout<<"La variable "<< $2 <<" es de tipo logico y no se le puede asignar un valor entero o real"<<endl;
+                                                                                    cout<<"La variable "<< $2 <<" es de tipo logico y no se le puede asignar un valor entero o real, Linea: "<< n_lineas + 1<<endl;
                                                                               }
 
                                                                         if(buscarSimbolo(tablaSimbolos, $2, auxComprobacion))
@@ -135,16 +136,16 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                            
                                                                               if((strcmp($1,"Entero") == 0) && auxComprobacion.d==Real){
                                                                                     errorS = true;
-                                                                                   cout<<"La variable "<< $2 <<" ha sido definida anteriormente como Real  y no se puede volver a declarar como Entero"<<endl;
+                                                                                   cout<<"La variable "<< $2 <<" ha sido definida anteriormente como Real  y no se puede volver a declarar como Entero, Linea: "<< n_lineas + 1<<endl;
                                                                                     //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
                                                                               }else if((strcmp($1,"Real") == 0) && auxComprobacion.d==Entero)
                                                                               {
                                                                                     errorS = true;
-                                                                                    cout<<"La variable "<< $2<<" ha sido definida anteriormente como Entero y no se puede volver a declarar como Real "<<endl;
+                                                                                    cout<<"La variable "<< $2<<" ha sido definida anteriormente como Entero y no se puede volver a declarar como Real, Linea: "<< n_lineas + 1<<endl;
                                                                                     //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
                                                                               }else if(auxComprobacion.d==Bool)
                                                                               {
-                                                                                    cout<<"La variable "<< $2<<" ha sido definida anteriormente como Logica y no se puede volver a declarar como Real o Entero "<<endl;
+                                                                                    cout<<"La variable "<< $2<<" ha sido definida anteriormente como Logica y no se puede volver a declarar como Real o Entero, Linea: "<< n_lineas + 1<<endl;
                                                                               }
                                                                         }
 
@@ -171,24 +172,24 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                       
                                                                               if((strcmp($1,"Real") == 0)){
                                                                                     errorS = true;
-                                                                                    cout<<"A una variable de tipo real no se le puede asignar un valor logico"<<endl;
+                                                                                    cout<<"A una variable de tipo real no se le puede asignar un valor logico, Linea: "<< n_lineas + 1<<endl;
                                                                                     
                                                                               }else if((strcmp($1,"Entero") == 0) )
                                                                               {
                                                                                     errorS = true;
-                                                                                   cout<<"A una variable de tipo entero no se le puede asignar un valor logico"<<endl;
+                                                                                   cout<<"A una variable de tipo entero no se le puede asignar un valor logico, Linea: "<< n_lineas + 1<<endl;
                                                                                    
                                                                               }
                                                                         if(buscarSimbolo(tablaSimbolos, $2, auxComprobacion))
                                                                         {
                                                                               if((auxComprobacion.d == Real)){
                                                                                     errorS = true;
-                                                                                   cout<<"La variable "<< $2<<" ha sido definida anteriormente como Real y no se puede volver a declarar como Logico "<<endl;
+                                                                                   cout<<"La variable "<< $2<<" ha sido definida anteriormente como Real y no se puede volver a declarar como Logico , Linea: "<< n_lineas + 1<<endl;
                                                                                     
                                                                               }else if(auxComprobacion.d==Entero) 
                                                                               {
                                                                                     errorS = true;
-                                                                                  cout<<"La variable "<< $2<<" ha sido definida anteriormente como Entero y no se puede volver a declarar como Logico "<<endl;
+                                                                                  cout<<"La variable "<< $2<<" ha sido definida anteriormente como Entero y no se puede volver a declarar como Logico, Linea: "<< n_lineas + 1<<endl;
                                                                                    
                                                                               }          
                                                                         }
@@ -235,21 +236,21 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                           
                                                                         if((auxComprobacion.d == Real) &&(!$3.esReal)){
                                                                               errorS = true;
-                                                                               cout<<"La variable "<< $1 << " no es tipo real y no se le puede asignar un valor real"<<endl;
+                                                                               cout<<"La variable "<< $1 << " no es tipo real y no se le puede asignar un valor real, Linea: "<< n_lineas + 1<<endl;
                                                                               //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
                                                                         }else if((auxComprobacion.d == Entero) &&($3.esReal))
                                                                         {
                                                                               errorS = true;
-                                                                              cout<<"La variable "<< $1 <<" es de tipo real y no se le puede asignar un valor entero"<<endl;
+                                                                              cout<<"La variable "<< $1 <<" es de tipo real y no se le puede asignar un valor entero, Linea: "<< n_lineas + 1<<endl;
                                                                               //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
                                                                         }else if (auxComprobacion.d == Bool)
                                                                         {
                                                                               errorS = true;
-                                                                              cout<<"La variable "<< $1 <<" es de tipo logico y no se le puede asignar un valor entero o real"<<endl;
+                                                                              cout<<"La variable "<< $1 <<" es de tipo logico y no se le puede asignar un valor entero o real, Linea: "<< n_lineas + 1<<endl;
                                                                         }
                                                                   }else // EL simbolo no se encuentra en la tabla de simbolos
                                                                   {
-                                                                         cout<<"La variable "<< $1<<" no ha sido definida con anterioridad"<<endl;
+                                                                         cout<<"La variable "<< $1<<" no ha sido definida con anterioridad, Linea: "<< n_lineas + 1<<endl;
                                                                         //cout<<endl<<"ENTRA "<< $1 <<endl;
                                                                         errorS = true;
                                                                   }
@@ -276,17 +277,17 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                         {
                                                                               if((auxComprobacion.d == Real)){
                                                                                    errorS = true;
-                                                                                   cout<<"La variable "<< $1<<" ha sido definida anteriormente como Real y no se puede volver a declarar como Logico "<<endl;
+                                                                                   cout<<"La variable "<< $1<<" ha sido definida anteriormente como Real y no se puede volver a declarar como Logico, Linea: "<< n_lineas + 1<<endl;
                                                                                     
                                                                               }else if(auxComprobacion.d==Entero) 
                                                                               {
                                                                                   errorS = true;
-                                                                                  cout<<"La variable "<< $1<<" ha sido definida anteriormente como Entero y no se puede volver a declarar como Logico "<<endl;
+                                                                                  cout<<"La variable "<< $1<<" ha sido definida anteriormente como Entero y no se puede volver a declarar como Logico, Linea: "<< n_lineas + 1<<endl;
                                                                                    
                                                                               }          
                                                                         }else // EL simbolo no se encuentra en la tabla de simbolos
                                                                   {
-                                                                        cout<<"La variable "<< $1<<" no ha sido definida con anterioridad"<<endl;
+                                                                        cout<<"La variable "<< $1<<" no ha sido definida con anterioridad, Linea: "<< n_lineas + 1<<endl;
                                                                         //cout<<endl<<"ENTRA "<< $1 <<endl;
                                                                         errorS = true;
                                                                   }
@@ -314,7 +315,7 @@ secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA {
                                                                         insertarSimbolo(tablaSimbolos, $1, info);
                                                                   }else
                                                                   {
-                                                                        cout<<"La variable "<< $1 << " ha sido definida anteriormente y no puede volver a ser definida"<<endl;
+                                                                        cout<<"La variable "<< $1 << " ha sido definida anteriormente y no puede volver a ser definida, Linea: "<< n_lineas + 1<<endl;
                                                                   }
                                                                   //cout<<"Identificador PuntYComa ";
                                                       }
@@ -326,7 +327,7 @@ secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA {
                                                                                                 insertarSimbolo(tablaSimbolos, $1, info);
                                                                                           }else
                                                                                           {
-                                                                                                  cout<<"La variable "<< $1 << " ha sido definida anteriormente y no puede volver a ser definida"<<endl;
+                                                                                                  cout<<"La variable "<< $1 << " ha sido definida anteriormente y no puede volver a ser definida, Linea: "<< n_lineas + 1<<endl;
                                                                                           }
                                                                                           //cout<<"Identificador  ";
                                                                                           }
@@ -334,7 +335,7 @@ secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA {
 
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE RECUADROS-------------------------------------
-
+//------------------------------------------------------------------------------------------------
 zona_recuadros : RECUADROS {}  salto  inic_definicion_recuadro {/*cout<<"RECUADROS"<<endl;*/}  
                ;
 inic_definicion_recuadro :
@@ -346,7 +347,7 @@ definicion_recuadro : IDENTIFICADORMAYUSCULA IGUAL '<' expr  COMA  expr  COMA CO
                                                                                           if($4.esReal | $6.esReal){  
                                                                                                 errorS = true;
                                                                                                 //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
-                                                                                                cout<<"La creaciøn de un recuadro necesita dos operandos enteros"<<endl;
+                                                                                                cout<<"La creaciøn de un recuadro necesita dos operandos enteros, Linea: "<< n_lineas + 1<<endl;
                                                                                           }
                                                                                           if (!errorS){ 
                                                                                                 //    cout << "Instrucción " << n_lineas << ": "  << "La variable " << $1 << ", de tipo " << enteroOreal($3.esReal) << ", toma el valor de " << $3.valor << endl; 
@@ -368,6 +369,7 @@ definicion_recuadro : IDENTIFICADORMAYUSCULA IGUAL '<' expr  COMA  expr  COMA CO
 
 //------------------------------------------------------------------------------------------------
 //-------------------------------------------BLOQUE LINEAS----------------------------------------
+//------------------------------------------------------------------------------------------------
 
 zona_lineas : LINEAS  salto inic_definicion_linea {/*cout << "LINEAS"<<endl;*/}
             ;
@@ -379,7 +381,7 @@ inic_definicion_linea :
 
 
 definicion_linea : IDENTIFICADORMAYUSCULA IGUAL  '<' expr  COMA  ORIENTACION  COMA COLOR '>' salto {
-                                                                                                                                                                                                                       errorS = false;
+                                                                                                errorS = false;
                                                                                                 InformacionSimbolo info, auxComprobacion; 
                                                                                                 if($4.esReal){  
                                                                                                       errorS = true;
@@ -426,13 +428,13 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                                     }else
                                                                                     {
                                                                                           errorS = true;
-                                                                                          cout<<"El recuadro indicado no ha sido creado con anterioridad"<<endl;
+                                                                                          cout<<"El recuadro indicado no ha sido creado con anterioridad, Linea: "<< n_lineas + 1<<endl;
                                                                                     }
                                                                                     if(!errorS)
                                                                                           fprintf(yyout,"\t rectanguloM(%d, %d, %d, %d, %d); \n",filaRecuadro,columnaRecuadro,altoRecuadro,anchoRecuadro,color); 
                                                                               }else
                                                                               {
-                                                                                    cout<<"El valor introducido es real y la funcion pintar precisa de dos valores enteros"<<endl;
+                                                                                    cout<<"El valor introducido es real y la funcion pintar precisa de dos valores enteros, Linea: "<< n_lineas + 1<<endl;
                                                                               }                                                                         
                                                                               
                                                                               //cout<<"Pintar (Identificador_mayuscula, Expr,Expr)"<<endl;
@@ -455,13 +457,13 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                                     fprintf(yyout,"\t lineaM(%d, %d, %s, %d); \n",origen,info.valores_linea.grosor,(esHorizontal)? "true" : "false",color); 
                                                                               }else{
                                                                                                 errorS = true;
-                                                                                                cout<<"El recuadro indicado no ha sido creado con anterioridad"<<endl;
+                                                                                                cout<<"El recuadro indicado no ha sido creado con anterioridad, Linea: "<< n_lineas + 1<<endl;
                                                                               }
                                                                                     
                                                                              
                                                                         }else
                                                                         {
-                                                                              cout<<"El valor introducido es real y la funcion pintar precisa de un valor entero"<<endl;
+                                                                              cout<<"El valor introducido es real y la funcion pintar precisa de un valor entero, Linea: "<< n_lineas + 1<<endl;
                                                                         }                                                                             
                                                                               
                                                                   }     
@@ -487,21 +489,21 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                           
                                                                         if((auxComprobacion.d == Real) &&(!$3.esReal)){
                                                                               errorS = true;
-                                                                               cout<<"La variable "<< $1 << " no es tipo real y no se le puede asignar un valor real"<<endl;
+                                                                               cout<<"La variable "<< $1 << " no es tipo real y no se le puede asignar un valor real, Linea: "<< n_lineas + 1<<endl;
                                                                               //yyerrok("la variable no es tipo real y no se le puede asignar un valor real");
                                                                         }else if((auxComprobacion.d == Entero) &&($3.esReal))
                                                                         {
                                                                               errorS = true;
-                                                                              cout<<"La variable "<< $1 <<" es de tipo real y no se le puede asignar un valor entero"<<endl;
+                                                                              cout<<"La variable "<< $1 <<" es de tipo real y no se le puede asignar un valor entero, Linea: "<< n_lineas + 1<<endl;
                                                                               //yyerrok("la variable  es de tipo real y no se le puede asignar un valor entero");
                                                                         }else if (auxComprobacion.d == Bool)
                                                                         {
                                                                               errorS = true;
-                                                                              cout<<"La variable "<< $1 <<" es de tipo logico y no se le puede asignar un valor entero o real"<<endl;
+                                                                              cout<<"La variable "<< $1 <<" es de tipo logico y no se le puede asignar un valor entero o real, Linea: "<< n_lineas + 1<<endl;
                                                                         }
                                                                   }else // EL simbolo no se encuentra en la tabla de simbolos
                                                                   {
-                                                                        cout<<"La variable "<< $1<<" no ha sido definida con anterioridad"<<endl;
+                                                                        cout<<"La variable "<< $1<<" no ha sido definida con anterioridad, Linea: "<< n_lineas + 1<<endl;
                                                                         //cout<<endl<<"ENTRA "<< $1 <<endl;
                                                                         errorS = true;
                                                                   }
@@ -532,17 +534,17 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                                                         {
                                                                               if((auxComprobacion.d == Real)){
                                                                                    errorS = true;
-                                                                                   cout<<"La variable "<< $1<<" ha sido definida anteriormente como Real y no se puede volver a declarar como Logico "<<endl;
+                                                                                   cout<<"La variable "<< $1<<" ha sido definida anteriormente como Real y no se puede volver a declarar como Logico , Linea: "<< n_lineas + 1<<endl;
                                                                                     
                                                                               }else if(auxComprobacion.d==Entero) 
                                                                               {
                                                                                   errorS = true;
-                                                                                  cout<<"La variable "<< $1<<" ha sido definida anteriormente como Entero y no se puede volver a declarar como Logico "<<endl;
+                                                                                  cout<<"La variable "<< $1<<" ha sido definida anteriormente como Entero y no se puede volver a declarar como Logico, Linea: "<< n_lineas + 1<<endl;
                                                                                    
                                                                               }          
                                                                         }else // EL simbolo no se encuentra en la tabla de simbolos
                                                                   {
-                                                                        cout<<"La variable "<< $1<<" no ha sido definida con anterioridad"<<endl;
+                                                                        cout<<"La variable "<< $1<<" no ha sido definida con anterioridad, Linea: "<< n_lineas + 1<<endl;
                                                                         //cout<<endl<<"ENTRA "<< $1 <<endl;
                                                                         errorS = true;
                                                                   }
@@ -567,21 +569,23 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                 | condicional 
                 | error {}
                 ;
-condicional: parteSi  parteSiNo 
+condicional: parteSi  parteSiNo  {condicionalVerdadero=true;} 
       ;
 
-parteSi: SI '(' logica ')'  {condicionalVerdadero=$3 ; cout <<endl<< condicionalVerdadero<<endl;} '{' saltoOpcional inic_acciones_cuadros saltoOpcional '}'  saltoOpcional
+parteSi: SI '(' logica ')'  {condicionalVerdadero=$3 ; cout <<endl<< condicionalVerdadero<<endl;}  bloque
       ;
 
 parteSiNo: %prec si_simple
-      | SINO saltoOpcional {condicionalVerdadero = !condicionalVerdadero; }'{' saltoOpcional inic_acciones_cuadros saltoOpcional'}' saltoOpcional{condicionalVerdadero=true;} 
+      | SINO  {condicionalVerdadero = !condicionalVerdadero; } bloque
       ;
+bloque : '{' salto inic_acciones_cuadros '}'saltoOpcional
+       ;
 salto : SALTOLINEA {}
-      | SALTOLINEA salto   {}
+      | SALTOLINEA salto  {}
       ;
 
 saltoOpcional : 
-       | salto  
+       | salto  {}  
        ; 
        
 expr: ENTERO               {$$.valor= $1; $$.esReal = false;}
@@ -597,14 +601,14 @@ expr: ENTERO               {$$.valor= $1; $$.esReal = false;}
                                           $$.esReal = false;
                                     } else if (info.d = NoIdentificado){
                                           errorS = true;
-                                          cout << "Error semantico en la instruccion "<< n_lineas+1 << ", no se pueden utilizar variables sin valor asignado"<<endl;
+                                          cout << "Error semantico en la instruccion "<< n_lineas+1 << ", no se pueden utilizar variables sin valor asignado, Linea: "<< n_lineas + 1<<endl;
                                     }  else{
                                           errorS = true;
-                                          cout << "Error semantico en la instruccion "<< n_lineas+1 << ", no se pueden usar variables de tipo logico a la derecha de una asignacion"<<endl;
+                                          cout << "Error semantico en la instruccion "<< n_lineas+1 << ", no se pueden usar variables de tipo logico a la derecha de una asignacion, Linea: "<< n_lineas + 1<<endl;
                                     }      
                               }else{
                                     errorS = true;
-                                    cout << "Error en la instruccion "<< n_lineas+1 << ", la variable utilizada '"<< $1 << "' no existe"<<endl;
+                                    cout << "Error en la instruccion "<< n_lineas+1 << ", la variable utilizada '"<< $1 << "' no existe, Linea: "<< n_lineas + 1<<endl;
                               }
                               }
     | expr '+' expr        {$$.valor = $1.valor + $3.valor;  $$.esReal = $1.esReal || $3.esReal ;}              
@@ -616,7 +620,7 @@ expr: ENTERO               {$$.valor= $1; $$.esReal = false;}
                                     $$.valor =  (float)$1.valor / (float)$3.valor;
                               }else{
                                     errorS = true;
-                                    cout << "Error semantico en la instruccion " << n_lineas+1 << ", division por cero"<< endl;
+                                    cout << "Error semantico en la instruccion " << n_lineas+1 << ", division por cero, Linea: "<< n_lineas + 1<<endl;
                               }
                               
                         }
@@ -625,12 +629,12 @@ expr: ENTERO               {$$.valor= $1; $$.esReal = false;}
                               if($3.valor != 0){
                                     if($$.esReal) {
                                           errorS = true;
-                                          cout << "errorS semantico en la instruccion " << n_lineas+1 << ", ambos operandos deben ser enteros"<< endl;
+                                          cout << "errorS semantico en la instruccion " << n_lineas+1 << ", ambos operandos deben ser enteros, Linea: "<< n_lineas + 1<<endl;
                                      } else
                                           $$.valor =  (int) $1.valor / (int) $3.valor;
                               }else{
                                     errorS = true;
-                                    cout << "errorS semantico en la instruccion " << n_lineas+1 << ", division por cero"<< endl;
+                                    cout << "errorS semantico en la instruccion " << n_lineas+1 << ", division por cero, Linea: "<< n_lineas + 1<<endl;
                               }
                               
                         } 
@@ -640,12 +644,12 @@ expr: ENTERO               {$$.valor= $1; $$.esReal = false;}
                               if($3.valor != 0){
                                     if($$.esReal){
                                           errorS = true;
-                                          cout << "errorS semantico en la instruccion " << n_lineas+1 << ", ambos operandos deben ser enteros"<< endl;
+                                          cout << "errorS semantico en la instruccion " << n_lineas+1 << ", ambos operandos deben ser enteros, Linea: "<< n_lineas + 1<<endl;
                                     }else
                                           $$.valor =  (int) $1.valor % (int) $3.valor;
                               }else{ 
                                     errorS = true;
-                                    cout << "errorS semantico en la instruccion " << n_lineas+1 << ", division por cero"<< endl;
+                                    cout << "errorS semantico en la instruccion " << n_lineas+1 << ", division por cero, Linea: "<< n_lineas + 1<<endl;
                               }
     }
     |'-' expr %prec menos  {$$.valor = - ($2.valor);  $$.esReal = $2.esReal;}

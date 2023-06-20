@@ -1,8 +1,13 @@
 #Jesús Castaño Tato, Asier Serrano Martín
 OBJ = proyecto_mondrian.o lexico.o tablaSimbolos.o
+FUENTE = entrada.cpp
 
-all : run
-run : proyecto_mondrian
+all : run fin
+
+fin: prueba
+	./prueba 
+
+run : proyecto_mondrian 
 	./proyecto_mondrian entrada.mon
 proyecto_mondrian : $(OBJ)      				#segunda fase de la traducción. Generación del código ejecutable 
 	g++ -o proyecto_mondrian $(OBJ) 
@@ -22,5 +27,14 @@ tablaSimbolos.o : tablaSimbolos.cpp
 lex.yy.c: lexico.l						#obtenemos el analizador léxico en C
 	flex lexico.l
 
+prueba : prueba.o mondrian.o 
+	g++ -oprueba mondrian.o prueba.o -lallegro -lallegro_primitives -lallegro_main    
+
+mondrian.o : mondrian.cpp
+	g++ -c mondrian.cpp
+
+prueba.o : $(FUENTE)
+	g++ -c -oprueba.o $(FUENTE) 
+
 clean : 
-	rm  -f  *.c *.o proyecto_mondrian proyecto_mondrian.output proyecto_mondrian.h salida.txt
+	rm  -f  *.c *.o proyecto_mondrian proyecto_mondrian.output proyecto_mondrian.h prueba entrada.cpp

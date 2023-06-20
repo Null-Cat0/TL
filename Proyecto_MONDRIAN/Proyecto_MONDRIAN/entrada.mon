@@ -8,30 +8,19 @@ VARIABLES
 # grosor para almacenar el grosor de las líneas
 # aux es un entero auxiliar
 
-Logico momo;
-Entero x, grosor, aux;
+Entero x, grosor, valor;
 
 	Real p; # Para almacenar el tiempo de pausa
 
 
 grosor := 4; Entero mitad := 50;  # La mitad del ancho o alto total es 50
+Entero y, aux;
 
-Logico h, g, ax;
-
-Real x := 1.1;
-
-Logico j := 5;
-Logico x;
-Real momo := 2;
-pene := 2;
-peneLOgico := false;
-h := true;
-h:=1;
 
 RECUADROS
 
 
-CampoGris = <mitad*2, 2*mitad, gris>
+CampoGris = <mitad*2-1, 2*mitad-1, gris>
 
 CampoAzul = <mitad, mitad, azul>
 CampoVerde = <mitad, mitad, verde>
@@ -68,7 +57,6 @@ CUADRO "Composición en rojo, amarillo, azul y negro - Mondrian" :
 
 	Mensaje ("Se pintan las lineas horizontales y verticales")
 	x := 11
-	x:= true;
 	Pintar (LineaH, x)
 	Pintar (LineaH, x+23)
 	Pintar (LineaH, 50+8)
@@ -124,7 +112,7 @@ Si (aux < 0) {
 }
 Si_no {
 Mensaje ("Campo de color interior verde")
-	Pintar (CampoVErde, x, x)
+	Pintar (CampoVerde, x, x)
 p := 3.333
 			Pausa (p)
 }
@@ -142,7 +130,7 @@ x := x + x
 Pintar(LineaFinaBlanca, x)
 x :=3*x
 Pintar(LineaFinaBlanca, x)
-Pausa(x+4)
+
 
 FINCUADRO
 CUADRO "Damero" :

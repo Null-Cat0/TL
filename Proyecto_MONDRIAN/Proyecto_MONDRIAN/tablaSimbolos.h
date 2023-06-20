@@ -35,8 +35,11 @@ struct ValoresRecuadro {
 };
 struct InformacionSimbolo{
     TipoDato d;
-    ValoresLinea valores_linea;
-    ValoresRecuadro valores_recuadro;
+    union 
+    {
+        ValoresLinea valores_linea;
+        ValoresRecuadro valores_recuadro;
+    };
     float valor_float;
     bool valor_bool;
     int valor_int;

@@ -35,12 +35,11 @@ Si_no { return SINO;}
 {cadena} { strcpy(yylval.var, yytext); return CADENA;}
 [\t ]			        ;	
 true  {
-  //  cout<<"TRue ";
+ 
     yylval.c_bool=true; 
     return BOOL;
 }   
 false {
-    //cout<<"False ";
     yylval.c_bool=false; 
     return BOOL;
 } 
