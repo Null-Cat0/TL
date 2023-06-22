@@ -8,7 +8,7 @@
 
 # ejecutar con > make -f makeMondrian
 
-FUENTE = basica.cpp
+FUENTE = basica_completa.cpp
 
 fin: prueba
 	./prueba 
