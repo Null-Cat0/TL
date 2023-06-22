@@ -14,13 +14,13 @@ Entero x, grosor, valor;
 
 
 grosor := 4; Entero mitad := 50;  # La mitad del ancho o alto total es 50
-
+Entero y, aux;
 
 
 RECUADROS
 
 
-CampoGris = <mitad*2, 2*mitad, gris>
+CampoGris = <mitad*2-1, 2*mitad-1, gris>
 
 CampoAzul = <mitad, mitad, azul>
 CampoVerde = <mitad, mitad, verde>
@@ -112,7 +112,7 @@ Si (aux < 0) {
 }
 Si_no {
 Mensaje ("Campo de color interior verde")
-	Pintar (CampoVErde, x, x)
+	Pintar (CampoVerde, x, x)
 p := 3.333
 			Pausa (p)
 }
