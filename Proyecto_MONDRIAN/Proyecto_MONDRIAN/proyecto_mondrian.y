@@ -28,7 +28,7 @@ void yyerror(const char* s){
       // }else{
       //       cout << "En la instrucción "<< n_lineas + 1<< " se ha dado un " << s <<endl;
       // }
-      cout << "errorS sintactico en la instruccion " << n_lineas+1 << endl;
+      cout << "Error sintactico en la instruccion " << n_lineas+1 << endl;
 
 } 
 int color (char *color)

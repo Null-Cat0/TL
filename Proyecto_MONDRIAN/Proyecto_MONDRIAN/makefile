@@ -1,4 +1,6 @@
+
 #Jesús Castaño Tato, Asier Serrano Martín
+
 OBJ = proyecto_mondrian.o lexico.o tablaSimbolos.o
 FUENTE = entrada.cpp
 

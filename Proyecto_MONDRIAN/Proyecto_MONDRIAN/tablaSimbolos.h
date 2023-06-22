@@ -6,14 +6,6 @@ using namespace std;
 
 #ifndef TABLASIMBOLOS_H
 # define TABLASIMBOLOS_H
-const int BLANCO    = 0;
-const int NEGRO     = 1;
-const int GRIS		= 2;
-const int ROJO      = 3;
-const int AZUL      = 4;
-const int AMARILLO  = 5;
-const int VERDE     = 6;
-
 enum TipoDato {
     Real,
     Entero,
