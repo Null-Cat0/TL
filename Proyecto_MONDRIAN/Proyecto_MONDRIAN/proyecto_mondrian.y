@@ -302,7 +302,7 @@ definicion :  TIPO  IDENTIFICADORMINUSCULA ASIGNACION expr PUNTOYCOMA {
                                                                         //cout<<"Tipo Identificador";
                                                                          errorS = false;
                                                                   } saltoOpcional           
-            | error {}
+            | error  {}
            ;
  
 secuencia_de_Identificadores :  IDENTIFICADORMINUSCULA {
@@ -364,7 +364,7 @@ definicion_recuadro : IDENTIFICADORMAYUSCULA IGUAL '<' expr  COMA  expr  COMA CO
                                                                                           //fprintf(yyout,"\t %s = <%d, %d, %s>",$1,(int)$4.valor,(int)$6.valor,$8);  
                                                                                           //cout << "Identificador_mayuscula = < Entero, Entero, Color>"<<endl;
                                                                                           } salto
-                  | error '\n' {}
+                  | error   {}
                   ;
 
 //------------------------------------------------------------------------------------------------
@@ -401,7 +401,7 @@ definicion_linea : IDENTIFICADORMAYUSCULA IGUAL  '<' expr  COMA  ORIENTACION  CO
                                                                                                 //cout << "\t Identificador_mayuscula = < Entero, Orientacion, Color>"<<endl;
                                                                                                                               
                                                                                                 } //preferimos que haya salto
-            | error '\n' {}
+            | error   {}
             ; 
 //------------------------------------------------------------------------------------------------
 //----------------------------------BLOQUE CUADROS CREADOS----------------------------------------
@@ -567,7 +567,7 @@ acciones_cuadros: PINTAR '(' IDENTIFICADORMAYUSCULA COMA expr COMA expr ')'  {
                                           errorS = false;
                                           } salto
                 | condicional 
-                | error {}
+                | error  {}
                 ;
 condicional: parteSi  parteSiNo  {condicionalVerdadero=true;} 
       ;

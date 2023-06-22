@@ -16,12 +16,24 @@ Entero x, grosor, valor;
 grosor := 4; Entero mitad := 50;  # La mitad del ancho o alto total es 50
 Entero y, aux;
 
+x := true;
+Logico h, g, ax;
+
+Real x := 1.1;
+
+Logico j := 5;
+Logico x;
+Real momo := 2;
+pene := 2;
+peneLOgico := false; h := true;
+h:=1;
+
 
 RECUADROS
 
 
-CampoGris = <mitad*2-1, 2*mitad-1, gris>
-
+CampoGris = <mitad*2-1, 2*mitad-1, gris> CampoGRis = <mitad*2-1, 2*mitad-1, hola>
+CampoS = <mitad*2-1, 2*mitad-1, hola>
 CampoAzul = <mitad, mitad, azul>
 CampoVerde = <mitad, mitad, verde>
 Rojo1 = <43, 43, rojo>
